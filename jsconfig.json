@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonJS",
+    "target": "es6",
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@models/*": ["./src/typedef/models/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
