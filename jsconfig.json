@@ -6,7 +6,12 @@
     "experimentalDecorators": true,
     "paths": {
       "@components/*": ["./src/components/*"],
-      "@models/*": ["./src/typedef/models/*"]
+      "@models/*": ["./src/typedef/models/*"],
+      "@services/*": ["./src/services/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@store/*": ["./src/store/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@socket/*": ["./src/socket/*"]
     }
   },
   "include": ["src/**/*"]

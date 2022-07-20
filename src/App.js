@@ -1,11 +1,26 @@
+import Home from "@pages/Home";
+import SocketService from "@socket/service";
+import SocketContext from "@socket/SocketReactContext";
+import { useState } from "react";
 import "./App.css";
-import Home from "./pages/Home";
 
 function App() {
+  const [socket, setSocket] = useState(() => null);
+  const [socketService, setSocketService] = useState(() => new SocketService());
+
   return (
-    <div className="app">
-      <Home />
-    </div>
+    <SocketContext.Provider
+      value={{
+        socket,
+        ctxSetSocket: setSocket,
+        socketService,
+        ctxSetSocketService: setSocketService,
+      }}
+    >
+      <div className="app">
+        <Home />
+      </div>
+    </SocketContext.Provider>
   );
 }
 
