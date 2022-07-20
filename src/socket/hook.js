@@ -19,9 +19,7 @@ export const useAuthenticatedSocket = () => {
         auth: {
           token,
         },
-        extraHeaders: {
-          "content-type": "application/octet-stream",
-        },
+        transports: ["websocket"],
       });
 
       console.log(`socket connect`);
