@@ -1,3 +1,4 @@
+import { UploadAvatar } from "@components/upload";
 import Home from "@pages/Home";
 import SocketService from "@socket/service";
 import SocketContext from "@socket/SocketReactContext";
@@ -19,6 +20,7 @@ function App() {
     >
       <div className="app">
         <Home />
+        <UploadAvatar type="file" />
       </div>
     </SocketContext.Provider>
   );

@@ -1,4 +1,5 @@
 import Socket from "socket.io-client";
+import { SocketEventEnum } from "./constants";
 
 export default class SocketService {
   /**
@@ -30,6 +31,18 @@ export default class SocketService {
    */
   setUser = (user) => {
     this.user = user;
+  };
+
+  clientSendFile = ({ file, metadata }) => {
+    console.log(`client send file`);
+    this.socket.emit(SocketEventEnum.CLIENT_SEND_FILE, {
+      file,
+      metadata,
+    });
+  };
+
+  test = () => {
+    this.socket.emit("test", "test");
   };
 
   getUser = () => this.user;
