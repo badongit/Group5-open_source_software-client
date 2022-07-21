@@ -1,1 +1,20 @@
 @import "./mixin";
+@import "./variables";
+@import "./sidebar";
+@import "./message";
+@import "./avatar-online";
+@import "./conversation-card";
+
+.routes {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  @include flex(flex-start, flex-start);
+
+  &-content {
+    flex: 1;
+    border-left: 1px solid var(--second-color);
+    width: 100%;
+    height: 100%;
+  }
+}

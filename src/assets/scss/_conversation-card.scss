@@ -1,0 +1,64 @@
+.list-conversation {
+	margin-top: 10px;
+  overflow-y: scroll;
+  max-height: 500px;
+  
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: var(--second-bg);
+  }
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    background-color: var(--second-bg);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: var(--second-color);
+    opacity: 0.5;
+  }
+}
+
+.conversation-card {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  position: relative;
+  cursor: pointer;
+	transition: 0.1s ease-in;
+	
+  @include flex(flex-start, center);
+
+  &:hover {
+    background-color: var(--text-color-dark);
+  }
+
+  &__avatar {
+    margin-right: 15px;
+  }
+
+  &__content {
+    flex: 1;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+
+    &-title {
+      white-space: nowrap;
+    }
+
+    &-text {
+      color: var(--text-color-light);
+      white-space: nowrap;
+      font-size: 14px !important;
+      flex: 1;
+    }
+
+    &-time {
+      margin-left: 10px !important;
+      font-size: 14px !important;
+    }
+  }
+}
