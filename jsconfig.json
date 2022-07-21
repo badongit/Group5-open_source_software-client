@@ -11,7 +11,8 @@
       "@constants/*": ["./src/constants/*"],
       "@store/*": ["./src/store/*"],
       "@pages/*": ["./src/pages/*"],
-      "@socket/*": ["./src/socket/*"]
+      "@socket/*": ["./src/socket/*"],
+      "@modules/*": ["./src/modules/*"],
     }
   },
   "include": ["src/**/*"]
