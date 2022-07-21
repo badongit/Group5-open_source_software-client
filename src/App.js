@@ -20,13 +20,7 @@ function App() {
         ctxSetSocketService: setSocketService,
       }}
     >
-<<<<<<< HEAD
       <div className="app">{elements}</div>
-=======
-      <div className="app">
-        <RouteApp />
-      </div>
->>>>>>> 7b77673 (create base ui homepage)
     </SocketContext.Provider>
   );
 }
