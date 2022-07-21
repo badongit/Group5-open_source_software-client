@@ -1,5 +1,5 @@
 .list-conversation {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 
 .conversation-card {
@@ -8,8 +8,8 @@
   border-radius: 8px;
   position: relative;
   cursor: pointer;
-	transition: 0.1s ease-in;
-	
+  transition: 0.1s ease-in;
+
   @include flex(flex-start, center);
 
   &:hover {
