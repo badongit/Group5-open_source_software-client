@@ -1,11 +1,14 @@
+import { useRoutes } from "react-router-dom";
 import "./App.css";
 import "./assets/scss/index.scss";
-import RouteApp from "./router/Routes";
+import routes from "./routes";
 
 function App() {
+  const elements = useRoutes(routes);
+
   return (
     <div className="app">
-      <RouteApp />
+      {elements}
     </div>
   );
 }

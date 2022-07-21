@@ -6,7 +6,9 @@
     "experimentalDecorators": true,
     "paths": {
       "@components/*": ["./src/components/*"],
-      "@models/*": ["./src/typedef/models/*"]
+      "@models/*": ["./src/typedef/models/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@modules/*": ["./src/modules/*"],
     }
   },
   "include": ["src/**/*"]

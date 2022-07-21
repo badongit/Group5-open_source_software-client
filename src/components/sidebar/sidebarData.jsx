@@ -18,7 +18,7 @@ export const sidebarDataTop = [
 
 export const sidebarDataBottom = [
   {
-    path: "/notifications",
+    path: "/settings",
     icon: <NotificationsNone />,
   },
   {

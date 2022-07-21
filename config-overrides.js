@@ -8,5 +8,6 @@ module.exports = override(
     "@models": path.resolve(__dirname, "src/typedef/models"),
     "@services": path.resolve(__dirname, "src/services"),
     "@constants": path.resolve(__dirname, "src/constants"),
+    "@modules": path.resolve(__dirname, "src/modules"),
   })
 );

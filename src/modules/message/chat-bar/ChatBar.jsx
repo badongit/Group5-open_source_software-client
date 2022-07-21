@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { Search, Settings } from "@mui/icons-material";
-import Conversation from "@components/conversation";
+import Conversation from "@modules/conversation";
 
-function Message() {
+function ChatBar() {
   return (
     <div className="message">
       <Typography sx={{ fontSize: "24px", fontWeight: 600 }}>
@@ -49,4 +49,4 @@ function Message() {
   );
 }
 
-export default Message;
+export default ChatBar;
