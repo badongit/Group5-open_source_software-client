@@ -1,3 +1,4 @@
+import Home from "@pages/Home";
 import SocketService from "@socket/service";
 import SocketContext from "@socket/SocketReactContext";
 import { useState } from "react";
@@ -16,7 +17,9 @@ function App() {
         ctxSetSocketService: setSocketService,
       }}
     >
-      <div className="app">{elements}</div>
+      <div className="app">
+        <Home />
+      </div>
     </SocketContext.Provider>
   );
 }
