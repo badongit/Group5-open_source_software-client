@@ -65,5 +65,7 @@
 
 	&-conversation {
 		flex: 1;
+
+		@include scrollbarCustom;
 	}
 }
