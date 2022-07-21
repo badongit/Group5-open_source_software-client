@@ -1,0 +1,71 @@
+.message {
+	width: 100%;
+	height: 100vh;
+	background-color: var(--main-bg);
+	box-shadow: var(--box-shadow);
+	padding: 15px 10px 0 10px;
+	display: flex;
+	flex-direction: column;
+
+	.line {
+		background-color: var(--text-color-dark);
+		width: 100%;
+		height: 1px;
+		margin: 10px 0 20px 0;
+	}
+
+	&-info {
+		width: 100px;
+		position: relative;
+		margin: 0 auto;
+
+		img {
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			object-fit: cover;
+			border: 2px solid var(--text-white);
+			box-shadow: var(--box-shadow);
+		}
+
+		.dot-online {
+			position: absolute;
+			right: 0;
+			bottom: 18px;
+			background-color: var(--second-color);
+			width: 15px;
+			height: 15px;
+			border-radius: 50%;
+		}
+	}
+
+	&-search {
+		width: 100%;
+		position: relative;
+		margin-top: 15px;
+
+		& input {
+			width: 100%;
+			padding: 15px;
+			background-color: #f0f3f6;
+			color: var(--text-color-light);
+			border: none;
+			outline: none;
+			border-radius: 10px;
+		}
+
+		&__icon {
+			position: absolute;
+			top: 50%;
+			right: 10px;
+			transform: translateY(-50%);
+			color: var(--text-color-dark);
+		}
+	}
+
+	&-conversation {
+		flex: 1;
+
+		@include scrollbarCustom;
+	}
+}
