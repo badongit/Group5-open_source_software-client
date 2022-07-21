@@ -1,11 +1,22 @@
 import React from "react";
-import Sidebar from "@components/sidebar/Sidebar";
+import { Box, Grid } from "@mui/material";
+import Message from "@components/message/Message";
 
 function Home(props) {
   return (
-    <div>
-      <Sidebar />
-    </div>
+    <Box>
+      <Grid container>
+        <Grid item lg={3}>
+          <Message />
+        </Grid>
+        <Grid item lg={6}>
+          b
+        </Grid>
+        <Grid item lg={3}>
+          c
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
