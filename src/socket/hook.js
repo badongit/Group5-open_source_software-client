@@ -2,28 +2,27 @@ import { useContext, useEffect } from "react";
 import io from "socket.io-client";
 import { config, global } from "@constants/index";
 import SocketReactContext from "./SocketReactContext";
-import setAuthToken from "@utils/setAuthToken";
-import authServices from "@services/auth.services";
-import { SocketEventEnum } from "./constants";
 
 export const useAuthenticatedSocket = () => {
   const { ctxSetSocket, socket, socketService } =
     useContext(SocketReactContext);
   const token =
-    window.sessionStorage.getItem(global.ACCESS_TOKEN) ||
-    localStorage.getItem(global.ACCESS_TOKEN);
-  const refreshToken =
-    window.sessionStorage.getItem(global.REFRESH_TOKEN) ||
-    localStorage.getItem(global.REFRESH_TOKEN);
+    window.sessionStorage.getItem("access-token") ||
+    localStorage.getItem("access-token");
+  // const refreshToken =
+  //   window.sessionStorage.getItem(global.REFRESH_TOKEN) ||
+  //   localStorage.getItem(global.REFRESH_TOKEN);
 
   useEffect(() => {
     if (!socket && token) {
-      const newSocket = io(config.SOCKETIO_URI, {
+      const newSocket = io(process.env.REACT_APP_SOCKETIO_URI, {
         auth: {
           token,
         },
+        transports: ["websocket"],
       });
 
+      console.log(`socket connect`);
       ctxSetSocket(newSocket);
       socketService.setSocket(newSocket);
     }
