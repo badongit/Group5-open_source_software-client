@@ -1,0 +1,42 @@
+.message-detail {
+	margin: 5px 0;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+
+	&__top {
+		@include flex(flex-end, flex-end);
+	}
+
+	&__upload {
+		@include flex(center, center);
+		flex-direction: column;
+
+		&-avatar {
+			position: relative;
+			margin-bottom: 20px;
+
+			&-icon {
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				transform: translate(-50%, 50%);
+				text-align: center;
+				background-color: var(--text-color-dark);
+				color: var(--text-white);
+				border-radius: 50%;
+				width: 30px;
+				height: 30px;
+				border: 1px solid var(--text-white);
+				cursor: pointer;
+				@include flex(center, center);
+			}
+		}
+	}
+
+	&__list {
+		flex: 1;
+
+		@include scrollbarCustom;
+	}
+}

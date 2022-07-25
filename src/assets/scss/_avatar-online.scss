@@ -7,8 +7,12 @@
 	@include size(50px);
 }
 
+.smaller {
+	@include size(40px);
+}
+
 .normal {
-	@include size(70px);
+	@include size(60px);
 }
 
 .large {

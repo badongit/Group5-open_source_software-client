@@ -5,8 +5,8 @@
 }
 
 @mixin size($width, $height: $width) {
-  width: $width;
-  height: $height;
+  width: $width !important;
+  height: $height !important;
 }
 
 @mixin scrollbarCustom {
