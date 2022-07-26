@@ -26,7 +26,12 @@ export function UploadAvatar(props) {
     if (socketService) {
       socketService.clientSendFile({
         file: fileUpload,
-        metadata: { type: fileUpload.type, size: fileUpload.size },
+        metadata: {
+          ...fileUpload,
+          name: fileUpload.name,
+          type: fileUpload.type,
+          size: fileUpload.size,
+        },
       });
     }
   };
