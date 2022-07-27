@@ -1,0 +1,22 @@
+.send-message {
+  padding: 10px;
+
+  &__form {
+    @include flex(center, flex-start);
+
+    .MuiOutlinedInput-root {
+      background-color: var(--text-second-color-dark);
+      border-radius: 30px;
+      padding: 5px 10px;
+    }
+
+    .MuiOutlinedInput-root:focus {
+      outline: none !important;
+      border: none !important;
+    }
+
+    &-icon {
+      @include flex(center, center);
+    }
+  }
+}

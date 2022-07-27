@@ -2,8 +2,14 @@
 @import "./variables";
 @import "./sidebar";
 @import "./message";
+@import "./message-card";
+@import "./send-message";
+@import "./message-detail";
 @import "./avatar-online";
 @import "./conversation-card";
+@import "./chat";
+@import "./upload-image";
+@import "./custom-dialog";
 
 .routes {
   width: 100%;

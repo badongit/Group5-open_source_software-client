@@ -1,5 +1,5 @@
 .sidebar {
-  width: 100px;
+  width: 90px;
   height: 100vh;
   background-color: var(--main-sidebar-bg);
 
@@ -42,7 +42,7 @@
         content: "";
         position: absolute;
         top: 0;
-        left: -150%;
+        left: -130%;
         width: 4px;
         height: 100%;
         border-radius: 2px;

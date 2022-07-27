@@ -1,23 +1,26 @@
 .avatar-online {
-	border: 1px solid var(--text-white);
-	box-shadow: var(--box-shadow);
+  border: 1px solid var(--text-white);
+  box-shadow: var(--box-shadow);
 }
 
 .small {
-	@include size(50px);
+  @include size(50px);
+}
+
+.smaller {
+  @include size(40px);
 }
 
 .normal {
-	@include size(70px);
+  @include size(60px);
 }
 
 .large {
-	@include size(100px);
+  @include size(100px);
 }
 
-
 .online {
-	position: relative !important;
+  position: relative !important;
   color: var(--second-color);
   overflow: unset !important;
 
@@ -29,7 +32,7 @@
     position: absolute;
     bottom: 15%;
     right: 15%;
-    content: '';
+    content: "";
     transform: translate(50%, 50%);
     width: 20%;
     height: 20%;
