@@ -5,7 +5,7 @@ import { TextField } from "@mui/material";
 export default function InputField({ name, control, label, ...inputProps }) {
   const {
     field: { value, onChange, onBlur, ref },
-    fieldState: { valid , error },
+    fieldState: { valid, error },
   } = useController({ name, control });
 
   return (
@@ -20,8 +20,8 @@ export default function InputField({ name, control, label, ...inputProps }) {
       onBlur={onBlur}
       inputRef={ref}
       error={valid}
-			helperText={error?.message}
-			InputProps={inputProps}
+      helperText={error?.message}
+      InputProps={inputProps}
     />
   );
 }

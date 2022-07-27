@@ -7,17 +7,19 @@ import SendMessage from "../send-message/SendMessage";
 
 export default function ChatDesktop() {
   const [toggleMessageDetail, setToggleMessageDetail] = useState(false);
-  const [messages, setMessages] = useState([{
-    text: "",
-    type: "",
-    time: "",
-    username: "",
-    linkAvatar: "",
-  }]);
+  const [messages, setMessages] = useState([
+    {
+      text: "",
+      type: "",
+      time: "",
+      username: "",
+      linkAvatar: "",
+    },
+  ]);
 
-	const onToggleMessageDetail = () => {
-		setToggleMessageDetail(!toggleMessageDetail);
-	}
+  const onToggleMessageDetail = () => {
+    setToggleMessageDetail(!toggleMessageDetail);
+  };
 
   const handleSendMessage = (data) => {
     const values = {
@@ -26,11 +28,11 @@ export default function ChatDesktop() {
       time: "21:10 pm",
       username: "Minh Phuong",
       linkAvatar: "",
-    }
+    };
 
     setMessages([...messages, values]);
-  }
-  
+  };
+
   return (
     <Grid container>
       <Grid item xs>
@@ -52,13 +54,15 @@ export default function ChatDesktop() {
             <ListMessage messages={messages} />
           </div>
           <div className="chat-desktop__sendIcon">
-            <SendMessage handleSendMessage={handleSendMessage}/>
+            <SendMessage handleSendMessage={handleSendMessage} />
           </div>
         </Box>
       </Grid>
       {toggleMessageDetail && (
         <Grid item xs={12} lg={4} md={6}>
-          <MessageDetail setToggleMessageDetail={() => setToggleMessageDetail(false)} />
+          <MessageDetail
+            setToggleMessageDetail={() => setToggleMessageDetail(false)}
+          />
         </Grid>
       )}
     </Grid>

@@ -33,13 +33,13 @@ const listMessage = [
 ];
 
 export default function ListMessage(props) {
-	const { messages } = props;
+  const { messages } = props;
 
   return (
     <div className="list-message">
       {listMessage.concat(messages).map((item, index) => (
-				<MessageCard
-					key={index}
+        <MessageCard
+          key={index}
           type={item?.type}
           time={item?.time}
           username={item?.username}
