@@ -1,66 +1,66 @@
 .list-message {
-	@include scrollbarCustom;
+  @include scrollbarCustom;
 }
 
 .message-card__group {
-	color: var(--text-color-dark);
-	margin: 20px 0;
-	text-align: center;
+  color: var(--text-color-dark);
+  margin: 20px 0;
+  text-align: center;
 }
 
 .message-card {
-	width: 100%;
-	display: flex;
-	align-items: flex-end;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
 
-	&__avatar {
-		margin-left: 10px;
-	}
+  &__avatar {
+    margin-left: 10px;
+  }
 
-	&__content {
-		max-width: 70%;
-		margin: 3px 10px;
+  &__content {
+    max-width: 70%;
+    margin: 3px 10px;
 
-		&-name {
-			color: var(--text-color-dark);
-			margin-bottom: 3px;
-			margin-left: 3px;
-		}
+    &-name {
+      color: var(--text-color-dark);
+      margin-bottom: 3px;
+      margin-left: 3px;
+    }
 
-		&-text {
-			background-color: var(--text-second-color-dark);
-			padding: 6px 10px;
-			border-radius: 20px;
-			position: relative;
-			width: fit-content;
+    &-text {
+      background-color: var(--text-second-color-dark);
+      padding: 6px 10px;
+      border-radius: 20px;
+      position: relative;
+      width: fit-content;
 
-			&__time {
-				position: absolute;
-				top: 50%;
-				left: 105%;
-				transform: translateY(-50%);
-				white-space: nowrap;
-				text-transform: uppercase;
-			}
-		}
-	}	
+      &__time {
+        position: absolute;
+        top: 50%;
+        left: 105%;
+        transform: translateY(-50%);
+        white-space: nowrap;
+        text-transform: uppercase;
+      }
+    }
+  }
 }
 
 .message-card__me {
-	.message-card {
-		justify-content: flex-end;
+  .message-card {
+    justify-content: flex-end;
 
-		&__content {
-			&-text {
-				background-color: var(--second-color);
-				color: var(--text-white);
+    &__content {
+      &-text {
+        background-color: var(--second-color);
+        color: var(--text-white);
 
-				&__time {
-					left: unset !important;
-					right: 105%;
-					color: var(--text-black);
-				}
-			}
-		}
-	}
+        &__time {
+          left: unset !important;
+          right: 105%;
+          color: var(--text-black);
+        }
+      }
+    }
+  }
 }

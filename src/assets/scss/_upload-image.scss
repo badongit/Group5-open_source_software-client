@@ -1,62 +1,62 @@
 .upload-image {
-	width: 100%;
+  width: 100%;
 
-	&__main {
-		padding: 0 100px;
-	}
+  &__main {
+    padding: 0 100px;
+  }
 
-	&__preview {
-		width: 300px;
-		max-width: 300px;
-		height: 300px;
-		margin: 20px auto auto auto;
-		border: 1px dashed var(--main-color);
-		overflow: hidden;
-		position: relative;
-		transition: .15s ease;
+  &__preview {
+    width: 300px;
+    max-width: 300px;
+    height: 300px;
+    margin: 20px auto auto auto;
+    border: 1px dashed var(--main-color);
+    overflow: hidden;
+    position: relative;
+    transition: 0.15s ease;
 
-		& img {
-			width: 100%;
-			object-fit: cover;
-		}
+    & img {
+      width: 100%;
+      object-fit: cover;
+    }
 
-		&-remove {
-			position: absolute;
-			top: 5px;
-			right: 5px;
-			color: var(--text-white);
-			background-color: var(--main-color);
-			width: 25px;
-			height: 25px;
-			border-radius: 50%;
-			@include flex(center, center);
-			cursor: pointer;
-			visibility: hidden;
-		}
+    &-remove {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      color: var(--text-white);
+      background-color: var(--main-color);
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      @include flex(center, center);
+      cursor: pointer;
+      visibility: hidden;
+    }
 
-		&:hover &-remove {
-			visibility: visible;
-		}
+    &:hover &-remove {
+      visibility: visible;
+    }
 
-		&-icon {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			color: var(--text-color-dark);
-		}
-	}
+    &-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--text-color-dark);
+    }
+  }
 
-	&__btn {
-		text-align: center;
-		margin: 20px 0;
+  &__btn {
+    text-align: center;
+    margin: 20px 0;
 
-		& > * {
-			margin: 0 15px;
-		}
-	}
+    & > * {
+      margin: 0 15px;
+    }
+  }
 
-	&__input-upload {
-		display: none;
-	}
+  &__input-upload {
+    display: none;
+  }
 }

@@ -1,8 +1,8 @@
 .send-message {
-	padding: 10px;
+  padding: 10px;
 
-	&__form {
-		@include flex(center, flex-start);
+  &__form {
+    @include flex(center, flex-start);
 
     .MuiOutlinedInput-root {
       background-color: var(--text-second-color-dark);
@@ -10,14 +10,13 @@
       padding: 5px 10px;
     }
 
-		.MuiOutlinedInput-root:focus {
-			outline: none !important;
-			border: none !important;
-		}
+    .MuiOutlinedInput-root:focus {
+      outline: none !important;
+      border: none !important;
+    }
 
-		&-icon {
-			@include flex(center, center);
-		}
-
-	}
+    &-icon {
+      @include flex(center, center);
+    }
+  }
 }

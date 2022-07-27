@@ -1,40 +1,40 @@
 // chat-desktop
 .chat-desktop {
-	height: 100vh;
-	border-right: 1px solid var(--text-color-dark);
+  height: 100vh;
+  border-right: 1px solid var(--text-color-dark);
 
-	&__message {
-		padding: 0 10px;
-		flex: 1;
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-end;
-		overflow: hidden;
-		position: relative;
-	}
+  &__message {
+    padding: 0 10px;
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    position: relative;
+  }
 }
 
 // chat-header
 .chat-header {
-	width: 100%;
-	padding: 10px;
-	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
-	border-bottom: 1px solid var(--text-white);
+  width: 100%;
+  padding: 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--text-white);
 
-	@include flex(center, space-between);
+  @include flex(center, space-between);
 
-	&__left {
-		@include flex(center, flex-start);
-		
-		&-name {
-			flex: 1;
-			font-size: 16px;
-			margin-left: 10px;
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			width: 200px;
-		}
-	}
+  &__left {
+    @include flex(center, flex-start);
+
+    &-name {
+      flex: 1;
+      font-size: 16px;
+      margin-left: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 200px;
+    }
+  }
 }
