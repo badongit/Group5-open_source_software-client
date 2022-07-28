@@ -1,9 +1,12 @@
-import React from "react";
-import { Box, Typography } from "@mui/material";
-import { Search, Settings } from "@mui/icons-material";
+import React, { useState } from "react";
+import { Box, IconButton, Typography } from "@mui/material";
+import { ArrowBack, GroupAdd, Search } from "@mui/icons-material";
 import Conversation from "@modules/conversation";
+import UserSearch from "@modules/user/user-search/UserSearch";
 
 function ChatBar() {
+  const [isShowSearch, setIsShowSearch] = useState(false);
+
   return (
     <div className="message">
       <Typography sx={{ fontSize: "24px", fontWeight: 600 }}>
@@ -26,11 +29,11 @@ function ChatBar() {
         <Typography sx={{ fontSize: "18px", fontWeight: 600 }}>
           Min Min
         </Typography>
-        <Settings
+        <GroupAdd
           sx={{
             position: "absolute",
             color: "#bbbbbb",
-            fontSize: "18px",
+            fontSize: "20px",
             opacity: 0.8,
             top: 0,
             right: 0,
@@ -38,13 +41,29 @@ function ChatBar() {
           }}
         />
       </Box>
-			<div className="message-search">
-				<input type="text" placeholder="Search" />
-				<Search className="message-search__icon"/>
-			</div>
-			<div className="message-conversation">
-				<Conversation />
-			</div>
+      <div className="message-search">
+        {isShowSearch && (
+          <IconButton sx={{ marginRight: "5px" }}> 
+            <ArrowBack />
+          </IconButton>
+        )}
+        <input
+          type="text"
+          placeholder="Search"
+          onFocus={() => setIsShowSearch(true)}
+          onBlur={() => setIsShowSearch(false)}
+        />
+        <Search className="message-search__icon" />
+      </div>
+      {isShowSearch ? (
+        <div className="message-user-search">
+          <UserSearch />
+        </div>
+      ) : (
+        <div className="message-conversation">
+          <Conversation />
+        </div>
+      )}
     </div>
   );
 }
