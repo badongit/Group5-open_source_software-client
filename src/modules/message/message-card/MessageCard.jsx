@@ -25,7 +25,7 @@ export default function MessageCard(props) {
                 <div className="message-card__content-name">{username}</div>
               )}
               <div className="message-card__content-text">
-                {text === "" ? "" : text}
+                {text !== "" && text}
                 <div className="message-card__content-text__time">{time}</div>
               </div>
             </div>
