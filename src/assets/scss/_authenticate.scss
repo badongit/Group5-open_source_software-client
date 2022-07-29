@@ -1,0 +1,28 @@
+.MuiBox-form {
+  &--container {
+    position: relative;
+    padding: 40px 30px;
+    height: 100%;
+  }
+
+  &--signUp {
+    display: flex;
+    justify-content: center;
+
+    & > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .MuiButtonBase-root {
+      border-radius: 5rem;
+      margin-top: 0.5rem;
+    }
+
+    &.active .MuiButtonBase-root {
+      margin-top: 1.5rem;
+    }
+  }
+}

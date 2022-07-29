@@ -28,8 +28,7 @@ instance.interceptors.response.use(
     ];
 
     const refreshToken =
-      window.sessionStorage.getItem(global.REFRESH_TOKEN) ||
-      localStorage.getItem(global.REFRESH_TOKEN);
+      window.sessionStorage.getItem(global.REFRESH_TOKEN) || localStorage.getItem(global.REFRESH_TOKEN);
 
     if (
       error.response?.status === 401 &&

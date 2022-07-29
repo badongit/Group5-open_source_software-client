@@ -1,4 +1,3 @@
-import Socket from "socket.io-client";
 import { SocketEventEnum } from "./constants";
 
 export default class SocketService {

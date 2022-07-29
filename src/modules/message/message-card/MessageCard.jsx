@@ -2,7 +2,7 @@ import { AvatarOnline } from "@components/avatar/AvatarOnline";
 import React from "react";
 
 export default function MessageCard(props) {
-  const { type, time, username, text, linkAvatar } = props;
+  const { type, time, username, text } = props;
 
   return (
     <>
