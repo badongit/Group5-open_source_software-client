@@ -1,11 +1,11 @@
 import AuthActionEnum from "./auth.action";
 
 const initialState = {
-  isLoading: true,
+  isLoading: false,
   isSubmitting: false,
   isAuthenticated: false,
   data: {
-    user: {},
+    user: {}
   },
 };
 

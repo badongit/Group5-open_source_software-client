@@ -1,4 +1,4 @@
-import axios from "@utils/axios";
+import axiosClient from "../utils/axiosClient";
 import { endpoints } from "@constants/index";
 
 const authServices = {
@@ -8,7 +8,7 @@ const authServices = {
    * @returns
    */
   login: ({ username, password, remember }) => {
-    return axios.post(endpoints.authLogin, { username, password, remember });
+    return axiosClient.post(endpoints.authLogin, { username, password, remember });
   },
 
   /**
@@ -16,8 +16,8 @@ const authServices = {
    * @param {{ username: string, password: string, email: string}} param0
    * @returns
    */
-  register: ({ username, password, email }) => {
-    return axios.post(endpoints.authRegister, { username, password, email });
+  register: ({ username, password, email, displayname }) => {
+    return axiosClient.post(endpoints.authRegister, { username, password, email, displayname });
   },
 
   /**
@@ -26,15 +26,15 @@ const authServices = {
    * @returns
    */
   refreshToken: (refreshToken) => {
-    return axios.post(endpoints.authRefreshToken, { refreshToken });
+    return axiosClient.post(endpoints.authRefreshToken, { refreshToken });
   },
 
   getProfile: () => {
-    return axios.get(endpoints.authGetProfile);
+    return axiosClient.get(endpoints.authGetProfile);
   },
 
   logout: () => {
-    return axios.get(endpoints.authLogout);
+    return axiosClient.get(endpoints.authLogout);
   },
 
   /**
@@ -43,7 +43,7 @@ const authServices = {
    * @returns
    */
   forgotPassword: ({ email }) => {
-    return axios.post(endpoints.authForgotPassword, { email });
+    return axiosClient.post(endpoints.authForgotPassword, { email });
   },
 
   /**
@@ -52,7 +52,7 @@ const authServices = {
    * @returns
    */
   updateProfile: ({ displayname, email }) => {
-    return axios.put(endpoints.authUpdateProfile, { displayname, email });
+    return axiosClient.put(endpoints.authUpdateProfile, { displayname, email });
   },
 
   /**
@@ -61,7 +61,7 @@ const authServices = {
    * @returns
    */
   changePassword: ({ oldPassword, newPassword }) => {
-    return axios.put(endpoints.authChangePassword, {
+    return axiosClient.put(endpoints.authChangePassword, {
       oldPassword,
       newPassword,
     });

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "module": "commonJS",
     "target": "es6",
     "baseUrl": ".",
@@ -12,7 +13,8 @@
       "@store/*": ["./src/store/*"],
       "@pages/*": ["./src/pages/*"],
       "@socket/*": ["./src/socket/*"],
-      "@modules/*": ["./src/modules/*"]
+      "@modules/*": ["./src/modules/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": ["src/**/*"]

@@ -1,0 +1,96 @@
+@mixin theme($theme: Dark) {
+  color: map-get((
+    Dark: var(--text-black) !important,
+    Light : var(--text-white) !important,
+    Blue : var(--second-color) !important,
+  ), $theme);
+  border-color: map-get((
+    Dark: var(--main-bg-dark) !important,
+    Light : var(--main-bg-light) !important,
+    Blue : var(--second-color) !important,
+  ), $theme);
+}
+
+.MuiBox-form {
+  &--wrapper {
+    background-size: 50%;
+    background-image: linear-gradient(to left, var(--second-color) 50%, var(--second-color) 0);
+    transition: all 0.3s linear;
+    background-repeat: no-repeat;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+
+    &-signIn {
+      background-position: right;
+    }
+
+    &-signUp {
+      background-position: left;
+    }
+  }
+
+  &--container {
+    display:inline-block;
+    padding: 40px 30px;
+    height: 100%;
+    color: var(--text-white);
+
+    .MuiButtonBase-root,
+    .MuiLink-root,
+    .MuiOutlinedInput-notchedOutline,
+    .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline,
+    .Mui-focused .MuiOutlinedInput-notchedOutline,
+    .Mui-focused,
+    label {
+      @include theme(Light);
+    }
+
+    &.active {
+      color: var(--text-black);
+
+      .MuiButtonBase-root,
+      .MuiLink-root {
+        @include theme(Blue);
+      }
+
+      .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline,
+      .Mui-focused .MuiOutlinedInput-notchedOutline,
+      .Mui-focused {
+        @include theme(Blue);
+      }
+
+      .MuiCheckbox-root,
+      .MuiOutlinedInput-notchedOutline,
+      label {
+        @include theme(Dark);
+      }
+    }
+  }
+
+  &--signUp {
+    display: flex;
+    justify-content: center;
+    color: var(--text-white);
+
+    & > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .MuiButtonBase-root {
+      margin-top: 0.5rem;
+      color: var(--text-white);
+      border-color: var(--text-white);
+    }
+
+    &.active {
+      color: inherit !important;
+
+      .MuiButtonBase-root {
+        margin-top: 1.5rem;
+        @include theme(Blue)
+      }
+    }
+  }
+}
