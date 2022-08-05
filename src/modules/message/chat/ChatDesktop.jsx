@@ -1,3 +1,4 @@
+import Welcome from "@components/welcome/Welcome";
 import { Box, Grid } from "@mui/material";
 import React, { useState } from "react";
 import ChatHeader from "../chat-header/ChatHeader";
@@ -5,7 +6,8 @@ import ListMessage from "../list-message/ListMessage";
 import MessageDetail from "../message-detail/MessageDetail";
 import SendMessage from "../send-message/SendMessage";
 
-export default function ChatDesktop() {
+export default function ChatDesktop(props) {
+  const { conversation } = props;
   const [toggleMessageDetail, setToggleMessageDetail] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -33,7 +35,7 @@ export default function ChatDesktop() {
     setMessages([...messages, values]);
   };
 
-  return (
+  return conversation ? (
     <Grid container>
       <Grid item xs>
         <Box
@@ -66,5 +68,7 @@ export default function ChatDesktop() {
         </Grid>
       )}
     </Grid>
+  ) : (
+    <Welcome />
   );
 }

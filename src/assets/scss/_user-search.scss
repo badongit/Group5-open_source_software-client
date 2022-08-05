@@ -1,0 +1,34 @@
+// user-search
+.user-search {
+
+  &__loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+// user-card
+.user-card {
+	@include flex(center, flex-start);
+  width: 100%;
+  padding: 10px;
+	margin: 10px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.1s ease-in;
+
+  &__avatar {
+    margin-right: 15px;
+  }
+
+  &__name {
+		flex: 1;
+		color: var(--text-color-light);
+	}
+
+  &:hover {
+    background-color: var(--text-color-dark);
+  }
+}

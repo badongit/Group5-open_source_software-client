@@ -1,4 +1,4 @@
-import axios from "@utils/axios";
+import axios from "@utils/axiosClient";
 import { endpoints } from "@constants/index";
 
 const authServices = {

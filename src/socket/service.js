@@ -47,6 +47,16 @@ export default class SocketService {
 
   getUser = () => this.user;
 
+  onReceiveConversations = (callback) => {
+    this.socket.on(SocketEventEnum.SV_SEND_CONVERSATIONS, (data) => {
+      callback(data);
+    })
+  }
+
+  clientGetConversations = () => {
+    this.socket.emit(SocketEventEnum.CLIENT_GET_CONVERSATIONS);
+  }
+
   destroyAllListeners = () => {
     if (this.socket) {
       this.socket.removeAllListeners();

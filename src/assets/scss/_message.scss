@@ -66,6 +66,21 @@
 
   &-conversation {
     flex: 1;
+    position: relative;
+
+    @include scrollbarCustom;
+
+    &__loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &-user-search {
+    flex: 1;
+    position: relative;
 
     @include scrollbarCustom;
   }
