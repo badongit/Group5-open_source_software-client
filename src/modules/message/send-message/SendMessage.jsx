@@ -1,9 +1,12 @@
 import { CancelRounded, Image, Mic, Send, TagFaces } from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
-import React from "react";
+import EmojiPicker from "emoji-picker-react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 
 export default function SendMessage({ handleSendMessage }) {
+  const [isShowIcon, setIsShowIcon] = useState(false);
+  
   const defaultValues = {
     text: "",
   };
@@ -12,11 +15,16 @@ export default function SendMessage({ handleSendMessage }) {
     control,
     formState: { errors },
     setValue,
+    getValues,
     handleSubmit,
     reset,
   } = useForm({
     defaultValues,
   });
+
+  const onEmojiClick = (event, emojiObject) => {
+    setValue("text", getValues("text") + emojiObject.emoji);
+  };
 
   const onsubmit = (data) => {
     handleSendMessage(data);
@@ -56,9 +64,14 @@ export default function SendMessage({ handleSendMessage }) {
                       ) : (
                         ""
                       )}
-                      <IconButton>
+                      <IconButton onClick={() => setIsShowIcon(!isShowIcon)}>
                         <TagFaces color="primary" />
                       </IconButton>
+                      {
+                        isShowIcon && <div className="send-message__emoji">
+                          <EmojiPicker onEmojiClick={onEmojiClick}/>
+                        </div>
+                      }
                     </InputAdornment>
                   ),
                 }}

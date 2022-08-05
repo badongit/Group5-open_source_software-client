@@ -1,5 +1,5 @@
 import React from 'react';
-import {useUserQuery} from "../../hooks/useUserQuery";
+import {useUserQuery} from "@hooks/useUserQuery";
 
 export default function Wrapper({children}) {
     const {data: {loading}} = useUserQuery();

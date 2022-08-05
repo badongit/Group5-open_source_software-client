@@ -43,6 +43,7 @@
     width: 100%;
     position: relative;
     margin-top: 15px;
+    display: flex;
 
     & input {
       width: 100%;
@@ -65,6 +66,21 @@
 
   &-conversation {
     flex: 1;
+    position: relative;
+
+    @include scrollbarCustom;
+
+    &__loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &-user-search {
+    flex: 1;
+    position: relative;
 
     @include scrollbarCustom;
   }
