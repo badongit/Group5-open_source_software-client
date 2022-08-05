@@ -11,5 +11,7 @@ module.exports = override(
     "@store": path.resolve(__dirname, "src/store"),
     "@socket": path.resolve(__dirname, "src/socket"),
     "@modules": path.resolve(__dirname, "src/modules"),
+    "@utils": path.resolve(__dirname, "src/utils"),
+    "@hooks": path.resolve(__dirname, "src/hooks")
   })
 );

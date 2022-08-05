@@ -1,9 +1,14 @@
-import axios from "@utils/axios";
+import axios from "@utils/axiosClient";
 import { endpoints } from "@constants/index";
 
 const userServices = {
-  getAllUser: () => {
-    return axios.get(endpoints.userGetInfo);
+  /**
+   *
+   * @param {{ startIndex: number, limit: number, keyword: string, _id[nin]: string | string[]}} params
+   * @returns
+   */
+  getAllUser: (params) => {
+    return axios.get(endpoints.userGetInfo, { params });
   },
 
   /**
