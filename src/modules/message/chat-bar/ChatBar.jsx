@@ -3,10 +3,14 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { ArrowBack, GroupAdd, Search } from "@mui/icons-material";
 import Conversation from "@modules/conversation";
 import UserSearch from "@modules/user/user-search/UserSearch";
+import AddConversationGroup from "@modules/conversation/conversation-group/AddConversationGroup";
 
 function ChatBar() {
   const [isShowSearch, setIsShowSearch] = useState(false);
-
+  const [isShowAddGourp, setIsShowAddGourp] = useState(false);
+  const showAddGroup = ()=>{
+    setIsShowAddGourp(true);
+  }
   return (
     <div className="message">
       <Typography sx={{ fontSize: "24px", fontWeight: 600 }}>
@@ -29,7 +33,8 @@ function ChatBar() {
         <Typography sx={{ fontSize: "18px", fontWeight: 600 }}>
           Min Min
         </Typography>
-        <GroupAdd
+        <GroupAdd 
+          onClick = {showAddGroup}
           sx={{
             position: "absolute",
             color: "#bbbbbb",
@@ -64,6 +69,9 @@ function ChatBar() {
           <Conversation />
         </div>
       )}
+      {
+        isShowAddGourp && <AddConversationGroup Show={isShowAddGourp} onCancel={() =>setIsShowAddGourp(false) } />
+      }
     </div>
   );
 }
