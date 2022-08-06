@@ -1,12 +1,12 @@
-import React from 'react';
-import {useUserQuery} from "@hooks/useUserQuery";
+import React from "react";
+import { useUserQuery } from "@hooks/useUserQuery";
 
-export default function Wrapper({children}) {
-    const {data: {loading}} = useUserQuery();
+export default function Wrapper({ children }) {
+  const { data: { loading } } = useUserQuery();
 
-    if (loading) {
-        return null;
-    }
+  if (loading) {
+    return null;
+  }
 
-    return <React.Fragment>{children}</React.Fragment>
+  return <React.Fragment>{children}</React.Fragment>;
 }

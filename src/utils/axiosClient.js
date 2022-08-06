@@ -4,34 +4,34 @@ import authServices from "@services/auth.services";
 import { global, config } from "@constants/index";
 
 const instance = Axios.create({
-  baseURL: config.BASE_URL,
+  baseURL: config.BASE_URL
 });
 
 instance.interceptors.request.use((config) => {
   const accessToken = window.sessionStorage.getItem(global.ACCESS_TOKEN);
   if (accessToken) {
     config.headers = {
-      'Content-type': 'application/json',
+      "Content-type": "application/json",
       Authorization: `Bearer ${accessToken}`
-    }
+    };
   }
   return config;
 });
 
 instance.interceptors.response.use(
-  function (response) {
+  function(response) {
     if (response && response?.data) {
       return response.data;
     }
   },
-  async function (error) {
+  async function(error) {
     const { config } = error;
     const urlIgnore = [
       "/auth/token",
       "/auth/login",
       "/auth/register",
       "/auth/forgot-password",
-      "/auth/reset-password",
+      "/auth/reset-password"
     ];
 
     const refreshToken =
