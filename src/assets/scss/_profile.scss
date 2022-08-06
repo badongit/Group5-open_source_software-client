@@ -1,0 +1,198 @@
+.custom-dialog__title.profile-dialog {
+    //font-family: "Segoe UI,SegoeuiPc,San Francisco,Helvetica Neue,Helvetica,Lucida Grande,Roboto,Ubuntu,Tahoma,Microsoft Sans Serif,Arial,sans-serif" !important;
+    padding: 4px 24px !important;
+    h6 {
+      text-align: left;
+      font-weight: 600;
+    }
+  }
+  
+  .profile-content {
+    //font-family: "Segoe UI,SegoeuiPc,San Francisco,Helvetica Neue,Helvetica,Lucida Grande,Roboto,Ubuntu,Tahoma,Microsoft Sans Serif,Arial,sans-serif";
+    width: 300px;
+    height: 490px;
+    &_header {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      &_bgr {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px 10px 0 0;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 10px 10px 0 0;
+        }
+      }
+      &_edit-bgr {
+        width: 25px;
+        height: 25px;
+        background-color: rgb(186, 183, 183);
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        left: calc(50% + 50px);
+        top: 200px;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        .cam {
+          color: black;
+          font-size: 20px;
+        }
+        cursor: pointer;
+        position: absolute;
+        &:before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          background-color: white;
+          transform: scale(1.2);
+          z-index: -10;
+        }
+      }
+  
+      &_avt {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        left: 50%;
+        top: 100px;
+        transform: translate(-50%, 30%);
+        box-shadow: 0 0;
+        cursor: pointer;
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+          position: absolute;
+        }
+        &:before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          background-color: white;
+          transform: scale(1.1);
+        }
+      }
+    }
+    h5 {
+      color: rgb(41, 41, 43);
+      font-size: 20px;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 40px;
+    }
+    &_infor {
+      h5 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #242627;
+        font-weight: bold;
+        text-align: left;
+        margin-top: 18px;
+      }
+      &_item {
+        position: relative;
+        font-size: 16px;
+        color: #72808e;
+        margin: 25px 0;
+        span {
+          position: absolute;
+          color: #001a33;
+          left: 50%;
+        }
+        .input {
+          padding: 5px 0;
+          max-width: 70%;
+          position: absolute;
+          left: 30%;
+          margin-top: -10px;
+        }
+        .group-radio {
+          display: flex;
+          position: absolute;
+          justify-content: space-between;
+          max-width: 70%;
+          left: 30%;
+          margin-top: -16px;
+          label {
+            display: flex;
+          }
+          label:nth-last-child(1) {
+            margin-left: 100%;
+          }
+        }
+      }
+    }
+  }
+  .update-profile {
+    width: 100%;
+    height: 40px;
+    background-color: #e8eaef;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    align-items: center;
+    color: black;
+    font-size: 18px;
+    &_icon {
+      color: black;
+      font-size: 20px;
+      margin-right: 10px;
+    }
+    
+    
+  }
+  .update-profile-btn{
+    display: flex;
+    align-items: center;
+    &_item {
+        padding: 5px 10px;
+        font-size: 18px;
+        font-weight: 500;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        animation: linear 0.5s;
+        
+    }
+    .cancel{
+        background-color: red;
+        margin-right: 15px;
+    }
+    .save{
+
+        background-color: rgb(94, 104, 250);
+        &:hover {
+            background-color: rgb(3, 19, 254);
+        }
+    }
+}
+  .avt-detail {
+    transform: scale(1.2);
+    position: relative;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    .avt-detail-close {
+      position: absolute;
+      cursor: pointer;
+      left: 100%;
+      transform: translateX(-100%);
+      font-size: 35px;
+      color: black;
+    }
+  }
+  
