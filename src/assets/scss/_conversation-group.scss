@@ -67,14 +67,17 @@
       }
     }
     h6 {
-      padding: 10px;
+      padding: 4px;
       background-color: #80b0f8;
       border: 10px;
       text-align: center;
-      font-size: 16px;
+      font-size: 13px;
       color: white;
+      font-weight: 300;
       margin-top: 15px;
       border-radius: 5px;
+      display: block;
+      width: 50px;
     }
   }
 }
@@ -96,16 +99,17 @@
     background-color: #abcdff;
     border-radius: 5px;
     cursor: not-allowed;
+    color: white;
   }
   .btn-create-group.action {
     background-color: #0066ff;
-    cursor: pointer;
+    cursor: pointer !important;
   }
 }
 
 .select {
   display: flex;
-  height: 320px;
+  height: 280px;
   max-width: 100%;
   overflow: hidden;
   padding-top: 10px;
@@ -119,7 +123,7 @@
       padding: 5px 0px 5px 5px;
       border-radius: 5px;
       &:hover {
-        background-color: #dbdad6;
+        background-color: #e6ece6;
       }
     }
     &::-webkit-scrollbar-track {
@@ -141,11 +145,11 @@
       .container {
         display: flex;
         position: relative;
-        margin: 8px;
+        margin: 5px;
         cursor: pointer;
         font-size: 14px;
         &:hover {
-          background-color: #dbdad6 !important;
+          background-color: #e6ece6 !important;
         }
         .avt-and-name {
           display: flex;
@@ -164,11 +168,11 @@
           }
         }
         .icon {
-          color: #00ffd9;
-          border: 1px solid #dbdad6;
+          color: #72808e;
+          border: 1px solid #72808e;
           border-radius: 50%;
           margin-top: 5px;
-          margin-left: -10px;
+          margin-left: -5px;
         }
       }
     }

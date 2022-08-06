@@ -1,9 +1,9 @@
 import { CustomDialog } from "@components/custom-dialog/CustomDialog";
-import { Close, Favorite, FavoriteBorder } from "@mui/icons-material";
-import { Checkbox, IconButton } from "@mui/material";
+import { Close } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 import Input from "@mui/material/Input";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import Divider from "@mui/material/Divider";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,47 +11,47 @@ var users = [
   {
     _id: "1",
     name: "Nguyễn Văn Dương",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=b18e-j9hJpEAX86zMDf&_nc_ht=scontent.fhan19-1.fna&oh=00_AT84yw9yWdyqn_GNLpFm_TtvI9I9MB5R_k_rUyqcLsQ0WA&oe=62EC5936",
+    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
   },
   {
     _id: "2",
     name: "test 2",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=b18e-j9hJpEAX86zMDf&_nc_ht=scontent.fhan19-1.fna&oh=00_AT84yw9yWdyqn_GNLpFm_TtvI9I9MB5R_k_rUyqcLsQ0WA&oe=62EC5936",
+    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
   },
   {
     _id: "3",
     name: "test 3",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=b18e-j9hJpEAX86zMDf&_nc_ht=scontent.fhan19-1.fna&oh=00_AT84yw9yWdyqn_GNLpFm_TtvI9I9MB5R_k_rUyqcLsQ0WA&oe=62EC5936",
+    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
   },
   {
     _id: "4",
     name: "test 4",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=b18e-j9hJpEAX86zMDf&_nc_ht=scontent.fhan19-1.fna&oh=00_AT84yw9yWdyqn_GNLpFm_TtvI9I9MB5R_k_rUyqcLsQ0WA&oe=62EC5936",
+    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
   },
   {
     _id: "5",
     name: "test 5",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=b18e-j9hJpEAX86zMDf&_nc_ht=scontent.fhan19-1.fna&oh=00_AT84yw9yWdyqn_GNLpFm_TtvI9I9MB5R_k_rUyqcLsQ0WA&oe=62EC5936",
+    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
   },
   {
     _id: "6",
     name: "test 4",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=b18e-j9hJpEAX86zMDf&_nc_ht=scontent.fhan19-1.fna&oh=00_AT84yw9yWdyqn_GNLpFm_TtvI9I9MB5R_k_rUyqcLsQ0WA&oe=62EC5936",
+    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
   },
   {
     _id: "7",
     name: "test 5",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=b18e-j9hJpEAX86zMDf&_nc_ht=scontent.fhan19-1.fna&oh=00_AT84yw9yWdyqn_GNLpFm_TtvI9I9MB5R_k_rUyqcLsQ0WA&oe=62EC5936",
+    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
   },
   {
     _id: "8",
     name: "test 4",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=b18e-j9hJpEAX86zMDf&_nc_ht=scontent.fhan19-1.fna&oh=00_AT84yw9yWdyqn_GNLpFm_TtvI9I9MB5R_k_rUyqcLsQ0WA&oe=62EC5936",
+    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
   },
   {
     _id: "9",
     name: "test 5",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=b18e-j9hJpEAX86zMDf&_nc_ht=scontent.fhan19-1.fna&oh=00_AT84yw9yWdyqn_GNLpFm_TtvI9I9MB5R_k_rUyqcLsQ0WA&oe=62EC5936",
+    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
   },
 ];
 
@@ -127,15 +127,15 @@ const AddConversationGroup = ({ Show, onCancel }) => {
                 />
               </div>
               <div className="name-group">
-                <Input fullWidth={true} placeholder={"Nhập tên nhóm..."} />
+                <Input fullWidth={true} placeholder={"Enter group name..."} />
               </div>
             </div>
-            <div className="add-friend-title">Thêm bạn vào nhóm</div>
+            <div className="add-friend-title">Add you to the group</div>
             <div className="search">
               <PersonSearchIcon className="icon" />
-              <input type={"text"} placeholder={"Nhập tên ..."} />
+              <input type={"text"} placeholder={"Enter name ..."} />
             </div>
-            {/* <h6>Tất cả</h6> */}
+            <h6>Tất cả</h6>
             <Divider style={{ margin: "5px 0px" }} />
             <div className="select">
               <div className="select_ing-users">
@@ -148,7 +148,7 @@ const AddConversationGroup = ({ Show, onCancel }) => {
                       <div className="container">
                         <AddIcon className="icon" />
                         <div className="avt-and-name">
-                          <img src={item.url} alt={item.url} />
+                          <img src={item.url} alt="avt" />
                           <span>{item.name}</span>
                         </div>
                       </div>
@@ -167,7 +167,7 @@ const AddConversationGroup = ({ Show, onCancel }) => {
                 {userSelected.map((item) => {
                   return (
                     <div className="select_ed-users_item">
-                      <img src={item.url} alt={item.url} />
+                      <img src={item.url} alt="avt" />
                       <span>{item.name}</span>
                       <Close
                         className="close"
@@ -182,15 +182,16 @@ const AddConversationGroup = ({ Show, onCancel }) => {
         }
         actions={
           <div className="action-btn">
-            <div className="btn-destroy">Hủy</div>
+            <div className="btn-destroy" onClick={onCancel}>
+              Cancel
+            </div>
             <div
               className={
-                "btn-create-group " +
-                (userSelected.length > 0 && fileUpload ? "action" : "")
+                "btn-create-group " + (userSelected.length > 0 ? "action" : "")
               }
               onClick={SaveGroup}
             >
-              Tạo nhóm
+              Create group
             </div>
           </div>
         }

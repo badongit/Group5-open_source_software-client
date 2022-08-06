@@ -3,7 +3,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { ArrowBack, GroupAdd, Search } from "@mui/icons-material";
 import Conversation from "@modules/conversation";
 import UserSearch from "@modules/user/user-search/UserSearch";
-import AddConversationGroup from "@modules/conversation/conversation-group/AddConversationGroup";
+import AddConversationGroup from "@modules/conversation/add-conversation-group/AddConversationGroup";
 
 function ChatBar() {
   const [isShowSearch, setIsShowSearch] = useState(false);
