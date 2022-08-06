@@ -12,7 +12,9 @@
       "@store/*": ["./src/store/*"],
       "@pages/*": ["./src/pages/*"],
       "@socket/*": ["./src/socket/*"],
-      "@modules/*": ["./src/modules/*"]
+      "@modules/*": ["./src/modules/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@hooks/*": ["./src/hooks/*"]
     }
   },
   "include": ["src/**/*"]

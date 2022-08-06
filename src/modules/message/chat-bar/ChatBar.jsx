@@ -1,16 +1,29 @@
 import React, { useState } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
 import { ArrowBack, GroupAdd, Search } from "@mui/icons-material";
-import Conversation from "@modules/conversation";
 import UserSearch from "@modules/user/user-search/UserSearch";
 import AddConversationGroup from "@modules/conversation/add-conversation-group/AddConversationGroup";
+import ListConversation from "@modules/conversation/list-conversation/ListConversation";
+import useUser from "@hooks/useUser";
 
-function ChatBar() {
+function ChatBar(props) {
+  const { listUser, loading, handleSearchUser, resetConditions } = useUser();
+  const { conversations, handleChangeCurrentConversation, isLoading } = props;
   const [isShowSearch, setIsShowSearch] = useState(false);
   const [isShowAddGourp, setIsShowAddGourp] = useState(false);
   const showAddGroup = ()=>{
     setIsShowAddGourp(true);
   }
+  const [keyword, setKeyword] = useState("");
+
+  const handleChangeKeyword = (e) => {
+    const value = e.target.value;
+    setKeyword(value);
+    setTimeout(() => {
+      handleSearchUser(value);
+    }, 1000);
+  };
+
   return (
     <div className="message">
       <Typography sx={{ fontSize: "24px", fontWeight: 600 }}>
@@ -48,25 +61,41 @@ function ChatBar() {
       </Box>
       <div className="message-search">
         {isShowSearch && (
-          <IconButton sx={{ marginRight: "5px" }}> 
-            <ArrowBack />
+          <IconButton sx={{ marginRight: "5px" }}>
+            <ArrowBack
+              onClick={() => {
+                setIsShowSearch(false);
+                setKeyword("");
+                resetConditions();
+              }}
+            />
           </IconButton>
         )}
         <input
           type="text"
           placeholder="Search"
+          value={keyword}
+          onChange={handleChangeKeyword}
           onFocus={() => setIsShowSearch(true)}
-          onBlur={() => setIsShowSearch(false)}
         />
         <Search className="message-search__icon" />
       </div>
       {isShowSearch ? (
         <div className="message-user-search">
-          <UserSearch />
+          <UserSearch listUser={listUser} isLoading={loading} />
         </div>
       ) : (
         <div className="message-conversation">
-          <Conversation />
+          {isLoading ? (
+            <div className="message-conversation__loading">
+              <CircularProgress size={28} />
+            </div>
+          ) : (
+            <ListConversation
+              conversations={conversations}
+              handleChangeCurrentConversation={handleChangeCurrentConversation}
+            />
+          )}
         </div>
       )}
       {
