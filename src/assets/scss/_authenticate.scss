@@ -29,20 +29,9 @@
   }
 
   &--container {
-    display:inline-block;
     padding: 40px 30px;
     height: 100%;
     color: var(--text-white);
-
-    .MuiButtonBase-root,
-    .MuiLink-root,
-    .MuiOutlinedInput-notchedOutline,
-    .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline,
-    .Mui-focused .MuiOutlinedInput-notchedOutline,
-    .Mui-focused,
-    label {
-      @include theme(Light);
-    }
 
     &.active {
       color: var(--text-black);
@@ -64,24 +53,21 @@
         @include theme(Dark);
       }
     }
+
+    .MuiButtonBase-root {
+      @include theme(Light);
+    }
   }
 
   &--signUp {
     display: flex;
     justify-content: center;
-    color: var(--text-white);
 
     & > div {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-    }
-
-    .MuiButtonBase-root {
-      margin-top: 0.5rem;
-      color: var(--text-white);
-      border-color: var(--text-white);
     }
 
     &.active {

@@ -1,32 +1,49 @@
 import React, { useState } from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
-import { Helmet, HelmetProvider } from "react-helmet-async";
 import SignInForm from "@components/form/SignInForm";
 import SignUpForm from "@components/form/SignUpForm";
 import withAuth from "@components/common/withAuth";
+import Helmet from '@components/common/Helmet';
 
 function Login() {
   const [action, setAction] = useState("signIn");
 
   return (
-    <HelmetProvider>
-      <Helmet>
-        <title>Sign In</title>
-      </Helmet>
+    <Helmet title="Sign In">
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
         <Grid container component="main" maxWidth="md"
               className={`MuiBox-form--wrapper MuiBox-form--wrapper-${action}`}
         >
-          <Grid item xs={12} sm={6} onClick={() => setAction("signIn")}>
+          <Grid item xs={12} sm={6}>
             <Box className={{
               "MuiBox-form--container MuiBox-form--signIn": true,
               "active": action === "signIn"
             }}>
-              <Typography component="h1" variant="h5" sx={{ textAlign: "center" }}>
-                Sign in
-              </Typography>
+              {
+                action === 'signIn'
+                  ? (
+                    <>
+                      <Typography component="h1" variant="h5" sx={{ textAlign: "center" }}>
+                        Sign in
+                      </Typography>
 
-              <SignInForm />
+                      <SignInForm />
+                    </>
+                  )
+                  : (
+                    <Box component="div" sx={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                      <Box component="div">
+                        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                          Sign In
+                        </Typography>
+
+                        <Button variant="outlined" onClick={() => setAction("signIn")}>
+                          Sign In
+                        </Button>
+                      </Box>
+                    </Box>
+                  )
+              }
             </Box>
           </Grid>
 
@@ -57,7 +74,7 @@ function Login() {
           </Grid>
         </Grid>
       </Box>
-    </HelmetProvider>
+    </Helmet>
   );
 }
 

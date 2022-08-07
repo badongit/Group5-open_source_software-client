@@ -3,8 +3,8 @@ import { Box, Grid } from "@mui/material";
 import ChatDesktop from "@modules/message/chat/ChatDesktop";
 import ChatBar from "@modules/message/chat-bar/ChatBar";
 import withNotAuth from "@components/common/withNotAuth";
-import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useAuthenticatedSocket } from "@socket/hook";
+import Helmet from '@components/common/Helmet';
 
 function Home(props) {
   const { socket, socketService } = useAuthenticatedSocket();
@@ -35,10 +35,7 @@ function Home(props) {
   }, [socket, socketService]);
 
   return (
-    <HelmetProvider>
-      <Helmet>
-        <title>Home page</title>
-      </Helmet>
+    <Helmet title="Home page">
       <Box>
         <Grid container>
           <Grid item lg={3}>
@@ -55,7 +52,7 @@ function Home(props) {
           </Grid>
         </Grid>
       </Box>
-    </HelmetProvider>
+    </Helmet>
   );
 }
 
