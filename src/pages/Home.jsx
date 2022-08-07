@@ -11,7 +11,7 @@ function Home(props) {
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentConversation, setCurrentConversation] = useState(null);
-
+  console.log("currentConversation", currentConversation);
   const handleChangeCurrentConversation = (conversation) => {
     setCurrentConversation(conversation);
   };
@@ -33,7 +33,6 @@ function Home(props) {
       socketService.clientGetConversations();
     }
   }, [socket, socketService]);
-
   return (
     <Helmet title="Home page">
       <Box>

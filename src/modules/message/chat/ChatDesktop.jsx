@@ -1,6 +1,7 @@
 import Welcome from "@components/welcome/Welcome";
-import { Box, Grid } from "@mui/material";
-import React, { useState } from "react";
+import { Box, CircularProgress, Grid } from "@mui/material";
+import messageServices from "@services/message.services";
+import React, { useEffect, useMemo, useState } from "react";
 import ChatHeader from "../chat-header/ChatHeader";
 import ListMessage from "../list-message/ListMessage";
 import MessageDetail from "../message-detail/MessageDetail";
@@ -9,6 +10,31 @@ import SendMessage from "../send-message/SendMessage";
 export default function ChatDesktop(props) {
   const { conversation } = props;
   const [toggleMessageDetail, setToggleMessageDetail] = useState(false);
+  const [listMessages, setListMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  
+  const conditions = useMemo(() => {
+    return {
+      startIndex: 0,
+      limit: 10
+    }
+  } ,[])
+
+  useEffect(() => {
+    const getMessages = async () => {
+      setLoading(true);
+      const response = await messageServices.getMessages(conversation?._id, conditions);
+
+      if (response?.success) {
+        setListMessages(response?.data?.messages);
+      }
+      setLoading(false);
+    }
+
+    getMessages();
+  }, [conversation, conditions])
+  // console.log('mess', listMessages);
+
   const [messages, setMessages] = useState([
     {
       text: "",
@@ -48,12 +74,15 @@ export default function ChatDesktop(props) {
         >
           <div className="chat-desktop__header">
             <ChatHeader
-              name="Minh Phuong"
+              title={conversation?.title}
+              type={conversation?.type}
+              photoLink={conversation?.photoLink}
+              members={conversation?.members}
               onToggleMessageDetail={onToggleMessageDetail}
             />
           </div>
           <div className="chat-desktop__message">
-            <ListMessage messages={messages} />
+            {loading ? <CircularProgress size={26} /> : <ListMessage messages={messages} />}
           </div>
           <div className="chat-desktop__sendIcon">
             <SendMessage handleSendMessage={handleSendMessage} />
