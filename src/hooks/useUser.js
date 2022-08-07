@@ -1,8 +1,9 @@
 import userServices from "@services/user.services";
 import { useCallback, useEffect, useState } from "react";
+import { useCurrentUser } from "./useCurrentUser";
 
 const useUser = () => {
-  const userId = "62cc48b9fcba316c5751a890";
+  const user = useCurrentUser();
   const [listUser, setListUser] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -10,7 +11,7 @@ const useUser = () => {
     startIndex: 0,
     limit: 10,
     keyword: "",
-    "_id[nin]": userId,
+    "_id[nin]": user?._id,
   };
 	const [conditions, setConditions] = useState(initialConditions);
 

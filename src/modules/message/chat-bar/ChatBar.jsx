@@ -4,8 +4,10 @@ import { ArrowBack, GroupAdd, Search } from "@mui/icons-material";
 import UserSearch from "@modules/user/user-search/UserSearch";
 import ListConversation from "@modules/conversation/list-conversation/ListConversation";
 import useUser from "@hooks/useUser";
+import { useCurrentUser } from "@hooks/useCurrentUser";
 
 function ChatBar(props) {
+  const user = useCurrentUser();
   const { listUser, loading, handleSearchUser, resetConditions } = useUser();
   const { conversations, handleChangeCurrentConversation, isLoading } = props;
   const [isShowSearch, setIsShowSearch] = useState(false);
@@ -32,14 +34,11 @@ function ChatBar(props) {
         }}
       >
         <div className="message-info">
-          <img
-            src="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2021/3/10/887631/Tieu-Chien-1.jpg"
-            alt=""
-          />
-          <span className="dot-online"></span>
+          <img src={user?.avatarLink} alt="avatar" />
+          {user?.isOnline ? <span className="dot-online"></span> : ""}
         </div>
         <Typography sx={{ fontSize: "18px", fontWeight: 600 }}>
-          Min Min
+          {user?.displayname}
         </Typography>
         <GroupAdd
           sx={{
