@@ -5,6 +5,7 @@ import { useRoutes } from "react-router-dom";
 import "./App.css";
 import "./assets/scss/index.scss";
 import routes from "./routes";
+import Wrapper from "@components/common/wrapper";
 
 function App() {
   const elements = useRoutes(routes);
@@ -17,10 +18,12 @@ function App() {
         socket,
         ctxSetSocket: setSocket,
         socketService,
-        ctxSetSocketService: setSocketService,
+        ctxSetSocketService: setSocketService
       }}
     >
-      <div className="app">{elements}</div>
+      <Wrapper>
+        <div className="app">{elements}</div>
+      </Wrapper>
     </SocketContext.Provider>
   );
 }

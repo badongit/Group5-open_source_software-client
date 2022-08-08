@@ -6,40 +6,40 @@ const AuthActionEnum = {
   AUTHENTICATED: "auth/AUTHENTICATED",
   NOT_AUTHENTICATED: "auth/NOT_AUTHENTICATED",
   SET_DATA: "auth/SET_DATA",
-  LOG_OUT: "auth/LOG_OUT",
+  LOG_OUT: "auth/LOG_OUT"
 };
 
 export const authLoadingAction = () => ({
-  type: AuthActionEnum.LOADING,
+  type: AuthActionEnum.LOADING
 });
 
 export const authStopLoadingAction = () => ({
-  type: AuthActionEnum.STOP_LOADING,
+  type: AuthActionEnum.STOP_LOADING
 });
 
 export const authSubmittingAction = () => ({
-  type: AuthActionEnum.SUBMITTING,
+  type: AuthActionEnum.SUBMITTING
 });
 
 export const authStopSubmittingAction = () => ({
-  type: AuthActionEnum.STOP_SUBMITTING,
+  type: AuthActionEnum.STOP_SUBMITTING
 });
 
 export const authAuthenticatedAction = () => ({
-  type: AuthActionEnum.AUTHENTICATED,
+  type: AuthActionEnum.AUTHENTICATED
 });
 
 export const authNotAuthenticatedAction = () => ({
-  type: AuthActionEnum.NOT_AUTHENTICATED,
+  type: AuthActionEnum.NOT_AUTHENTICATED
 });
 
 export const authSetDataAction = (data) => ({
   type: AuthActionEnum.SET_DATA,
-  payload: { data },
+  payload: { data }
 });
 
 export const authLogoutAction = () => ({
-  type: AuthActionEnum.LOG_OUT,
+  type: AuthActionEnum.LOG_OUT
 });
 
 export default AuthActionEnum;

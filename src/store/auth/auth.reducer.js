@@ -1,12 +1,12 @@
 import AuthActionEnum from "./auth.action";
 
 const initialState = {
-  isLoading: true,
+  isLoading: false,
   isSubmitting: false,
   isAuthenticated: false,
   data: {
-    user: {},
-  },
+    user: {}
+  }
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -14,36 +14,36 @@ const authReducer = (state = initialState, { type, payload }) => {
     case AuthActionEnum.LOADING:
       return {
         ...state,
-        isLoading: true,
+        isLoading: true
       };
 
     case AuthActionEnum.STOP_LOADING:
       return {
         ...state,
-        isLoading: false,
+        isLoading: false
       };
 
     case AuthActionEnum.SUBMITTING:
       return {
         ...state,
-        isSubmitting: true,
+        isSubmitting: true
       };
 
     case AuthActionEnum.STOP_SUBMITTING:
       return {
         ...state,
-        isSubmitting: false,
+        isSubmitting: false
       };
     case AuthActionEnum.AUTHENTICATED:
       return {
         ...state,
-        isAuthenticated: true,
+        isAuthenticated: true
       };
 
     case AuthActionEnum.NOT_AUTHENTICATED:
       return {
         ...state,
-        isAuthenticated: false,
+        isAuthenticated: false
       };
 
     case AuthActionEnum.SET_DATA:
@@ -51,8 +51,8 @@ const authReducer = (state = initialState, { type, payload }) => {
         ...state,
         data: {
           ...state.data,
-          ...payload.data,
-        },
+          ...payload.data
+        }
       };
 
     case AuthActionEnum.LOG_OUT:
