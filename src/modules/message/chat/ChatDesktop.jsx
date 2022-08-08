@@ -16,7 +16,7 @@ export default function ChatDesktop(props) {
   const conditions = useMemo(() => {
     return {
       startIndex: 0,
-      limit: 10
+      // limit: 10
     }
   } ,[])
 
@@ -33,7 +33,6 @@ export default function ChatDesktop(props) {
 
     getMessages();
   }, [conversation, conditions])
-  // console.log('mess', listMessages);
 
   const [messages, setMessages] = useState([
     {
@@ -82,7 +81,7 @@ export default function ChatDesktop(props) {
             />
           </div>
           <div className="chat-desktop__message">
-            {loading ? <CircularProgress size={26} /> : <ListMessage messages={messages} />}
+            {loading ? <CircularProgress size={26} /> : <ListMessage messages={listMessages} />}
           </div>
           <div className="chat-desktop__sendIcon">
             <SendMessage handleSendMessage={handleSendMessage} />
@@ -92,6 +91,7 @@ export default function ChatDesktop(props) {
       {toggleMessageDetail && (
         <Grid item xs={12} lg={4} md={6}>
           <MessageDetail
+            conversation={conversation}
             setToggleMessageDetail={() => setToggleMessageDetail(false)}
           />
         </Grid>

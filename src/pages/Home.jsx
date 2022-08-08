@@ -11,7 +11,7 @@ function Home(props) {
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentConversation, setCurrentConversation] = useState(null);
-  console.log("currentConversation", currentConversation);
+  // console.log("currentConversation", currentConversation);
   const handleChangeCurrentConversation = (conversation) => {
     setCurrentConversation(conversation);
   };
