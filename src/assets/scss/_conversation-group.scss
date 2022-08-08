@@ -1,4 +1,9 @@
+
+.custom-dialog__title.conversation-group{
+  padding: 0 24px 8px 24px !important;
+}
 .conversation-group {
+
   display: flex;
   justify-content: space-between;
   width: 450px;
@@ -68,7 +73,7 @@
     }
     h6 {
       padding: 4px;
-      background-color: #80b0f8;
+      background-color: var(--main-color);
       border: 10px;
       text-align: center;
       font-size: 13px;
@@ -85,7 +90,7 @@
   display: flex;
   justify-content: right;
   .btn-destroy {
-    padding: 10px 15px;
+    padding: 4px 20px;
     background-color: #e1e4ea;
     border-radius: 5px;
     margin-right: 10px;
@@ -95,14 +100,17 @@
     }
   }
   .btn-create-group {
-    padding: 10px 20px;
-    background-color: #abcdff;
+    padding: 4px 20px;
+    background-color: var(--second-color);
     border-radius: 5px;
     cursor: not-allowed;
     color: white;
+    &:hover{
+      background-color: var(--second-color);
+    }
   }
   .btn-create-group.action {
-    background-color: #0066ff;
+    background-color: var(--main-color);
     cursor: pointer !important;
   }
 }
@@ -138,7 +146,7 @@
 
     &::-webkit-scrollbar-thumb {
       border-radius: 10px;
-      background-color: #00ffd9;
+      background-color: var(--main-color);
     }
     .user-item {
       cursor: pointer;
@@ -195,7 +203,7 @@
 
     &::-webkit-scrollbar-thumb {
       border-radius: 10px;
-      background-color: #00ffd9;
+      background-color: var(--main-color);
     }
     .title {
       font-size: 14px;
@@ -203,7 +211,7 @@
       margin-top: 5px;
       span {
         font-size: 13px;
-        color: #0061f2;
+        color: var(--main-color);
         margin-left: 5px;
       }
     }

@@ -1,6 +1,6 @@
 import { CustomDialog } from "@components/custom-dialog/CustomDialog";
 import { Close } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { Box, Button, IconButton, Radio } from "@mui/material";
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 import Input from "@mui/material/Input";
 import React, { useState } from "react";
@@ -72,11 +72,11 @@ const AddConversationGroup = ({ Show, onCancel }) => {
   const addUserSelected = (user) => {
     userSelected.unshift(user);
     setUserSelected(userSelected);
-    setLtUser(
-      ltUser.filter(function (item) {
-        return item._id !== user._id;
-      })
-    );
+    // setLtUser(
+    //   ltUser.filter(function (item) {
+    //     return item._id !== user._id;
+    //   })
+    // );
   };
 
   const handleChangeFile = (e) => {
@@ -146,7 +146,7 @@ const AddConversationGroup = ({ Show, onCancel }) => {
                       onClick={() => addUserSelected(item)}
                     >
                       <div className="container">
-                        <AddIcon className="icon" />
+                        <Radio value={item.name} label={item.name} id={item._id} className="icon"/>
                         <div className="avt-and-name">
                           <img src={item.url} alt="avt" />
                           <span>{item.name}</span>
@@ -181,19 +181,28 @@ const AddConversationGroup = ({ Show, onCancel }) => {
           </div>
         }
         actions={
-          <div className="action-btn">
-            <div className="btn-destroy" onClick={onCancel}>
-              Cancel
-            </div>
-            <div
+          <Box className="action-btn">
+            <Button
+              size="small"
+              variant="contained"
+              color="inherit"
+              sx={{ marginRight: "10px" }}
+              onClick={onCancel}
+            >
+              cancel
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              onClick={SaveGroup}
               className={
                 "btn-create-group " + (userSelected.length > 0 ? "action" : "")
               }
-              onClick={SaveGroup}
             >
-              Create group
-            </div>
-          </div>
+              leave
+            </Button>
+          </Box>
         }
       />
     </div>

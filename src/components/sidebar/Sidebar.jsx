@@ -1,4 +1,4 @@
-import UserSetting from "@modules/user/user-setting/UserSetting";
+//import UserSetting from "@modules/user/user-setting/UserSetting";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { sidebarDataBottom, sidebarDataTop } from "./sidebarData";
@@ -41,10 +41,10 @@ function Sidebar(props) {
         })}
       </div>
       <div className="sidebar-info">
-        <UserSetting
+        {/* <UserSetting
           src="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2021/3/10/887631/Tieu-Chien-1.jpg"
           alt="avt"
-        />  
+        />   */}
       </div>
     </div>
   );
