@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { CameraAlt, Close, Image, InsertDriveFileOutlined, Logout, OndemandVideo } from "@mui/icons-material";
+import {
+  CameraAlt,
+  Close,
+  Image,
+  InsertDriveFileOutlined,
+  Logout,
+  OndemandVideo,
+} from "@mui/icons-material";
 import { Button, IconButton, List, Typography } from "@mui/material";
 import UploadImage from "@components/upload-image/UploadImage";
 import { AvatarOnline } from "@components/avatar/AvatarOnline";
@@ -8,81 +15,15 @@ import { CustomDialog } from "@components/custom-dialog/CustomDialog";
 import { Box } from "@mui/system";
 import { useCurrentUser } from "@hooks/useCurrentUser";
 
-const dataCollapsed = [
-  {
-    "id": 1,
-    "name": "Chat member",
-    "results": [
-      {
-        "id": 1,
-        "title": "Min Min",
-        "linkAvatar": "https://i.pinimg.com/736x/b8/1c/4e/b81c4e85c01042c0efc80521571ea2c1.jpg"
-      },
-      {
-        "id": 2,
-        "title": "Đông",
-        "linkAvatar": "https://i.pinimg.com/736x/b8/1c/4e/b81c4e85c01042c0efc80521571ea2c1.jpg"
-      },
-      {
-        "id": 3,
-        "title": "Dương",
-        "linkAvatar": "https://i.pinimg.com/736x/b8/1c/4e/b81c4e85c01042c0efc80521571ea2c1.jpg"
-      },
-      {
-        "id": 4,
-        "title": "Hường",
-        "linkAvatar": "https://i.pinimg.com/736x/b8/1c/4e/b81c4e85c01042c0efc80521571ea2c1.jpg"
-      },
-      {
-        "id": 5,
-        "title": "Phương Sapphire",
-        "linkAvatar": "https://i.pinimg.com/736x/b8/1c/4e/b81c4e85c01042c0efc80521571ea2c1.jpg"
-      },
-    ]
-  },
-  {
-    "id": 2,
-    "name": "Media files",
-    "results": [
-      {
-        "id": 1,
-        "title": "Image",
-        "icon": <Image />
-      },
-      {
-        "id": 2,
-        "title": "Video",
-        "icon": <OndemandVideo />
-      },
-      {
-        "id": 3,
-        "title": "File",
-        "icon": <InsertDriveFileOutlined />
-      },
-    ]
-  },
-  {
-    "id": 3,
-    "name": "Privacy",
-    "results": [
-      {
-        "id": 1,
-        "title": "Leave group",
-        "icon": <Logout />,
-        "isLeave": true
-      },
-    ]
-  }
-]
-
 export default function MessageDetail(props) {
   const user = useCurrentUser();
   const { conversation, setToggleMessageDetail } = props;
-  const { type, title, photoLink, members} = conversation;
+  const { type, title, photoLink, members } = conversation;
   const [openModalUpload, setOpenModalUpload] = useState(false);
   const [isLeaveGroup, setIsLeaveGroup] = useState(false);
 
-  const friend = type === 'private' && members?.find(member => member._id !== user?._id);
+  const friend =
+    type === "private" && members?.find((member) => member._id !== user?._id);
 
   return (
     <div className="message-detail">
@@ -105,31 +46,61 @@ export default function MessageDetail(props) {
             >
               <CameraAlt fontSize="16" />
             </div>
-          ) : ""}
+          ) : (
+            ""
+          )}
         </div>
         <Typography variant="h6" align="center" gutterBottom={true}>
           {type === "group" ? title : friend?.displayname}
         </Typography>
       </div>
       {type === "group" ? (
-      <div>
-        <UploadImage
-          openModalUpload={openModalUpload}
-          setOpenModalUpload={setOpenModalUpload}
-        />
-      </div>
-      ) : ""}
+        <div>
+          <UploadImage
+            openModalUpload={openModalUpload}
+            setOpenModalUpload={setOpenModalUpload}
+          />
+        </div>
+      ) : (
+        ""
+      )}
       <div className="message-detail__list">
         <List component="nav" aria-labelledby="nested-list-subheader">
-          {dataCollapsed.map((item, index) => {
-            return (
-              <CollapsedItem
-                key={index}
-                dataCollapsed={item}
-                handleClickItem={() => setIsLeaveGroup(true)}
-              />
-            );
-          })}
+          {type === "group" ? (
+            <CollapsedItem
+              id="1"
+              name="Chat members"
+              dataCollapsed={members ? members : []}
+            />
+          ) : (
+            ""
+          )}
+          <CollapsedItem
+            id="2"
+            name="Files media"
+            dataCollapsed={[
+              { id: 1, title: "Image", icon: <Image /> },
+              { id: 2, title: "Video", icon: <OndemandVideo /> },
+              { id: 3, title: "File", icon: <InsertDriveFileOutlined /> },
+            ]}
+          />
+          {type === "group" ? (
+            <CollapsedItem
+              id="3"
+              name="Privacy"
+              dataCollapsed={[
+                {
+                  id: 1,
+                  title: "Leave group",
+                  icon: <Logout />,
+                  isLeave: true,
+                },
+              ]}
+              handleClickItem={() => setIsLeaveGroup(true)}
+            />
+          ) : (
+            ""
+          )}
         </List>
       </div>
 

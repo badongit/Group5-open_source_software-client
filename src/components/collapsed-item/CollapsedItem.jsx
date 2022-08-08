@@ -10,7 +10,7 @@ import {
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { AvatarOnline } from "@components/avatar/AvatarOnline";
 
-export default function CollapsedItem({ dataCollapsed, handleClickItem }) {
+export default function CollapsedItem({ id, name, dataCollapsed, handleClickItem }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -19,35 +19,38 @@ export default function CollapsedItem({ dataCollapsed, handleClickItem }) {
 
   return (
     <div>
-      <ListItem button key={dataCollapsed.id} onClick={handleClick}>
-        <ListItemText primary={dataCollapsed.name} />
+      <ListItem button key={id} onClick={handleClick}>
+        <ListItemText primary={name} />
         {isOpen ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={isOpen} timeout="auto" unmountOnExit>
         <List
           component="li"
           disablePadding
-          key={dataCollapsed.id}
+          key={id}
           sx={{ backgroundColor: "rgb(247, 247, 247)" }}
         >
-          {dataCollapsed.results.map((item) => {
+          {dataCollapsed.map((item) => {
             return (
               <ListItem
                 button
-                key={item.id}
-                onClick={item.isLeave ? handleClickItem : ""}
+                key={item.id || item._id}
+                onClick={item.isLeave ? handleClickItem : null}
               >
                 {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
-                {item.linkAvatar && (
+                {item.avatarLink && (
                   <ListItemIcon>
                     <AvatarOnline
-                      src={item.linkAvatar}
+                      src={item.avatarLink}
                       dot={false}
                       size="smaller"
                     />
                   </ListItemIcon>
                 )}
-                <ListItemText key={item.id} primary={item.title} />
+                <ListItemText
+                  key={item.id || item.id}
+                  primary={item.title ? item.title : item.displayname}
+                />
               </ListItem>
             );
           })}

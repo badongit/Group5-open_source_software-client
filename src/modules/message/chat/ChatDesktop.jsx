@@ -34,15 +34,15 @@ export default function ChatDesktop(props) {
     getMessages();
   }, [conversation, conditions])
 
-  const [messages, setMessages] = useState([
-    {
-      text: "",
-      type: "",
-      time: "",
-      username: "",
-      linkAvatar: "",
-    },
-  ]);
+  // const [messages, setMessages] = useState([
+  //   {
+  //     text: "",
+  //     type: "",
+  //     time: "",
+  //     username: "",
+  //     linkAvatar: "",
+  //   },
+  // ]);
 
   const onToggleMessageDetail = () => {
     setToggleMessageDetail(!toggleMessageDetail);
@@ -51,14 +51,12 @@ export default function ChatDesktop(props) {
   const handleSendMessage = (data) => {
     const values = {
       text: data?.text,
-      type: "me",
-      time: "21:10 pm",
-      username: "Minh Phuong",
-      linkAvatar: "",
+      conversationId: conversation?._id
     };
-
-    setMessages([...messages, values]);
+    setListMessages([values, ...listMessages]);
   };
+
+  console.log("list", listMessages);
 
   return conversation ? (
     <Grid container>
@@ -81,7 +79,7 @@ export default function ChatDesktop(props) {
             />
           </div>
           <div className="chat-desktop__message">
-            {loading ? <CircularProgress size={26} /> : <ListMessage messages={listMessages} />}
+            {loading ? <div className="chat-desktop__message-loading"><CircularProgress size={26} /></div> : <ListMessage messages={listMessages} />}
           </div>
           <div className="chat-desktop__sendIcon">
             <SendMessage handleSendMessage={handleSendMessage} />

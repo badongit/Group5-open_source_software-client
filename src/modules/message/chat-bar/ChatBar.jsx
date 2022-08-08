@@ -4,10 +4,10 @@ import { ArrowBack, GroupAdd, Search } from "@mui/icons-material";
 import UserSearch from "@modules/user/user-search/UserSearch";
 import ListConversation from "@modules/conversation/list-conversation/ListConversation";
 import useUser from "@hooks/useUser";
-import { useCurrentUser } from "@hooks/useCurrentUser";
+import { useUserQuery } from "@hooks/useUserQuery";
 
 function ChatBar(props) {
-  const user = useCurrentUser();
+  const { data: { user }} = useUserQuery();
   const { listUser, loading, handleSearchUser, resetConditions } = useUser();
   const { conversations, handleChangeCurrentConversation, isLoading } = props;
   const [isShowSearch, setIsShowSearch] = useState(false);
