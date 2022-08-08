@@ -6,6 +6,7 @@ import { AvatarOnline } from "@components/avatar/AvatarOnline";
 import CollapsedItem from "@components/collapsed-item/CollapsedItem";
 import { CustomDialog } from "@components/custom-dialog/CustomDialog";
 import { Box } from "@mui/system";
+import { useCurrentUser } from "@hooks/useCurrentUser";
 
 const dataCollapsed = [
   {
@@ -75,9 +76,13 @@ const dataCollapsed = [
 ]
 
 export default function MessageDetail(props) {
-  const { setToggleMessageDetail } = props;
+  const user = useCurrentUser();
+  const { conversation, setToggleMessageDetail } = props;
+  const { type, title, photoLink, members} = conversation;
   const [openModalUpload, setOpenModalUpload] = useState(false);
   const [isLeaveGroup, setIsLeaveGroup] = useState(false);
+
+  const friend = type === 'private' && members?.find(member => member._id !== user?._id);
 
   return (
     <div className="message-detail">
@@ -89,27 +94,31 @@ export default function MessageDetail(props) {
       <div className="message-detail__upload">
         <div className="message-detail__upload-avatar">
           <AvatarOnline
-            src="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2021/3/10/887631/Tieu-Chien-1.jpg"
+            src={type === "group" ? photoLink : friend?.avatarLink}
             dot={false}
             size="large"
           />
-          <div
-            className="message-detail__upload-avatar-icon"
-            onClick={() => setOpenModalUpload(true)}
-          >
-            <CameraAlt fontSize="16" />
-          </div>
+          {type === "group" ? (
+            <div
+              className="message-detail__upload-avatar-icon"
+              onClick={() => setOpenModalUpload(true)}
+            >
+              <CameraAlt fontSize="16" />
+            </div>
+          ) : ""}
         </div>
         <Typography variant="h6" align="center" gutterBottom={true}>
-          Nhóm CNTT
+          {type === "group" ? title : friend?.displayname}
         </Typography>
       </div>
+      {type === "group" ? (
       <div>
         <UploadImage
           openModalUpload={openModalUpload}
           setOpenModalUpload={setOpenModalUpload}
         />
       </div>
+      ) : ""}
       <div className="message-detail__list">
         <List component="nav" aria-labelledby="nested-list-subheader">
           {dataCollapsed.map((item, index) => {
@@ -141,7 +150,9 @@ export default function MessageDetail(props) {
           }
           actions={
             <Box>
-              <Button size="small" variant="contained" color="primary" >leave</Button>
+              <Button size="small" variant="contained" color="primary">
+                leave
+              </Button>
               <Button
                 size="small"
                 variant="contained"
