@@ -9,7 +9,7 @@ import { useUserQuery } from "@hooks/useUserQuery";
 function ChatBar(props) {
   const { data: { user }} = useUserQuery();
   const { listUser, loading, handleSearchUser, resetConditions } = useUser();
-  const { conversations, handleChangeCurrentConversation, isLoading } = props;
+  const { conversations, isLoading, handleChangeCurrentConversation, hanldeChangeOtherPeople} = props;
   const [isShowSearch, setIsShowSearch] = useState(false);
   const [keyword, setKeyword] = useState("");
 
@@ -75,7 +75,11 @@ function ChatBar(props) {
       </div>
       {isShowSearch ? (
         <div className="message-user-search">
-          <UserSearch listUser={listUser} isLoading={loading} />
+          <UserSearch
+            listUser={listUser}
+            isLoading={loading}
+            handleClickUser={hanldeChangeOtherPeople}
+          />
         </div>
       ) : (
         <div className="message-conversation">

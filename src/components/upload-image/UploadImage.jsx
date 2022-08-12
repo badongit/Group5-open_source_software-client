@@ -4,7 +4,7 @@ import { Box, Button, IconButton } from "@mui/material";
 import React, { useState } from "react";
 
 export default function UploadImage(props) {
-	const { openModalUpload, setOpenModalUpload } = props;
+	const { openModalUpload, setOpenModalUpload, onSubmitFile } = props;
   const [fileUpload, setFileUpload] = useState(null);
   
   const handleChangeFile = (e) => {
@@ -15,9 +15,9 @@ export default function UploadImage(props) {
     if (!fileUpload) {
       return;
     }
-    const form = new FormData();
-    form.append('avatar', fileUpload);
-    console.log(form);
+    let formData = new FormData();
+    formData.append('photo', fileUpload);
+    onSubmitFile(formData);
     setOpenModalUpload(false);
   }
 
@@ -77,6 +77,7 @@ export default function UploadImage(props) {
               color="primary"
               sx={{ marginLeft: "10px" }}
               onClick={onUploadFile}
+              disabled={!fileUpload}
             >
               SAVE
             </Button>

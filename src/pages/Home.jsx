@@ -5,19 +5,30 @@ import ChatBar from "@modules/message/chat-bar/ChatBar";
 import withNotAuth from "@components/common/withNotAuth";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useAuthenticatedSocket } from "@socket/hook";
+import { SocketEventEnum } from "@socket/constants";
 
 function Home(props) {
   const { socket, socketService } = useAuthenticatedSocket();
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentConversation, setCurrentConversation] = useState(null);
+  const [otherPeople, setOtherPeople] = useState(null);
+
   const handleChangeCurrentConversation = (conversation) => {
     setCurrentConversation(conversation);
+    setOtherPeople(null);
   };
+
+  const hanldeChangeOtherPeople = (user) => {
+    setOtherPeople(user);
+    setCurrentConversation(null);
+  }
 
   const handleReceiveConversations = useCallback((data) => {
     setIsLoading(true);
-    setConversations(data?.conversations);
+    if (data?.conversations) {
+      setConversations(data?.conversations);
+    }
     setIsLoading(false);
   }, []);
 
@@ -25,13 +36,48 @@ function Home(props) {
     if (socket) {
       socketService.onReceiveConversations(handleReceiveConversations);
     }
+
+    return () => {
+      socketService.destroyAllListeners([SocketEventEnum.SV_SEND_CONVERSATIONS]);
+    };
   }, [socket, socketService, handleReceiveConversations]);
 
   useEffect(() => {
+    let time;
     if (socket) {
-      socketService.clientGetConversations();
+      time = setTimeout(() => {
+        socketService.clientGetConversations();
+      }, 3000);
     }
+
+    return () => {
+      clearTimeout(time);
+    };
   }, [socket, socketService]);
+
+  const handleReceiveConversation = (data) => {
+    const { conversation } = data;
+    if (conversation) {
+      const newCons = conversations.filter(con => con._id !== conversation?._id);
+      setConversations([conversation, ...newCons]);
+
+      if (currentConversation?._id === conversation?._id) {
+        setCurrentConversation(conversation);
+      }
+    }
+  }
+
+  const handleUpdateReceiveConversation = (conversation) => {
+    if (conversation) {
+      const newCons = conversations.filter(con => con._id !== conversation?._id);
+      setConversations([conversation, ...newCons]);
+
+      if (currentConversation?._id === conversation?._id) {
+        setCurrentConversation(conversation);
+      }
+    }
+  }
+
   return (
     <HelmetProvider>
       <Helmet>
@@ -44,11 +90,15 @@ function Home(props) {
               isLoading={isLoading}
               conversations={conversations}
               handleChangeCurrentConversation={handleChangeCurrentConversation}
+              hanldeChangeOtherPeople={hanldeChangeOtherPeople}
             />
           </Grid>
           <Grid item lg={9}>
             <ChatDesktop
               conversation={currentConversation}
+              otherPeople={otherPeople}
+              receiveConversation={handleReceiveConversation}
+              handleUpdateReceiveConversation={handleUpdateReceiveConversation}
             />
           </Grid>
         </Grid>
