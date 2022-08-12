@@ -2,11 +2,11 @@ import axiosClient from "@utils/axiosClient";
 import { endpoints } from "@constants/index";
 
 const conversationServices = {
-  uploadPhoto: (conversationId) => {
-    return axiosClient.put(`${endpoints.conversations}/${conversationId}/photo`);
+  uploadPhoto: (conversationId, file) => {
+    return axiosClient.put(`${endpoints.conversations}/${conversationId}/photo`, file);
 	},
-	changeRole: (conversationId) => {
-    return axiosClient.put(`${endpoints.conversations}/${conversationId}/role`);
+	changeRole: ({ conversationId, userId, role}) => {
+		return axiosClient.put(`${endpoints.conversations}/${conversationId}/role`, { userId, role });
 	},
 };
 

@@ -1,24 +1,20 @@
 import { AvatarOnline } from "@components/avatar/AvatarOnline";
-import { useCurrentUser } from "@hooks/useCurrentUser";
 import { Error, Phone, VideoCameraBack } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import React from "react";
 
 export default function ChatHeader(props) {
-  const user = useCurrentUser();
-  const { type, title, onToggleMessageDetail, photoLink, members } = props;
-
-  const avatarFriend = type === 'private' && members?.find(member => member._id !== user?._id);
+  const { title, photoLink, isOnline, onToggleMessageDetail } = props;
 
   return (
     <div className="chat-header">
       <div className="chat-header__left">
         <AvatarOnline
-          src={type === "group" ? photoLink : avatarFriend?.avatarLink}
-          dot={false}
+          src={photoLink}
+          dot={isOnline}
           size="small"
         />
-        <p className="chat-header__left-name">{type === "group" ? title : avatarFriend?.displayname}</p>
+        <p className="chat-header__left-name">{title}</p>
       </div>
       <div className="chat-header__right">
         <IconButton>

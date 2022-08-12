@@ -10,7 +10,7 @@ import {
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { AvatarOnline } from "@components/avatar/AvatarOnline";
 
-export default function CollapsedItem({ id, name, dataCollapsed, handleClickItem }) {
+export default function CollapsedItem({ id, name, dataCollapsed, handleClickItem, isShowTab, tabPanel }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -30,16 +30,17 @@ export default function CollapsedItem({ id, name, dataCollapsed, handleClickItem
           key={id}
           sx={{ backgroundColor: "rgb(247, 247, 247)" }}
         >
+          {isShowTab === true && <div>{tabPanel}</div>}
           {dataCollapsed.map((item) => {
             return (
               <ListItem
                 button
                 key={item.id || item._id}
-                onClick={item.isLeave ? handleClickItem : null}
+                onClick={item.isLeave || item.isChangeName || item.isAddPeople ? handleClickItem : null}
               >
-                {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+                {item.icon && <ListItemIcon sx={{ minWidth: "30px"}}>{item.icon}</ListItemIcon>}
                 {item.avatarLink && (
-                  <ListItemIcon>
+                  <ListItemIcon sx={{ minWidth: "50px"}}>
                     <AvatarOnline
                       src={item.avatarLink}
                       dot={false}
@@ -48,7 +49,7 @@ export default function CollapsedItem({ id, name, dataCollapsed, handleClickItem
                   </ListItemIcon>
                 )}
                 <ListItemText
-                  key={item.id || item.id}
+                  key={item.id || item._id}
                   primary={item.title ? item.title : item.displayname}
                 />
               </ListItem>
