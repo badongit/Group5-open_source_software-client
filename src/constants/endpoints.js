@@ -7,7 +7,7 @@ export const endpoints = {
   authLogout: "/auth/logout",
   authForgotPassword: "/auth/forgot-password",
   authResetPassword: "/auth/reset-password",
-  authUploadAvatar: "/auth/avatar/upload",
+  authUploadAvatar: "/auth/avatar",
   authChangePassword: "/auth/change-password",
   userGetInfo: "/users",
   messagesGet: "/messages",

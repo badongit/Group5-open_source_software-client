@@ -1,3 +1,4 @@
+import { useCurrentUser } from "@hooks/useCurrentUser";
 import UserSetting from "@modules/user/user-setting/UserSetting";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -5,6 +6,8 @@ import { sidebarDataBottom, sidebarDataTop } from "./sidebarData";
 
 function Sidebar(props) {
   const navigate = useNavigate();
+  const user = useCurrentUser();
+  console.log(user);
   const activeTop = sidebarDataTop.findIndex(
     (item) => item.path === window.location.pathname
   );
@@ -41,10 +44,7 @@ function Sidebar(props) {
         })}
       </div>
       <div className="sidebar-info">
-      <UserSetting
-          src="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2021/3/10/887631/Tieu-Chien-1.jpg"
-          alt="avt"
-        />
+        <UserSetting data={user} />
       </div>
     </div>
   );

@@ -12,19 +12,8 @@ import Logout from "@mui/icons-material/Logout";
 import FolderSharedSharpIcon from "@mui/icons-material/FolderSharedSharp";
 import Profile from "../profile/Profile";
 
-var data = {
-  fullname: "Nguyễn Thị Thu Hường",
-  urlAvatar:
-    "https://scontent.fhan17-1.fna.fbcdn.net/v/t1.6435-9/92926338_1297031413839722_1100427465127362560_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=174925&_nc_ohc=Ohb_epytZ1gAX8UF1lO&_nc_ht=scontent.fhan17-1.fna&oh=00_AT-tRolfJFNdNVCj5mRNdhpifGMV-6I9dvm6n4_QhUojEA&oe=6315C63A",
-  urlBackground:
-    "https://scontent.fhan17-1.fna.fbcdn.net/v/t1.6435-9/143067694_1534948250048036_5415654449418566213_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=19026a&_nc_ohc=EBPbxCMR8CAAX-0P_oO&_nc_ht=scontent.fhan17-1.fna&oh=00_AT_pVopQAc5vcJai5S0vPZ2UJdNVW_G8sGBeWdRyKH5CMg&oe=63121328",
-  birthday: "25/04/2001",
-  address: "Hà Nam",
-  phoneNumber: "huongntt",
-  gender: "Female",
-};
-
-export default function UserSetting(props) {
+export default function UserSetting({ data }) {
+  console.log(data);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [myProfile, setmyProfile] = React.useState(false);
   const open = Boolean(anchorEl);
@@ -49,7 +38,7 @@ export default function UserSetting(props) {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              <img src={props.src} alt={props.alt} />
+              <img src={data.avatarLink} alt={data.displayname} />
             </IconButton>
           </Tooltip>
         </Box>
@@ -77,7 +66,8 @@ export default function UserSetting(props) {
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
           <MenuItem>
-            <Avatar src={props.src} alt={props.alt}></Avatar> {data.fullname}
+            <Avatar src={data.avatarLink} alt={data.displayname}></Avatar>{" "}
+            {data.displayname}
           </MenuItem>
           <Divider />
           <MenuItem onClick={() => setmyProfile(true)}>
@@ -101,7 +91,9 @@ export default function UserSetting(props) {
           </MenuItem>
         </Menu>
       </React.Fragment>
-      {myProfile && <Profile openMyProfile={myProfile} data={data} />}
+      {myProfile && (
+        <Profile openMyProfile={myProfile} friend={false} dataUser={data} />
+      )}
     </div>
   );
 }
