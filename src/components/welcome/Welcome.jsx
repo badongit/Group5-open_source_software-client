@@ -40,10 +40,10 @@ export default function Welcome() {
   return (
     <div className="welcome">
       <div className="welcome-title">
-        Welcome to <span className="welcome-title__name">PinkMoon</span>
+        Welcome to <span className="welcome-title__name">Pink Moon</span>
       </div>
       <p>
-        Let's chat with <span className="welcome-title__name">PinkMoon</span>{" "}
+        Let's chat with <span className="welcome-title__name">Pink Moon</span>{" "}
         with friends and relatives
       </p>
       <div className="welcome-slider">
