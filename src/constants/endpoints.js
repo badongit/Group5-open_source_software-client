@@ -11,6 +11,5 @@ export const endpoints = {
   authChangePassword: "/auth/change-password",
   userGetInfo: "/users",
   messagesGet: "/messages",
-  conversationsUploadPhoto: "/conversations/change-photo",
-  conversationsChangeRole: "/conversations/change-role",
+  conversations: "/conversations",
 };

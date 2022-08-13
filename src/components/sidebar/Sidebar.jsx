@@ -1,10 +1,14 @@
 import { useCurrentUser } from "@hooks/useCurrentUser";
+<<<<<<< HEAD
 import UserSetting from "@modules/user/user-setting/UserSetting";
+=======
+>>>>>>> 2adbced76466837581003b0924b66582c7fde36b
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { sidebarDataBottom, sidebarDataTop } from "./sidebarData";
 
 function Sidebar(props) {
+  const user = useCurrentUser();
   const navigate = useNavigate();
   const user = useCurrentUser();
   console.log(user);
@@ -44,7 +48,14 @@ function Sidebar(props) {
         })}
       </div>
       <div className="sidebar-info">
+<<<<<<< HEAD
         <UserSetting data={user} />
+=======
+        <img
+          src={user?.avatarLink}
+          alt=""
+        />
+>>>>>>> 2adbced76466837581003b0924b66582c7fde36b
       </div>
     </div>
   );
