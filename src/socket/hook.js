@@ -33,7 +33,7 @@ export const useAuthenticatedSocket = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.on(SocketEventEnum.CONNECT_ERROR, async (error) => {
+      socket.on(SocketEventEnum.ERROR, async (error) => {
         if (error.message === "jwt expired") {
           const getAccessToken = await authServices.refreshToken(refreshToken);
           const { accessToken } = getAccessToken.data;
@@ -53,15 +53,15 @@ export const useAuthenticatedSocket = () => {
         console.log(`Error: ${error.message}`);
       });
 
-      socket.on(SocketEventEnum.ERROR, (error) => {
-        console.log(`Error: ${error.message}`);
-      });
+      // socket.on(SocketEventEnum.ERROR, (error) => {
+      //   console.log(`Error: ${error.message}`);
+      // });
     }
 
     return () => {
       socketService.destroyListeners([
         SocketEventEnum.ERROR,
-        SocketEventEnum.CONNECT_ERROR,
+        // SocketEventEnum.CONNECT_ERROR,
       ]);
     };
   }, [socket, refreshToken, socketService]);
