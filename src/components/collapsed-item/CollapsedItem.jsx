@@ -10,7 +10,7 @@ import {
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { AvatarOnline } from "@components/avatar/AvatarOnline";
 
-export default function CollapsedItem({ id, name, dataCollapsed, handleClickItem, isShowTab, tabPanel }) {
+export default function CollapsedItem({ dataCollapsed, handleClickItem }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -19,39 +19,35 @@ export default function CollapsedItem({ id, name, dataCollapsed, handleClickItem
 
   return (
     <div>
-      <ListItem button key={id} onClick={handleClick}>
-        <ListItemText primary={name} />
+      <ListItem button key={dataCollapsed.id} onClick={handleClick}>
+        <ListItemText primary={dataCollapsed.name} />
         {isOpen ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={isOpen} timeout="auto" unmountOnExit>
         <List
           component="li"
           disablePadding
-          key={id}
+          key={dataCollapsed.id}
           sx={{ backgroundColor: "rgb(247, 247, 247)" }}
         >
-          {isShowTab === true && <div>{tabPanel}</div>}
-          {dataCollapsed.map((item) => {
+          {dataCollapsed.results.map((item) => {
             return (
               <ListItem
                 button
-                key={item.id || item._id}
-                onClick={item.isLeave || item.isChangeName || item.isAddPeople ? handleClickItem : null}
+                key={item.id}
+                onClick={item.isLeave ? handleClickItem : ""}
               >
-                {item.icon && <ListItemIcon sx={{ minWidth: "30px"}}>{item.icon}</ListItemIcon>}
-                {item.avatarLink && (
-                  <ListItemIcon sx={{ minWidth: "50px"}}>
+                {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+                {item.linkAvatar && (
+                  <ListItemIcon>
                     <AvatarOnline
-                      src={item.avatarLink}
+                      src={item.linkAvatar}
                       dot={false}
                       size="smaller"
                     />
                   </ListItemIcon>
                 )}
-                <ListItemText
-                  key={item.id || item._id}
-                  primary={item.title ? item.title : item.displayname}
-                />
+                <ListItemText key={item.id} primary={item.title} />
               </ListItem>
             );
           })}

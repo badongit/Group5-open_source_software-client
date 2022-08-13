@@ -1,44 +1,52 @@
-import { useCurrentUser } from "@hooks/useCurrentUser";
-import formatTime from "@utils/formatTime";
 import React from "react";
 import MessageCard from "../message-card/MessageCard";
 
+const listMessage = [
+  {
+    type: "group",
+    time: "21:10 pm",
+    username: "Minh Phuong",
+    text: "This is message of system",
+    linkAvatar: "",
+  },
+  {
+    type: "me",
+    time: "21:10 pm",
+    username: "Minh Phuong",
+    text: "hello i'm min",
+    linkAvatar: "",
+  },
+  {
+    type: "friend",
+    time: "21:10 pm",
+    username: "Thu Huong",
+    text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione consequatur similique ipsam, quo fuga adipisci, voluptate animi quaerat magni repudiandae praesentium repellendus minima voluptas vel exercitationem sed suscipit, quidem tempore! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione consequatur similique ipsam, quo fuga adipisci, voluptate animi quaerat magni repudiandae praesentium repellendus minima voluptas vel exercitationem sed suscipit, quidem tempore!",
+    linkAvatar: "",
+  },
+  {
+    type: "friend",
+    time: "21:10 pm",
+    username: "Ba Dong",
+    text: "adsfdffdfffffffffffffffffffmmmmmmm!",
+    linkAvatar: "",
+  },
+];
+
 export default function ListMessage(props) {
-  const user = useCurrentUser();
   const { messages } = props;
-
-  const renderMessageCard = (message, index) => {
-    let type, time, displayname, avatarLink;
-
-    if (type === "system") {
-      type = message?.type;
-    } else {
-      if (message?.sender?._id === user?._id) {
-        type = "me";
-      } else {
-        type = message?.type;
-      }
-
-      time = formatTime(message?.createdAt);
-      displayname = message?.sender?.displayname;
-      avatarLink = message?.sender?.avatarLink
-    }
-
-    return (
-      <MessageCard
-        key={index}
-        type={type}
-        time={time}
-        displayname={displayname}
-        text={message?.text}
-        avatarLink={avatarLink}
-      />
-    )
-  }
 
   return (
     <div className="list-message">
-      {messages && messages.map(renderMessageCard)}
+      {listMessage.concat(messages).map((item, index) => (
+        <MessageCard
+          key={index}
+          type={item?.type}
+          time={item?.time}
+          username={item?.username}
+          text={item?.text}
+          linkAvatar={item?.linkAvatar}
+        />
+      ))}
     </div>
   );
 }

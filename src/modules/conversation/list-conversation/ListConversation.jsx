@@ -1,11 +1,10 @@
-import { useCurrentUser } from "@hooks/useCurrentUser";
 import dayDiff from "@utils/dayDiff";
 import React from "react";
 import { ConversationCard } from "../conversation-card/ConversationCard";
 
 export default function ListConversation(props) {
   const { conversations, handleChangeCurrentConversation } = props;
-  const user = useCurrentUser();
+  const userId = "62cc48b9fcba316c5751a890";
 
   const renderConversationCard = (conversation) => {
     const { type, members, lastMessage, _id } = conversation;
@@ -17,14 +16,14 @@ export default function ListConversation(props) {
       photoLink = conversation?.photoLink;
       isOnline = members.some((member) => member?.isOnline === true);
     } else {
-      const member = members.find((member) => member._id !== user?._id);
+      const member = members.find((member) => member._id !== userId);
       title = member?.displayname;
       photoLink = member?.avatarLink;
       isOnline = member?.isOnline;
     }
 
     if (lastMessage?.type === "user") {
-      if (lastMessage?.sender === user?._id) {
+      if (lastMessage?.sender === userId) {
         text = `You: ${lastMessage?.text}`;
       } else {
         const sender = members.find((member) => member._id === lastMessage?.sender);
@@ -43,7 +42,7 @@ export default function ListConversation(props) {
         photoLink={photoLink}
         size="small"
         time={time}
-        changeConversation={() => handleChangeCurrentConversation(conversation)}
+        changeConversation={handleChangeCurrentConversation}
       />
     );
   };
