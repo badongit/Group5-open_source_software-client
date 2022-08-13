@@ -4,10 +4,12 @@ import { ArrowBack, GroupAdd, Search } from "@mui/icons-material";
 import UserSearch from "@modules/user/user-search/UserSearch";
 import ListConversation from "@modules/conversation/list-conversation/ListConversation";
 import useUser from "@hooks/useUser";
+import { useUserQuery } from "@hooks/useUserQuery";
 
 function ChatBar(props) {
+  const { data: { user }} = useUserQuery();
   const { listUser, loading, handleSearchUser, resetConditions } = useUser();
-  const { conversations, handleChangeCurrentConversation, isLoading } = props;
+  const { conversations, isLoading, handleChangeCurrentConversation, hanldeChangeOtherPeople} = props;
   const [isShowSearch, setIsShowSearch] = useState(false);
   const [keyword, setKeyword] = useState("");
 
@@ -32,14 +34,11 @@ function ChatBar(props) {
         }}
       >
         <div className="message-info">
-          <img
-            src="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2021/3/10/887631/Tieu-Chien-1.jpg"
-            alt=""
-          />
-          <span className="dot-online"></span>
+          <img src={user?.avatarLink} alt="avatar" />
+          {user?.isOnline ? <span className="dot-online"></span> : ""}
         </div>
         <Typography sx={{ fontSize: "18px", fontWeight: 600 }}>
-          Min Min
+          {user?.displayname}
         </Typography>
         <GroupAdd
           sx={{
@@ -76,7 +75,11 @@ function ChatBar(props) {
       </div>
       {isShowSearch ? (
         <div className="message-user-search">
-          <UserSearch listUser={listUser} isLoading={loading} />
+          <UserSearch
+            listUser={listUser}
+            isLoading={loading}
+            handleClickUser={hanldeChangeOtherPeople}
+          />
         </div>
       ) : (
         <div className="message-conversation">
