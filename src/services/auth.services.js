@@ -48,13 +48,25 @@ const authServices = {
 
   /**
    *
-   * @param {{displayname: string, email: string}} param0
+   * @param {{dateOfBirth,displayname,gender}} param0
    * @returns
    */
-  updateProfile: ({ displayname, email }) => {
-    return axiosClient.put(endpoints.authUpdateProfile, { displayname, email });
+  updateProfile: ({ dateOfBirth,displayname,gender, }) => {
+    return axiosClient.put(endpoints.authUpdateProfile, { dateOfBirth,displayname,gender });
   },
-
+  /**
+   *
+   * @param {{files}} param0
+   * @returns
+   */
+   changeAvatar: ({ files }) => {
+    return axiosClient.put(endpoints.authUploadAvatar, files);
+  },
+  /**
+   *
+   * @param {{newPassword: string, oldPassword: string}} param0
+   * @returns
+   */
   /**
    *
    * @param {{newPassword: string, oldPassword: string}} param0

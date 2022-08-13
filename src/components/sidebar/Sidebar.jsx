@@ -1,4 +1,5 @@
 import { useCurrentUser } from "@hooks/useCurrentUser";
+import UserSetting from "@modules/user/user-setting/UserSetting";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { sidebarDataBottom, sidebarDataTop } from "./sidebarData";
@@ -42,10 +43,7 @@ function Sidebar(props) {
         })}
       </div>
       <div className="sidebar-info">
-        <img
-          src={user?.avatarLink}
-          alt=""
-        />
+        <UserSetting data={user} />
       </div>
     </div>
   );
