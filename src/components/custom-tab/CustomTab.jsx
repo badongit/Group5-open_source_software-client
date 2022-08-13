@@ -13,24 +13,31 @@ export default function CustomTab({ nameTab, contentTab }) {
   };
 
   return (
-    <Box sx={{ width: "100%", typography: "body1"}}>
+    <Box sx={{ width: "100%", typography: "body1" }}>
       <TabContext value={value}>
         <Box sx={{ borderColor: "divider" }}>
-					<TabList onChange={handleChange} aria-label="lab API tabs example">
-						{nameTab.map((item, index) => {
-							return (
-								<Tab sx={{ width: "50%"}} label={item} value={`${index+1}`} />
-							)
-						})}
+          <TabList onChange={handleChange} aria-label="lab API tabs example">
+            {nameTab.map((item, index) => {
+              return (
+                <Tab
+                  sx={{ width: "50%" }}
+                  label={item}
+                  value={`${index + 1}`}
+                />
+              );
+            })}
           </TabList>
-				</Box>
-				{
-					contentTab.map((item, index) => {
-						return (
-							<TabPanel value={`${index+1}`} sx={{ padding: "unset !important" }}>{item}</TabPanel>
-						)
-					})
-				}
+        </Box>
+        {contentTab.map((item, index) => {
+          return (
+            <TabPanel
+              value={`${index + 1}`}
+              sx={{ padding: "unset !important" }}
+            >
+              {item}
+            </TabPanel>
+          );
+        })}
       </TabContext>
     </Box>
   );

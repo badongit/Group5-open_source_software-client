@@ -4,7 +4,7 @@ import authServices from "@services/auth.services";
 import { global, config } from "@constants/index";
 
 const instance = Axios.create({
-  baseURL: config.BASE_URL
+  baseURL: config.BASE_URL,
 });
 
 instance.interceptors.request.use((config) => {
@@ -12,30 +12,31 @@ instance.interceptors.request.use((config) => {
   if (accessToken) {
     config.headers = {
       "Content-type": "application/json",
-      Authorization: `Bearer ${accessToken}`
+      Authorization: `Bearer ${accessToken}`,
     };
   }
   return config;
 });
 
 instance.interceptors.response.use(
-  function(response) {
+  function (response) {
     if (response && response?.data) {
       return response.data;
     }
   },
-  async function(error) {
+  async function (error) {
     const { config } = error;
     const urlIgnore = [
       "/auth/token",
       "/auth/login",
       "/auth/register",
       "/auth/forgot-password",
-      "/auth/reset-password"
+      "/auth/reset-password",
     ];
 
     const refreshToken =
-      window.sessionStorage.getItem(global.REFRESH_TOKEN) || localStorage.getItem(global.REFRESH_TOKEN);
+      window.sessionStorage.getItem(global.REFRESH_TOKEN) ||
+      localStorage.getItem(global.REFRESH_TOKEN);
 
     if (
       error.response?.status === 401 &&

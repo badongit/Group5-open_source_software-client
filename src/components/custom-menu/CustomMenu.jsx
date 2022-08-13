@@ -35,15 +35,14 @@ export default function CustomMenu({ menuAnchorEl, isOpen, listMenu }) {
       }}
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-		>
-			{
-				listMenu.map((item, index) => {
-					return (
-						<MenuItem key={index} onClick={item.handleClick}>{item.text}</MenuItem>
-					)
-				})
-			}
-      
+    >
+      {listMenu.map((item, index) => {
+        return (
+          <MenuItem key={index} onClick={item.handleClick}>
+            {item.text}
+          </MenuItem>
+        );
+      })}
     </Menu>
   );
 }

@@ -11,7 +11,12 @@ import MessageDetail from "../message-detail/MessageDetail";
 import SendMessage from "../send-message/SendMessage";
 
 export default function ChatDesktop(props) {
-  const { conversation, otherPeople, receiveConversation, handleUpdateReceiveConversation } = props;
+  const {
+    conversation,
+    otherPeople,
+    receiveConversation,
+    handleUpdateReceiveConversation,
+  } = props;
   const user = useCurrentUser();
   const { socket, socketService } = useAuthenticatedSocket();
   const [toggleMessageDetail, setToggleMessageDetail] = useState(false);
@@ -26,16 +31,19 @@ export default function ChatDesktop(props) {
     if (conversation) {
       const getMessages = async () => {
         setLoading(true);
-        const response = await messageServices.getMessages(conversation?._id, conditions);
-  
+        const response = await messageServices.getMessages(
+          conversation?._id,
+          conditions
+        );
+
         if (response?.success) {
           setListMessages(response?.data?.messages);
         }
         setLoading(false);
-      }
+      };
       getMessages();
     }
-  }, [conversation, conditions])
+  }, [conversation, conditions]);
 
   const onToggleMessageDetail = () => {
     setToggleMessageDetail(!toggleMessageDetail);
@@ -63,14 +71,17 @@ export default function ChatDesktop(props) {
     [otherPeople, conversation, socket, socketService]
   );
 
-  const handleRenameGroup = useCallback((value) => {
-    if (conversation?.type === "group" && socket) {
-      socketService.clientRenameGroup({
-        conversationId: conversation?._id,
-        title: value?.title,
-      });
-    }
-  }, [conversation ,socket, socketService]);
+  const handleRenameGroup = useCallback(
+    (value) => {
+      if (conversation?.type === "group" && socket) {
+        socketService.clientRenameGroup({
+          conversationId: conversation?._id,
+          title: value?.title,
+        });
+      }
+    },
+    [conversation, socket, socketService]
+  );
 
   const handleReceiveMessage = useCallback(
     (data) => {
@@ -81,9 +92,12 @@ export default function ChatDesktop(props) {
     [listMessages, conversation?._id]
   );
 
-  const handleReceiveConversation = useCallback((data) => {
-    receiveConversation(data);
-  }, [receiveConversation]);
+  const handleReceiveConversation = useCallback(
+    (data) => {
+      receiveConversation(data);
+    },
+    [receiveConversation]
+  );
 
   useEffect(() => {
     if (socket) {
@@ -104,12 +118,16 @@ export default function ChatDesktop(props) {
 
     if (conversation || otherPeople) {
       if (conversation?.type === "group") {
-        const checkOnline = conversation?.members.filter(member => member.isOnline === true);
+        const checkOnline = conversation?.members.filter(
+          (member) => member.isOnline === true
+        );
         title = conversation?.title;
         photoLink = conversation?.photoLink;
         isOnline = checkOnline.length >= 2 ? true : false;
       } else if (conversation?.type === "private") {
-        const friends = conversation?.members.find(member => member._id !== user?._id);
+        const friends = conversation?.members.find(
+          (member) => member._id !== user?._id
+        );
         title = friends?.displayname;
         photoLink = friends?.avatarLink;
         isOnline = friends?.isOnline;
@@ -127,10 +145,10 @@ export default function ChatDesktop(props) {
         photoLink={photoLink}
         onToggleMessageDetail={onToggleMessageDetail}
       />
-    )
-  }
+    );
+  };
 
-  return (conversation || otherPeople) ? (
+  return conversation || otherPeople ? (
     <Grid container>
       <Grid item xs>
         <Box
@@ -141,9 +159,7 @@ export default function ChatDesktop(props) {
             flexDirection: "column",
           }}
         >
-          <div className="chat-desktop__header">
-            {renderChatHeader()}
-          </div>
+          <div className="chat-desktop__header">{renderChatHeader()}</div>
           <div className="chat-desktop__message">
             {loading ? (
               <div className="chat-desktop__message-loading">

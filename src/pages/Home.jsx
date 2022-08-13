@@ -5,7 +5,7 @@ import ChatBar from "@modules/message/chat-bar/ChatBar";
 import withNotAuth from "@components/common/withNotAuth";
 import { useAuthenticatedSocket } from "@socket/hook";
 import { SocketEventEnum } from "@socket/constants";
-import Helmet from '@components/common/Helmet';
+import Helmet from "@components/common/Helmet";
 
 function Home(props) {
   const { socket, socketService } = useAuthenticatedSocket();
@@ -22,7 +22,7 @@ function Home(props) {
   const hanldeChangeOtherPeople = (user) => {
     setOtherPeople(user);
     setCurrentConversation(null);
-  }
+  };
 
   const handleReceiveConversations = useCallback((data) => {
     setIsLoading(true);
@@ -38,7 +38,9 @@ function Home(props) {
     }
 
     return () => {
-      socketService.destroyAllListeners([SocketEventEnum.SV_SEND_CONVERSATIONS]);
+      socketService.destroyAllListeners([
+        SocketEventEnum.SV_SEND_CONVERSATIONS,
+      ]);
     };
   }, [socket, socketService, handleReceiveConversations]);
 
@@ -47,7 +49,7 @@ function Home(props) {
     if (socket) {
       time = setTimeout(() => {
         socketService.clientGetConversations();
-      }, 3000);
+      }, 1000);
     }
 
     return () => {
@@ -58,25 +60,29 @@ function Home(props) {
   const handleReceiveConversation = (data) => {
     const { conversation } = data;
     if (conversation) {
-      const newCons = conversations.filter(con => con._id !== conversation?._id);
+      const newCons = conversations.filter(
+        (con) => con._id !== conversation?._id
+      );
       setConversations([conversation, ...newCons]);
 
       if (currentConversation?._id === conversation?._id) {
         setCurrentConversation(conversation);
       }
     }
-  }
+  };
 
   const handleUpdateReceiveConversation = (conversation) => {
     if (conversation) {
-      const newCons = conversations.filter(con => con._id !== conversation?._id);
+      const newCons = conversations.filter(
+        (con) => con._id !== conversation?._id
+      );
       setConversations([conversation, ...newCons]);
 
       if (currentConversation?._id === conversation?._id) {
         setCurrentConversation(conversation);
       }
     }
-  }
+  };
 
   return (
     <Helmet title="Home page">
