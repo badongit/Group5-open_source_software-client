@@ -1,17 +1,15 @@
 import { CustomDialog } from "@components/custom-dialog/CustomDialog";
 import { Close } from "@mui/icons-material";
-import { Box, Button, IconButton, Radio } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 import Input from "@mui/material/Input";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import Divider from "@mui/material/Divider";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import useUser from "@hooks/useUser";
-import { useAuthenticatedSocket } from "@socket/hook";
 
-const AddConversationGroup = ({ Show, onCancel }) => {
-  const { socket, socketService } = useAuthenticatedSocket();
+const AddConversationGroup = ({ Show, onCancel, handleCreateConversation }) => {
   const { listUser, handleSearchUser } = useUser();
   const [ltUser, setLtUser] = useState([]);
   const [userSelected, setUserSelected] = useState([]);
@@ -20,10 +18,14 @@ const AddConversationGroup = ({ Show, onCancel }) => {
   const [title, setTitle] = useState("");
 
   useEffect(() => {
-    setLtUser(listUser);
-  }, [listUser]);
+    const ltID = userSelected.map((item) => item._id);
+    setLtUser(
+      listUser.filter((item) => {
+        return !ltID.includes(item._id);
+      })
+    );
+  }, [listUser, userSelected]);
 
-  console.log(ltUser);
   const removeUser = (user) => {
     setUserSelected(
       userSelected.filter(function (item) {
@@ -45,7 +47,6 @@ const AddConversationGroup = ({ Show, onCancel }) => {
 
   const handleChangeFile = (e) => {
     setFileUpload(e.target.files[0]);
-    console.log(e.target.files[0]);
   };
 
   const SearchUser = (key) => {
@@ -53,36 +54,15 @@ const AddConversationGroup = ({ Show, onCancel }) => {
     handleSearchUser(key.target.value);
   };
 
-  const handleRenameGroup = useCallback(
-    (members) => {
-      if (socket) {
-        socketService.clientCreateConversation({
-          members,
-          type: "group",
-          title,
-        });
-      }
-    },
-    [socket, socketService, title]
-  );
-
   const SaveGroup = () => {
     // clientCreateConversation
-
     const members = userSelected.map((item) => item._id);
     if (members.length >= 2) {
-      const createConversation = async () => {
-        if (socket) {
-          const res = await socketService.clientCreateConversation({
-            members,
-            type: "group",
-            title,
-          });
-          console.log(res);
-          socketService.clientGetConversations();
-        }
-      };
-      createConversation();
+      handleCreateConversation({
+        members,
+        type: "group",
+        title,
+      });
     }
     onCancel();
 
@@ -92,6 +72,7 @@ const AddConversationGroup = ({ Show, onCancel }) => {
     // const form = new FormData();
     // form.append("avatar_group", fileUpload);
   };
+
   return (
     <div className="cv-gr">
       <CustomDialog

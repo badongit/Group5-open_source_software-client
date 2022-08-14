@@ -13,7 +13,6 @@ import FolderSharedSharpIcon from "@mui/icons-material/FolderSharedSharp";
 import Profile from "../profile/Profile";
 
 export default function UserSetting({ data }) {
-  console.log(data);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [myProfile, setmyProfile] = React.useState(false);
   const open = Boolean(anchorEl);

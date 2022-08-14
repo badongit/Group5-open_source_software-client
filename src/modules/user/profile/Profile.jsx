@@ -26,7 +26,6 @@ const Profile = ({ id, dataUser, openMyProfile, friend = true }) => {
   const [data, setData] = useState(null);
   const [datePicker, setDatePicker] = React.useState(null);
   const dispatch = useDispatch();
-  console.log(friend, dataUser);
   useEffect(() => {
     const getUsers = async () => {
       if (!friend) {
@@ -50,15 +49,12 @@ const Profile = ({ id, dataUser, openMyProfile, friend = true }) => {
 
   const handleViewDetail = (url) => {
     setViewDetail(true);
-    console.log(url);
     setUrl(url);
   };
   const handleChangeFile = (e) => {
     setFileUpload(e.target.files[0]);
-    console.log(e.target.files[0]);
   };
   const SaveProfile = async () => {
-    console.log(datePicker);
     setUpdateProfile(false);
     if (
       data.displayname !== getValues().displayname ||
@@ -71,7 +67,6 @@ const Profile = ({ id, dataUser, openMyProfile, friend = true }) => {
         gender: getValues().gender,
       });
       setData(res?.data?.user);
-      console.log("r", res);
     }
     if (fileUpload != null) {
       let formData = new FormData();
