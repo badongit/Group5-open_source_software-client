@@ -3,63 +3,27 @@ import { Close } from "@mui/icons-material";
 import { Box, Button, IconButton, Radio } from "@mui/material";
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 import Input from "@mui/material/Input";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import Divider from "@mui/material/Divider";
-import AddIcon from "@mui/icons-material/Add";
-var users = [
-  {
-    _id: "1",
-    name: "Nguyễn Văn Dương",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
-  },
-  {
-    _id: "2",
-    name: "test 2",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
-  },
-  {
-    _id: "3",
-    name: "test 3",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
-  },
-  {
-    _id: "4",
-    name: "test 4",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
-  },
-  {
-    _id: "5",
-    name: "test 5",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
-  },
-  {
-    _id: "6",
-    name: "test 4",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
-  },
-  {
-    _id: "7",
-    name: "test 5",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
-  },
-  {
-    _id: "8",
-    name: "test 4",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
-  },
-  {
-    _id: "9",
-    name: "test 5",
-    url: "https://scontent.fhan19-1.fna.fbcdn.net/v/t39.30808-6/294623964_1160711717839762_900680647510478303_n.jpg?stp=cp1_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5qzFLJ6T6JYAX_PBJZB&_nc_ht=scontent.fhan19-1.fna&oh=00_AT_uA71jznEKlQGWHhWCdDc_hY37gWIP3DvXYFAXLbAfow&oe=62F247F6",
-  },
-];
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import useUser from "@hooks/useUser";
+import { useAuthenticatedSocket } from "@socket/hook";
 
 const AddConversationGroup = ({ Show, onCancel }) => {
-  const [ltUser, setLtUser] = useState(users);
+  const { socket, socketService } = useAuthenticatedSocket();
+  const { listUser, handleSearchUser } = useUser();
+  const [ltUser, setLtUser] = useState([]);
   const [userSelected, setUserSelected] = useState([]);
   const [fileUpload, setFileUpload] = useState(null);
+  const [keySearch, setKeySearch] = useState("");
+  const [title, setTitle] = useState("");
 
+  useEffect(() => {
+    setLtUser(listUser);
+  }, [listUser]);
+
+  console.log(ltUser);
   const removeUser = (user) => {
     setUserSelected(
       userSelected.filter(function (item) {
@@ -72,11 +36,11 @@ const AddConversationGroup = ({ Show, onCancel }) => {
   const addUserSelected = (user) => {
     userSelected.unshift(user);
     setUserSelected(userSelected);
-    // setLtUser(
-    //   ltUser.filter(function (item) {
-    //     return item._id !== user._id;
-    //   })
-    // );
+    setLtUser(
+      ltUser.filter(function (item) {
+        return item._id !== user._id;
+      })
+    );
   };
 
   const handleChangeFile = (e) => {
@@ -84,12 +48,49 @@ const AddConversationGroup = ({ Show, onCancel }) => {
     console.log(e.target.files[0]);
   };
 
+  const SearchUser = (key) => {
+    setKeySearch(key.target.value);
+    handleSearchUser(key.target.value);
+  };
+
+  const handleRenameGroup = useCallback(
+    (members) => {
+      if (socket) {
+        socketService.clientCreateConversation({
+          members,
+          type: "group",
+          title,
+        });
+      }
+    },
+    [socket, socketService, title]
+  );
+
   const SaveGroup = () => {
-    if (!fileUpload) {
-      return;
+    // clientCreateConversation
+
+    const members = userSelected.map((item) => item._id);
+    if (members.length >= 2) {
+      const createConversation = async () => {
+        if (socket) {
+          const res = await socketService.clientCreateConversation({
+            members,
+            type: "group",
+            title,
+          });
+          console.log(res);
+          socketService.clientGetConversations();
+        }
+      };
+      createConversation();
     }
-    const form = new FormData();
-    form.append("avatar_group", fileUpload);
+    onCancel();
+
+    // if (!fileUpload) {
+    //   return;
+    // }
+    // const form = new FormData();
+    // form.append("avatar_group", fileUpload);
   };
   return (
     <div className="cv-gr">
@@ -127,13 +128,23 @@ const AddConversationGroup = ({ Show, onCancel }) => {
                 />
               </div>
               <div className="name-group">
-                <Input fullWidth={true} placeholder={"Enter group name..."} />
+                <Input
+                  fullWidth={true}
+                  placeholder={"Enter group name..."}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
               </div>
             </div>
             <div className="add-friend-title">Add you to the group</div>
             <div className="search">
               <PersonSearchIcon className="icon" />
-              <input type={"text"} placeholder={"Enter name ..."} />
+              <input
+                type={"text"}
+                placeholder={"Enter name ..."}
+                value={keySearch}
+                onChange={(e) => SearchUser(e)}
+              />
             </div>
             <h6>Tất cả</h6>
             <Divider style={{ margin: "5px 0px" }} />
@@ -146,10 +157,15 @@ const AddConversationGroup = ({ Show, onCancel }) => {
                       onClick={() => addUserSelected(item)}
                     >
                       <div className="container">
-                        <Radio value={item.name} label={item.name} id={item._id} className="icon"/>
+                        <AddCircleIcon
+                          value={item.displayname}
+                          label={item.displayname}
+                          id={item._id}
+                          className="icon"
+                        />
                         <div className="avt-and-name">
-                          <img src={item.url} alt="avt" />
-                          <span>{item.name}</span>
+                          <img src={item.avatarLink} alt="avt" />
+                          <span>{item.displayname}</span>
                         </div>
                       </div>
                     </div>
@@ -162,13 +178,13 @@ const AddConversationGroup = ({ Show, onCancel }) => {
                 }
               >
                 <div className="title">
-                  Đã chọn<span>{userSelected.length}/100</span>
+                  Đã chọn<span>{userSelected.length}/20</span>
                 </div>
                 {userSelected.map((item) => {
                   return (
                     <div className="select_ed-users_item">
-                      <img src={item.url} alt="avt" />
-                      <span>{item.name}</span>
+                      <img src={item.avatarLink} alt="avt" />
+                      <span>{item.displayname}</span>
                       <Close
                         className="close"
                         onClick={() => removeUser(item)}

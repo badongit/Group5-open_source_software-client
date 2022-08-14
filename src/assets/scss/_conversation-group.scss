@@ -1,9 +1,7 @@
-
-.custom-dialog__title.conversation-group{
+.custom-dialog__title.conversation-group {
   padding: 0 24px 8px 24px !important;
 }
 .conversation-group {
-
   display: flex;
   justify-content: space-between;
   width: 450px;
@@ -105,7 +103,7 @@
     border-radius: 5px;
     cursor: not-allowed;
     color: white;
-    &:hover{
+    &:hover {
       background-color: var(--second-color);
     }
   }
@@ -140,13 +138,13 @@
       background-color: white;
     }
     &::-webkit-scrollbar {
-      width: 8px;
+      width: 4px;
       background-color: white;
     }
 
     &::-webkit-scrollbar-thumb {
       border-radius: 10px;
-      background-color: var(--main-color);
+      background-color: var(--text-color-light);
     }
     .user-item {
       cursor: pointer;
@@ -203,7 +201,7 @@
 
     &::-webkit-scrollbar-thumb {
       border-radius: 10px;
-      background-color: var(--main-color);
+      background-color: var(--text-color-light);
     }
     .title {
       font-size: 14px;
