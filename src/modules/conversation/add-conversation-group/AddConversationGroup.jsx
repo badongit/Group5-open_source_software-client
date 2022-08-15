@@ -55,29 +55,22 @@ const AddConversationGroup = ({ Show, onCancel, handleCreateConversation }) => {
   };
 
   const SaveGroup = () => {
-    // clientCreateConversation
     const members = userSelected.map((item) => item._id);
-    if (members.length >= 2) {
+    if (members.length >= 2 && title) {
       handleCreateConversation({
         members,
         type: "group",
         title,
       });
+      onCancel();
     }
-    onCancel();
-
-    // if (!fileUpload) {
-    //   return;
-    // }
-    // const form = new FormData();
-    // form.append("avatar_group", fileUpload);
   };
 
   return (
     <div className="cv-gr">
       <CustomDialog
         open={Show}
-        title="Tạo nhóm"
+        title="Create group"
         className="custom-dialog__title conversation-group"
         iconBtn={
           <div className="custom-dialog__title-icon">
@@ -159,7 +152,7 @@ const AddConversationGroup = ({ Show, onCancel, handleCreateConversation }) => {
                 }
               >
                 <div className="title">
-                  Đã chọn<span>{userSelected.length}/20</span>
+                  Selected<span>{userSelected.length}/30</span>
                 </div>
                 {userSelected.map((item) => {
                   return (
@@ -194,10 +187,11 @@ const AddConversationGroup = ({ Show, onCancel, handleCreateConversation }) => {
               color="primary"
               onClick={SaveGroup}
               className={
-                "btn-create-group " + (userSelected.length > 0 ? "action" : "")
+                "btn-create-group " +
+                (userSelected.length > 1 && title ? "action" : "")
               }
             >
-              leave
+              Create
             </Button>
           </Box>
         }

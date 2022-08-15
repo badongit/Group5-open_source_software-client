@@ -76,10 +76,7 @@ export default class SocketService {
         this.socket.emit(SocketEventEnum.CLIENT_JOIN_ROOM, {
           conversationId: data?.conversationId,
         });
-
-        console.log("client join room");
       }
-      console.log("join room", data);
     });
   };
 
@@ -134,7 +131,6 @@ export default class SocketService {
     this.socket.on(SocketEventEnum.SV_SEND_CONVERSATION, (data) => {
       callback(data);
     });
-    console.log("send cons");
   };
 
   destroyAllListeners = () => {
