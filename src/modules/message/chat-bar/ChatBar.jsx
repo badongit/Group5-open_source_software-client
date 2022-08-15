@@ -2,15 +2,28 @@ import React, { useState } from "react";
 import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
 import { ArrowBack, GroupAdd, Search } from "@mui/icons-material";
 import UserSearch from "@modules/user/user-search/UserSearch";
+import AddConversationGroup from "@modules/conversation/add-conversation-group/AddConversationGroup";
 import ListConversation from "@modules/conversation/list-conversation/ListConversation";
 import useUser from "@hooks/useUser";
 import { useUserQuery } from "@hooks/useUserQuery";
 
 function ChatBar(props) {
-  const { data: { user }} = useUserQuery();
+  const {
+    data: { user },
+  } = useUserQuery();
   const { listUser, loading, handleSearchUser, resetConditions } = useUser();
-  const { conversations, isLoading, handleChangeCurrentConversation, hanldeChangeOtherPeople} = props;
+  const {
+    conversations,
+    isLoading,
+    handleChangeCurrentConversation,
+    hanldeChangeOtherPeople,
+    handleCreateConversation,
+  } = props;
   const [isShowSearch, setIsShowSearch] = useState(false);
+  const [isShowAddGourp, setIsShowAddGourp] = useState(false);
+  const showAddGroup = () => {
+    setIsShowAddGourp(true);
+  };
   const [keyword, setKeyword] = useState("");
 
   const handleChangeKeyword = (e) => {
@@ -41,6 +54,7 @@ function ChatBar(props) {
           {user?.displayname}
         </Typography>
         <GroupAdd
+          onClick={showAddGroup}
           sx={{
             position: "absolute",
             color: "#bbbbbb",
@@ -94,6 +108,13 @@ function ChatBar(props) {
             />
           )}
         </div>
+      )}
+      {isShowAddGourp && (
+        <AddConversationGroup
+          Show={isShowAddGourp}
+          onCancel={() => setIsShowAddGourp(false)}
+          handleCreateConversation={handleCreateConversation}
+        />
       )}
     </div>
   );

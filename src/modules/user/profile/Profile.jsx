@@ -23,19 +23,18 @@ const Profile = ({ id, dataUser, openMyProfile, friend = true }) => {
   const [updateProfile, setUpdateProfile] = React.useState(false);
   const [url, setUrl] = React.useState("");
   const [fileUpload, setFileUpload] = useState(null);
-  const [data, setData] = useState(null);
+  const [user, setUser] = useState(null);
   const [datePicker, setDatePicker] = React.useState(null);
   const dispatch = useDispatch();
-console.log(friend,dataUser);
   useEffect(() => {
     const getUsers = async () => {
       if (!friend) {
-        setData(dataUser);
+        setUser(dataUser);
         return;
       }
       const response = await userServices.getUserById(id);
       if (response?.success) {
-        setData(response?.data?.user);
+        setUser(response?.data?.user);
       }
     };
     getUsers();
@@ -43,35 +42,31 @@ console.log(friend,dataUser);
 
   const { register, handleSubmit, getValues } = useForm({
     defaultValues: {
-      displayname: data?.displayname,
-      gender: data?.gender,
+      displayname: user?.displayname,
+      gender: user?.gender,
     },
   });
 
   const handleViewDetail = (url) => {
     setViewDetail(true);
-    console.log(url);
     setUrl(url);
   };
   const handleChangeFile = (e) => {
     setFileUpload(e.target.files[0]);
-    console.log(e.target.files[0]);
   };
   const SaveProfile = async () => {
-    console.log(datePicker);
     setUpdateProfile(false);
     if (
-      data.displayname !== getValues().displayname ||
-      data.gender !== getValues().gender ||
-      data.dateOfBirth !== datePicker
+      user.displayname !== getValues().displayname ||
+      user.gender !== getValues().gender ||
+      user.dateOfBirth !== datePicker
     ) {
       const res = await authServices.updateProfile({
         dateOfBirth: datePicker,
         displayname: getValues().displayname,
         gender: getValues().gender,
       });
-      setData(res?.data?.user);
-      console.log("r", res);
+      setUser(res?.data?.user);
     }
     if (fileUpload != null) {
       let formData = new FormData();
@@ -102,9 +97,9 @@ console.log(friend,dataUser);
               <div className="profile-content_header">
                 <div
                   className="profile-content_header_bgr"
-                  onClick={() => handleViewDetail(data?.avatarLink)}
+                  onClick={() => handleViewDetail(user?.avatarLink)}
                 >
-                  <img alt="Ảnh bìa" src={data?.avatarLink} />
+                  <img alt="Ảnh bìa" src={user?.avatarLink} />
                 </div>
                 {updateProfile ? (
                   <label className="profile-content_header_edit-bgr">
@@ -122,12 +117,12 @@ console.log(friend,dataUser);
                 )}
                 <div
                   className="profile-content_header_avt"
-                  onClick={() => handleViewDetail(data?.avatarLink)}
+                  onClick={() => handleViewDetail(user?.avatarLink)}
                 >
                   {fileUpload == null ? (
                     <img
                       alt="Ảnh đại điện"
-                      src={data?.avatarLink}
+                      src={user?.avatarLink}
                       htmlFor="input-upload"
                     />
                   ) : (
@@ -146,7 +141,7 @@ console.log(friend,dataUser);
                   />
                 </div>
               </div>
-              <h5>{data?.displayname}</h5>
+              <h5>{user?.displayname}</h5>
               <div className="profile-content_infor">
                 {!updateProfile ? <h5>Personal Information</h5> : ""}
 
@@ -155,7 +150,7 @@ console.log(friend,dataUser);
                 ) : (
                   <div className="profile-content_infor_item">
                     <label>Email</label>
-                    <span>{data?.email}</span>
+                    <span>{user?.email}</span>
                   </div>
                 )}
 
@@ -165,11 +160,11 @@ console.log(friend,dataUser);
                     <Input
                       className="input"
                       autoFocus={true}
-                      defaultValue={data?.displayname}
+                      defaultValue={user?.displayname}
                       {...register("displayname")}
                     />
                   ) : (
-                    <span>{data?.displayname}</span>
+                    <span>{user?.displayname}</span>
                   )}
                 </div>
                 <div className="profile-content_infor_item">
@@ -182,7 +177,7 @@ console.log(friend,dataUser);
                           type="radio"
                           value="male"
                           defaultChecked={
-                            data?.gender === "male" ? true : false
+                            user?.gender === "male" ? true : false
                           }
                           {...register("gender")}
                         />
@@ -194,7 +189,7 @@ console.log(friend,dataUser);
                           type="radio"
                           value="female"
                           defaultChecked={
-                            data?.gender === "female" ? true : false
+                            user?.gender === "female" ? true : false
                           }
                           {...register("gender")}
                         />
@@ -202,7 +197,7 @@ console.log(friend,dataUser);
                       </label>
                     </form>
                   ) : (
-                    <span>{data?.gender}</span>
+                    <span>{user?.gender}</span>
                   )}
                 </div>
                 <div className="profile-content_infor_item">
@@ -213,13 +208,12 @@ console.log(friend,dataUser);
                       className="date"
                     >
                       <DatePicker
-                        // disableFuture
                         className="input"
                         openTo="day"
                         views={["day", "month", "year"]}
                         {...register("dateOfBirth")}
                         renderInput={(params) => <TextField {...params} />}
-                        value={datePicker || new Date(data?.dateOfBirth)}
+                        value={datePicker || new Date(user?.dateOfBirth)}
                         onChange={(newValue) => {
                           setDatePicker(newValue);
                         }}
@@ -227,7 +221,11 @@ console.log(friend,dataUser);
                     </LocalizationProvider>
                   ) : (
                     <span>
-                      {new Date(data?.dateOfBirth).toLocaleDateString("en-US")}
+                      {user?.dateOfBirth
+                        ? new Date(user?.dateOfBirth).toLocaleDateString(
+                            "en-US"
+                          )
+                        : ""}
                     </span>
                   )}
                 </div>

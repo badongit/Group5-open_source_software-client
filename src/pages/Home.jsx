@@ -5,9 +5,11 @@ import ChatBar from "@modules/message/chat-bar/ChatBar";
 import withNotAuth from "@components/common/withNotAuth";
 import { useAuthenticatedSocket } from "@socket/hook";
 import { SocketEventEnum } from "@socket/constants";
-import Helmet from '@components/common/Helmet';
+import Helmet from "@components/common/Helmet";
+import { useCurrentUser } from "@hooks/useCurrentUser";
 
 function Home(props) {
+  const user = useCurrentUser();
   const { socket, socketService } = useAuthenticatedSocket();
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +24,7 @@ function Home(props) {
   const hanldeChangeOtherPeople = (user) => {
     setOtherPeople(user);
     setCurrentConversation(null);
-  }
+  };
 
   const handleReceiveConversations = useCallback((data) => {
     setIsLoading(true);
@@ -32,15 +34,47 @@ function Home(props) {
     setIsLoading(false);
   }, []);
 
+  const handleReceiveConversation = useCallback(
+    (data) => {
+      const { conversation } = data;
+      if (conversation) {
+        const newCons = conversations.filter(
+          (con) => con._id !== conversation?._id
+        );
+        setConversations([conversation, ...newCons]);
+
+        if (currentConversation?._id === conversation?._id) {
+          setCurrentConversation(conversation);
+        }
+      }
+    },
+    [currentConversation, conversations]
+  );
+
+  useEffect(() => {
+    if (socket) {
+      socketService.setUser(user);
+    }
+  }, [socket, socketService, user]);
+
   useEffect(() => {
     if (socket) {
       socketService.onReceiveConversations(handleReceiveConversations);
+      socketService.onReceiveConversation(handleReceiveConversation);
     }
 
     return () => {
-      socketService.destroyAllListeners([SocketEventEnum.SV_SEND_CONVERSATIONS]);
+      socketService.destroyAllListeners([
+        SocketEventEnum.SV_SEND_CONVERSATIONS,
+        SocketEventEnum.SV_SEND_CONVERSATION,
+      ]);
     };
-  }, [socket, socketService, handleReceiveConversations]);
+  }, [
+    socket,
+    socketService,
+    handleReceiveConversations,
+    handleReceiveConversation,
+  ]);
 
   useEffect(() => {
     let time;
@@ -55,28 +89,29 @@ function Home(props) {
     };
   }, [socket, socketService]);
 
-  const handleReceiveConversation = (data) => {
-    const { conversation } = data;
-    if (conversation) {
-      const newCons = conversations.filter(con => con._id !== conversation?._id);
-      setConversations([conversation, ...newCons]);
-
-      if (currentConversation?._id === conversation?._id) {
-        setCurrentConversation(conversation);
-      }
-    }
-  }
-
   const handleUpdateReceiveConversation = (conversation) => {
     if (conversation) {
-      const newCons = conversations.filter(con => con._id !== conversation?._id);
+      const newCons = conversations.filter(
+        (con) => con._id !== conversation?._id
+      );
       setConversations([conversation, ...newCons]);
 
       if (currentConversation?._id === conversation?._id) {
         setCurrentConversation(conversation);
       }
     }
-  }
+  };
+
+  const handleCreateConversation = (data) => {
+    if (socket) {
+      socketService.clientCreateConversation({
+        members: data?.members,
+        type: data?.type,
+        title: data?.title,
+      });
+      socketService.onInvitationJoinRoom();
+    }
+  };
 
   return (
     <Helmet title="Home page">
@@ -88,6 +123,7 @@ function Home(props) {
               conversations={conversations}
               handleChangeCurrentConversation={handleChangeCurrentConversation}
               hanldeChangeOtherPeople={hanldeChangeOtherPeople}
+              handleCreateConversation={handleCreateConversation}
             />
           </Grid>
           <Grid item lg={9}>
