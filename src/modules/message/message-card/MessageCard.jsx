@@ -4,7 +4,8 @@ import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 
 export default function MessageCard(props) {
-  const { type, time, displayname, text, avatarLink } = props;
+  const { type, time, timeRecall, displayname, text, avatarLink, onclick } =
+    props;
   const [anchorEl, setAnchorEl] = useState(null);
   const openMore = Boolean(anchorEl);
 
@@ -32,9 +33,15 @@ export default function MessageCard(props) {
               {type === "user" && (
                 <div className="message-card__content-name">{displayname}</div>
               )}
-              <div className="message-card__content-text">
+              <div
+                className={
+                  text === "Message has been revoked."
+                    ? "message-card__content-text recall"
+                    : "message-card__content-text"
+                }
+              >
                 {text !== "" && text}
-                {type === "me" ? (
+                {type === "me" && text !== "Message has been revoked." ? (
                   <div className="message-card__content-text__more">
                     <Tooltip title="See more" placement="top">
                       <IconButton onClick={handleOpenMore}>
@@ -74,17 +81,25 @@ export default function MessageCard(props) {
                             },
                           },
                         }}
-                        transformOrigin={{ horizontal: "right", vertical: "top" }}
-                        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                        transformOrigin={{
+                          horizontal: "right",
+                          vertical: "top",
+                        }}
+                        anchorOrigin={{
+                          horizontal: "right",
+                          vertical: "bottom",
+                        }}
                       >
-                        <MenuItem>Recall, Delete</MenuItem>
+                        <MenuItem onClick={onclick}>Recall, Delete</MenuItem>
                       </Menu>
                     )}
                   </div>
                 ) : (
                   ""
                 )}
-                <div className="message-card__content-text__time">{time}</div>
+                <div className="message-card__content-text__time">
+                  {text !== "Message has been revoked." ? time : timeRecall}
+                </div>
               </div>
             </div>
           </div>

@@ -1,41 +1,57 @@
 import Welcome from "@components/welcome/Welcome";
 import { useCurrentUser } from "@hooks/useCurrentUser";
-import { Box, CircularProgress, Grid } from "@mui/material";
-import messageServices from "@services/message.services";
+import useMessages from "@hooks/useMessage";
+import { ArrowDownward } from "@mui/icons-material";
+import { Box, CircularProgress, Grid, IconButton } from "@mui/material";
 import { SocketEventEnum } from "@socket/constants";
 import { useAuthenticatedSocket } from "@socket/hook";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ChatHeader from "../chat-header/ChatHeader";
 import ListMessage from "../list-message/ListMessage";
 import MessageDetail from "../message-detail/MessageDetail";
 import SendMessage from "../send-message/SendMessage";
 
 export default function ChatDesktop(props) {
-  const { conversation, otherPeople, receiveConversation, handleUpdateReceiveConversation } = props;
+  const {
+    conversation,
+    otherPeople,
+    receiveConversation,
+    handleUpdateReceiveConversation,
+  } = props;
   const user = useCurrentUser();
   const { socket, socketService } = useAuthenticatedSocket();
   const [toggleMessageDetail, setToggleMessageDetail] = useState(false);
-  const [listMessages, setListMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [conditions, setConditions] = useState({
-    startIndex: 0,
-    // limit: 10
-  });
+  const {
+    loading,
+    listMessage,
+    setListMessage,
+    setCurrentConversation,
+    setConditions,
+    lastMessageRef,
+    newListMessageAfterNextPage,
+  } = useMessages();
+  const scrollRef = useRef(null);
+  const scrollIntoBotRef = useRef(null);
+  const [visible, setVisible] = useState(true);
+  const [messageDetail, setMessageDetail] = useState(null);
+
+  const handleScrollToBottom = () => {
+    const scrolledFromTop = scrollRef.current.scrollTop;
+    setVisible(scrolledFromTop > -400);
+  };
+
+  const handleSrollIntoView = () => {
+    if (scrollIntoBotRef.current) {
+      scrollIntoBotRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
 
   useEffect(() => {
-    if (conversation) {
-      const getMessages = async () => {
-        setLoading(true);
-        const response = await messageServices.getMessages(conversation?._id, conditions);
-  
-        if (response?.success) {
-          setListMessages(response?.data?.messages);
-        }
-        setLoading(false);
-      }
-      getMessages();
-    }
-  }, [conversation, conditions])
+    setConditions((prev) => ({ ...prev, startIndex: 0 }));
+    setCurrentConversation(conversation?._id);
+  }, [conversation?._id, setCurrentConversation, setConditions]);
 
   const onToggleMessageDetail = () => {
     setToggleMessageDetail(!toggleMessageDetail);
@@ -50,7 +66,6 @@ export default function ChatDesktop(props) {
           userId: otherPeople?._id,
         });
       }
-
       // const newMessage = {
       //   text: data?.text,
       //   conversation: conversation?._id,
@@ -63,27 +78,60 @@ export default function ChatDesktop(props) {
     [otherPeople, conversation, socket, socketService]
   );
 
-  const handleRenameGroup = useCallback((value) => {
-    if (conversation?.type === "group" && socket) {
-      socketService.clientRenameGroup({
-        conversationId: conversation?._id,
-        title: value?.title,
-      });
-    }
-  }, [conversation ,socket, socketService]);
+  const handleRenameGroup = useCallback(
+    (value) => {
+      if (conversation?.type === "group" && socket) {
+        socketService.clientRenameGroup({
+          conversationId: conversation?._id,
+          title: value?.title,
+        });
+      }
+    },
+    [conversation, socket, socketService]
+  );
+
+  const handleRecallMessage = useCallback(
+    (message) => {
+      if (message?._id) {
+        setMessageDetail(message);
+        if (socket) {
+          socketService.clientRecallMessage({ messageId: message?._id });
+        }
+      }
+    },
+    [socket, socketService]
+  );
 
   const handleReceiveMessage = useCallback(
     (data) => {
-      if (data?.message?.conversation === conversation?._id) {
-        setListMessages([data?.message, ...listMessages]);
+      if (data?.message?._id === messageDetail?._id) {
+        const index = listMessage.findIndex(
+          (value) => value?._id === messageDetail?._id
+        );
+        setListMessage((prev) => {
+          let newMessages = [...prev];
+          newMessages[index] = data?.message;
+          return newMessages;
+        });
+      } else if (data?.message?.conversation === conversation?._id) {
+        newListMessageAfterNextPage(data?.message);
       }
     },
-    [listMessages, conversation?._id]
+    [
+      newListMessageAfterNextPage,
+      conversation?._id,
+      messageDetail?._id,
+      setListMessage,
+      listMessage,
+    ]
   );
 
-  const handleReceiveConversation = useCallback((data) => {
-    receiveConversation(data);
-  }, [receiveConversation]);
+  const handleReceiveConversation = useCallback(
+    (data) => {
+      receiveConversation(data);
+    },
+    [receiveConversation]
+  );
 
   useEffect(() => {
     if (socket) {
@@ -104,12 +152,16 @@ export default function ChatDesktop(props) {
 
     if (conversation || otherPeople) {
       if (conversation?.type === "group") {
-        const checkOnline = conversation?.members.filter(member => member.isOnline === true);
+        const checkOnline = conversation?.members.filter(
+          (member) => member.isOnline === true
+        );
         title = conversation?.title;
         photoLink = conversation?.photoLink;
         isOnline = checkOnline.length >= 2 ? true : false;
       } else if (conversation?.type === "private") {
-        const friends = conversation?.members.find(member => member._id !== user?._id);
+        const friends = conversation?.members.find(
+          (member) => member._id !== user?._id
+        );
         title = friends?.displayname;
         photoLink = friends?.avatarLink;
         isOnline = friends?.isOnline;
@@ -127,10 +179,10 @@ export default function ChatDesktop(props) {
         photoLink={photoLink}
         onToggleMessageDetail={onToggleMessageDetail}
       />
-    )
-  }
+    );
+  };
 
-  return (conversation || otherPeople) ? (
+  return conversation || otherPeople ? (
     <Grid container>
       <Grid item xs>
         <Box
@@ -141,16 +193,29 @@ export default function ChatDesktop(props) {
             flexDirection: "column",
           }}
         >
-          <div className="chat-desktop__header">
-            {renderChatHeader()}
-          </div>
+          <div className="chat-desktop__header">{renderChatHeader()}</div>
           <div className="chat-desktop__message">
+            <div
+              className="chat-desktop__message-btnScroll"
+              style={{ visibility: visible ? "hidden" : "visible" }}
+            >
+              <IconButton onClick={handleSrollIntoView}>
+                <ArrowDownward color="primary" />
+              </IconButton>
+            </div>
             {loading ? (
               <div className="chat-desktop__message-loading">
                 <CircularProgress size={26} />
               </div>
             ) : (
-              <ListMessage messages={listMessages} />
+              <ListMessage
+                messages={listMessage}
+                lastMessageRef={lastMessageRef}
+                scrollRef={scrollRef}
+                onscroll={handleScrollToBottom}
+                scrollIntoBotRef={scrollIntoBotRef}
+                handleClickRecallMessage={handleRecallMessage}
+              />
             )}
           </div>
           <div className="chat-desktop__sendIcon">

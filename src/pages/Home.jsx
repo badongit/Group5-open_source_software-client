@@ -66,7 +66,6 @@ function Home(props) {
     return () => {
       socketService.destroyAllListeners([
         SocketEventEnum.SV_SEND_CONVERSATIONS,
-        SocketEventEnum.SV_SEND_CONVERSATION,
       ]);
     };
   }, [
@@ -81,7 +80,7 @@ function Home(props) {
     if (socket) {
       time = setTimeout(() => {
         socketService.clientGetConversations();
-      }, 3000);
+      }, 2000);
     }
 
     return () => {
