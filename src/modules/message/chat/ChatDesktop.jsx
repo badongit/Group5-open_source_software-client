@@ -10,14 +10,10 @@ import ChatHeader from "../chat-header/ChatHeader";
 import ListMessage from "../list-message/ListMessage";
 import MessageDetail from "../message-detail/MessageDetail";
 import SendMessage from "../send-message/SendMessage";
+import { v4 as uuid } from "uuid";
 
 export default function ChatDesktop(props) {
-  const {
-    conversation,
-    otherPeople,
-    receiveConversation,
-    handleUpdateReceiveConversation,
-  } = props;
+  const { conversation, otherPeople, handleUpdateReceiveConversation } = props;
   const user = useCurrentUser();
   const { socket, socketService } = useAuthenticatedSocket();
   const [toggleMessageDetail, setToggleMessageDetail] = useState(false);
@@ -60,22 +56,34 @@ export default function ChatDesktop(props) {
   const handleSendMessage = useCallback(
     (data) => {
       if (socket) {
-        socketService.clientSendMessage({
-          text: data?.text,
-          conversationId: conversation?._id,
-          userId: otherPeople?._id,
-        });
+        const { text, file } = data;
+        const messageEntity = {
+          subId: file?.subId || uuid(),
+        };
+
+        if (conversation?._id) {
+          messageEntity.conversationId = conversation._id;
+        } else {
+          messageEntity.userId = otherPeople?._id;
+        }
+
+        if (text) {
+          messageEntity.text = text;
+        }
+
+        if (file) {
+          messageEntity.file = file;
+          messageEntity.metadata = {
+            type: file.type,
+            name: file.name,
+            size: file.size,
+          };
+        }
+
+        socketService.clientSendMessage(messageEntity);
       }
-      // const newMessage = {
-      //   text: data?.text,
-      //   conversation: conversation?._id,
-      //   userId: otherPeople?._id,
-      //   type: "user",
-      //   sender: user,
-      // };
-      // setListMessages([newMessage, ...listMessages]);
     },
-    [otherPeople, conversation, socket, socketService]
+    [conversation, socket, socketService, otherPeople?._id]
   );
 
   const handleRenameGroup = useCallback(
@@ -126,26 +134,15 @@ export default function ChatDesktop(props) {
     ]
   );
 
-  const handleReceiveConversation = useCallback(
-    (data) => {
-      receiveConversation(data);
-    },
-    [receiveConversation]
-  );
-
   useEffect(() => {
     if (socket) {
       socketService.onReceiveMessage(handleReceiveMessage);
-      socketService.onReceiveConversation(handleReceiveConversation);
     }
 
     return () => {
-      socketService.destroyAllListeners([
-        SocketEventEnum.SV_SEND_MESSAGE,
-        SocketEventEnum.SV_SEND_CONVERSATION,
-      ]);
+      socketService.destroyListeners([SocketEventEnum.SV_SEND_MESSAGE]);
     };
-  }, [handleReceiveMessage, handleReceiveConversation, socket, socketService]);
+  }, [handleReceiveMessage, socket, socketService]);
 
   const renderChatHeader = () => {
     let title, isOnline, photoLink;

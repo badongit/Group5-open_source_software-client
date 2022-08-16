@@ -25,10 +25,10 @@ export default function ListConversation(props) {
 
     if (lastMessage?.type === "user") {
       if (lastMessage?.sender === user?._id) {
-        text = `You: ${lastMessage?.text}`;
+        text = `You: ${lastMessage?.text ? lastMessage.text : `sent 1 ${lastMessage.fileType}`}`;
       } else {
         const sender = members.find((member) => member._id === lastMessage?.sender);
-        text = `${sender?.displayname}: ${lastMessage?.text}`;
+        text = `${sender?.displayname}: ${lastMessage.text ? lastMessage.text : `sent 1 ${lastMessage.fileType}`}`;
       }
     } else {
       text = lastMessage?.text;

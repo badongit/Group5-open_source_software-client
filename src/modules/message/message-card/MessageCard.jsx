@@ -4,8 +4,17 @@ import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 
 export default function MessageCard(props) {
-  const { type, time, timeRecall, displayname, text, avatarLink, onclick } =
-    props;
+  const {
+    type,
+    time,
+    timeRecall,
+    displayname,
+    text,
+    avatarLink,
+    onclick,
+    file,
+    fileType,
+  } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const openMore = Boolean(anchorEl);
 
@@ -16,6 +25,35 @@ export default function MessageCard(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  let content = text;
+  if (file) {
+    switch (fileType) {
+      case "image":
+        content = (
+          <div className="message-card__content-file__img">
+            <img src={file} alt="message" />
+          </div>
+        );
+        break;
+      case "video":
+        content = (
+          <div className="message-card__content-file__video">
+            <video src={file} controls></video>
+          </div>
+        );
+        break;
+      case "audio":
+        content = (
+          <div className="message-card__content-file__audio">
+            <audio src={file} controls></audio>
+          </div>
+        );
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <>
@@ -35,12 +73,14 @@ export default function MessageCard(props) {
               )}
               <div
                 className={
-                  text === "Message has been revoked."
+                  fileType
+                    ? "message-card__content-file"
+                    : text === "Message has been revoked."
                     ? "message-card__content-text recall"
                     : "message-card__content-text"
                 }
               >
-                {text !== "" && text}
+                {content}
                 {type === "me" && text !== "Message has been revoked." ? (
                   <div className="message-card__content-text__more">
                     <Tooltip title="See more" placement="top">

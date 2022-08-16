@@ -33,12 +33,13 @@ export default function ListMessage(props) {
     }
 
     return messages?.length === index + 1 ? (
-      <div ref={lastMessageRef}>
+      <div ref={lastMessageRef} key={index}>
         <MessageCard
-          key={index}
           type={type}
           time={time}
           timeRecall={timeRecall}
+          file={message.file}
+          fileType={message.fileType}
           displayname={displayname}
           text={message?.text}
           avatarLink={avatarLink}
@@ -51,6 +52,8 @@ export default function ListMessage(props) {
         type={type}
         time={time}
         timeRecall={timeRecall}
+        file={message.file}
+        fileType={message.fileType}
         displayname={displayname}
         text={message?.text}
         avatarLink={avatarLink}
