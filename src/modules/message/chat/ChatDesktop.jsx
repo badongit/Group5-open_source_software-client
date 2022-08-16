@@ -13,12 +13,7 @@ import SendMessage from "../send-message/SendMessage";
 import { v4 as uuid } from "uuid";
 
 export default function ChatDesktop(props) {
-  const {
-    conversation,
-    otherPeople,
-    receiveConversation,
-    handleUpdateReceiveConversation,
-  } = props;
+  const { conversation, otherPeople, handleUpdateReceiveConversation } = props;
   const user = useCurrentUser();
   const { socket, socketService } = useAuthenticatedSocket();
   const [toggleMessageDetail, setToggleMessageDetail] = useState(false);
@@ -88,7 +83,7 @@ export default function ChatDesktop(props) {
         socketService.clientSendMessage(messageEntity);
       }
     },
-    [otherPeople, conversation, socket, socketService]
+    [conversation, socket, socketService, otherPeople?._id]
   );
 
   const handleRenameGroup = useCallback(
@@ -139,26 +134,15 @@ export default function ChatDesktop(props) {
     ]
   );
 
-  const handleReceiveConversation = useCallback(
-    (data) => {
-      receiveConversation(data);
-    },
-    [receiveConversation]
-  );
-
   useEffect(() => {
     if (socket) {
       socketService.onReceiveMessage(handleReceiveMessage);
-      socketService.onReceiveConversation(handleReceiveConversation);
     }
 
     return () => {
-      socketService.destroyAllListeners([
-        SocketEventEnum.SV_SEND_MESSAGE,
-        SocketEventEnum.SV_SEND_CONVERSATION,
-      ]);
+      socketService.destroyListeners([SocketEventEnum.SV_SEND_MESSAGE]);
     };
-  }, [handleReceiveMessage, handleReceiveConversation, socket, socketService]);
+  }, [handleReceiveMessage, socket, socketService]);
 
   const renderChatHeader = () => {
     let title, isOnline, photoLink;

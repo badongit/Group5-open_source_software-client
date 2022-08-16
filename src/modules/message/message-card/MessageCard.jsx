@@ -4,8 +4,17 @@ import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 
 export default function MessageCard(props) {
-  const { type, time, timeRecall, displayname, text, avatarLink, onclick } =
-    props;
+  const {
+    type,
+    time,
+    timeRecall,
+    displayname,
+    text,
+    avatarLink,
+    onclick,
+    file,
+    fileType,
+  } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const openMore = Boolean(anchorEl);
 

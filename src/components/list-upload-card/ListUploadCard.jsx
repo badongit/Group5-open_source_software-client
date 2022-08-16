@@ -9,7 +9,11 @@ function ListUploadCard(props) {
   return (
     <div className="list-upload-card">
       {files.map((file) => (
-        <UploadCard file={file} handleRemoveClick={handleRemoveClick} />
+        <UploadCard
+          file={file}
+          handleRemoveClick={handleRemoveClick}
+          key={file.subId}
+        />
       ))}
       <input
         type="file"
