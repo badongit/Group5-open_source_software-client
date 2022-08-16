@@ -26,7 +26,6 @@ const Profile = ({ id, dataUser, openMyProfile, friend = true }) => {
   const [data, setData] = useState(null);
   const [datePicker, setDatePicker] = React.useState(null);
   const dispatch = useDispatch();
-console.log(friend,dataUser);
   useEffect(() => {
     const getUsers = async () => {
       if (!friend) {
