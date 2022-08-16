@@ -20,13 +20,25 @@ export default function MessageCard(props) {
   if (file) {
     switch (fileType) {
       case "image":
-        content = <img src={file} alt="message" />;
+        content = (
+          <div className="message-card__content-file__img">
+            <img src={file} alt="message" />
+          </div>
+        );
         break;
       case "video":
-        content = <video src={file} controls></video>;
+        content = (
+          <div className="message-card__content-file__video">
+            <video src={file} controls></video>
+          </div>
+        );
         break;
       case "audio":
-        content = <audio src={file}></audio>;
+        content = (
+          <div className="message-card__content-file__audio">
+            <audio src={file} controls></audio>
+          </div>
+        );
         break;
       default:
         break;
@@ -49,7 +61,13 @@ export default function MessageCard(props) {
               {type === "user" && (
                 <div className="message-card__content-name">{displayname}</div>
               )}
-              <div className="message-card__content-text">
+              <div
+                className={
+                  fileType
+                    ? "message-card__content-file"
+                    : "message-card__content-text"
+                }
+              >
                 {content}
                 {type === "me" ? (
                   <div className="message-card__content-text__more">
