@@ -48,6 +48,15 @@ const authServices = {
 
   /**
    *
+   * @param {{email: string}} param0
+   * @returns
+   */
+  resetPassword: ({ token, password }) => {
+    return axiosClient.post(`${endpoints.authResetPassword}/${token}`, { password });
+  },
+
+  /**
+   *
    * @param {{dateOfBirth,displayname,gender}} param0
    * @returns
    */

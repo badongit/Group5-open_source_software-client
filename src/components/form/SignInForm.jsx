@@ -72,7 +72,7 @@ export default function SignInForm({action}) {
                     <CheckboxField name="remember" label="Remember Me" control={control} />
                 </Grid>
                 <Grid item sx={{display: 'inline-flex', alignItems: 'center'}}>
-                    <Link href="#" variant="body2">
+                    <Link href="/auth/forgot-password" variant="body2">
                         Forgot password
                     </Link>
                 </Grid>
