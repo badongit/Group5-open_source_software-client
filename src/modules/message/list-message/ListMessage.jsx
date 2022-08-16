@@ -21,7 +21,7 @@ export default function ListMessage(props) {
 
       time = formatTime(message?.createdAt);
       displayname = message?.sender?.displayname;
-      avatarLink = message?.sender?.avatarLink
+      avatarLink = message?.sender?.avatarLink;
     }
 
     return (
@@ -29,12 +29,14 @@ export default function ListMessage(props) {
         key={index}
         type={type}
         time={time}
+        file={message.file}
         displayname={displayname}
         text={message?.text}
         avatarLink={avatarLink}
+        fileType={message.fileType}
       />
-    )
-  }
+    );
+  };
 
   return (
     <div className="list-message">

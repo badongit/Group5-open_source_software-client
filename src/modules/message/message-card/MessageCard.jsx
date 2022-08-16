@@ -4,7 +4,7 @@ import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 
 export default function MessageCard(props) {
-  const { type, time, displayname, text, avatarLink } = props;
+  const { type, time, displayname, text, file, avatarLink, fileType } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const openMore = Boolean(anchorEl);
 
@@ -15,6 +15,23 @@ export default function MessageCard(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  let content = text;
+  if (file) {
+    switch (fileType) {
+      case "image":
+        content = <img src={file} alt="message" />;
+        break;
+      case "video":
+        content = <video src={file} controls></video>;
+        break;
+      case "audio":
+        content = <audio src={file}></audio>;
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <>
@@ -33,7 +50,7 @@ export default function MessageCard(props) {
                 <div className="message-card__content-name">{displayname}</div>
               )}
               <div className="message-card__content-text">
-                {text !== "" && text}
+                {content}
                 {type === "me" ? (
                   <div className="message-card__content-text__more">
                     <Tooltip title="See more" placement="top">
@@ -74,8 +91,14 @@ export default function MessageCard(props) {
                             },
                           },
                         }}
-                        transformOrigin={{ horizontal: "right", vertical: "top" }}
-                        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                        transformOrigin={{
+                          horizontal: "right",
+                          vertical: "top",
+                        }}
+                        anchorOrigin={{
+                          horizontal: "right",
+                          vertical: "bottom",
+                        }}
                       >
                         <MenuItem>Recall, Delete</MenuItem>
                       </Menu>

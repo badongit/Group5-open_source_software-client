@@ -49,91 +49,102 @@ export default class SocketService {
   onReceiveConversations = (callback) => {
     this.socket.on(SocketEventEnum.SV_SEND_CONVERSATIONS, (data) => {
       callback(data);
-    })
-  }
+    });
+  };
 
   clientGetConversations = () => {
     this.socket.emit(SocketEventEnum.CLIENT_GET_CONVERSATIONS);
-  }
+  };
 
   // create conversation
   /**
-   * 
-   * @param {{ type: string, title: string, members: Array}} 
+   *
+   * @param {{ type: string, title: string, members: Array}}
    */
   clientCreateConversation = ({ type, title, members }) => {
     this.socket.emit(SocketEventEnum.CLIENT_CREATE_CONVERSATION, {
       type,
       title,
-      members: members.concat(this.user._id)
-    })
-  }
+      members: members.concat(this.user._id),
+    });
+  };
 
   // join room
   onInvitationJoinRoom = () => {
     this.socket.on(SocketEventEnum.SV_SEND_INVITATION_JOIN_ROOM, (data) => {
       if (data?.members.includes(this.user._id)) {
         this.socket.emit(SocketEventEnum.CLIENT_JOIN_ROOM, {
-          conversationId: data?.conversationId
-        })
+          conversationId: data?.conversationId,
+        });
       }
-      console.log("join-room",data);
-    })
-  }
+      console.log("join-room", data);
+    });
+  };
 
   // rename group
   /**
-   * 
-   * @param {{ conversationId: string, title: string}}  
+   *
+   * @param {{ conversationId: string, title: string}}
    */
   clientRenameGroup = ({ conversationId, title }) => {
     this.socket.emit(SocketEventEnum.CLIENT_RENAME_GROUP, {
       conversationId,
-      title
-    })
-  }
+      title,
+    });
+  };
 
-  // add members to conversation 
+  // add members to conversation
   clientAddToConversation = ({ conversationId, members }) => {
     this.socket.emit(SocketEventEnum.CLIENT_ADD_TO_CONVERSATION, {
       conversationId,
-      members
-    })
-  }
+      members,
+    });
+  };
 
   // leave conversation
   clientLeaveConversation = ({ userId, conversationId }) => {
     this.socket.emit(SocketEventEnum.CLIENT_LEAVE_CONVERSATION, {
       userId,
-      conversationId
-    })
-  }
+      conversationId,
+    });
+  };
 
   // send message
   /**
-   * 
-   * @param {{ text: string, conversationId: string, userId: string}} 
+   *
+   * @param {{ text: string, conversationId: string, userId: string}}
    */
-  clientSendMessage = ({ text, conversationId, userId }) => {
+  clientSendMessage = ({
+    text,
+    conversationId,
+    userId,
+    file,
+    metadata,
+    subId,
+  }) => {
+    if (!text && !file) return;
     this.socket.emit(SocketEventEnum.CLIENT_SEND_MESSAGE, {
       text,
       conversationId,
-      userId
+      file,
+      metadata,
+      userId,
+      subId,
     });
-  }
+  };
 
   onReceiveMessage = (callback) => {
     this.socket.on(SocketEventEnum.SV_SEND_MESSAGE, (data) => {
       callback(data);
     });
-  }
+  };
 
   onReceiveConversation = (callback) => {
     this.socket.on(SocketEventEnum.SV_SEND_CONVERSATION, (data) => {
       callback(data);
-    })
-  }
-  
+    });
+  };
+
   destroyAllListeners = () => {
     if (this.socket) {
       this.socket.removeAllListeners();
