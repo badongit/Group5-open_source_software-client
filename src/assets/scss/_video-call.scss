@@ -1,0 +1,66 @@
+.video-call {
+  width: 100%;
+  height: 100vh;
+  margin: 20px 0;
+
+  .call-button {
+    @include flex(center, center);
+    margin-top: 6px;
+
+    &__icon {
+      background-color: var(--text-second-color-dark);
+    }
+  }
+
+  &__top {
+    margin: 0 45px;
+    @include flex(center, flex-start);
+
+    .call-answer {
+      margin-left: 130px;
+
+      .caller {
+        @include flex(center, flex-start);
+      }
+    }
+  }
+
+  &__container {
+    margin: 10px 30px;
+    @include flex(center, space-between);
+
+    &-item {
+      width: 50%;
+      height: 65vh;
+      margin: 0 15px;
+
+      .video {
+        height: 100%;
+        background-color: var(--second-bg-dark);
+
+        video {
+          width: 100%;
+          height: 100%;
+          padding: 30px 50px;
+        }
+      }
+
+      .video-control {
+        @include flex(center, center);
+        margin-top: 10px;
+
+        & > div {
+          margin: 0 5px;
+        }
+
+        .css-78trlr-MuiButtonBase-root-MuiIconButton-root {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          @include flex(center, center);
+          background-color: var(--text-second-color-dark);
+        }
+      }
+    }
+  }
+}

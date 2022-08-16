@@ -10,10 +10,12 @@
 @import "./chat";
 @import "./upload-image";
 @import "./custom-dialog";
-@import './authenticate';
+@import "./authenticate";
 @import "./user-search";
 @import "./welcome";
 @import "./profile";
+@import "./video-call";
+
 .routes {
   width: 100%;
   height: 100vh;
