@@ -10,6 +10,7 @@ import ChatHeader from "../chat-header/ChatHeader";
 import ListMessage from "../list-message/ListMessage";
 import MessageDetail from "../message-detail/MessageDetail";
 import SendMessage from "../send-message/SendMessage";
+import { v4 as uuid } from "uuid";
 
 export default function ChatDesktop(props) {
   const {
@@ -60,20 +61,32 @@ export default function ChatDesktop(props) {
   const handleSendMessage = useCallback(
     (data) => {
       if (socket) {
-        socketService.clientSendMessage({
-          text: data?.text,
-          conversationId: conversation?._id,
-          userId: otherPeople?._id,
-        });
+        const { text, file } = data;
+        const messageEntity = {
+          subId: file?.subId || uuid(),
+        };
+
+        if (conversation?._id) {
+          messageEntity.conversationId = conversation._id;
+        } else {
+          messageEntity.userId = otherPeople?._id;
+        }
+
+        if (text) {
+          messageEntity.text = text;
+        }
+
+        if (file) {
+          messageEntity.file = file;
+          messageEntity.metadata = {
+            type: file.type,
+            name: file.name,
+            size: file.size,
+          };
+        }
+
+        socketService.clientSendMessage(messageEntity);
       }
-      // const newMessage = {
-      //   text: data?.text,
-      //   conversation: conversation?._id,
-      //   userId: otherPeople?._id,
-      //   type: "user",
-      //   sender: user,
-      // };
-      // setListMessages([newMessage, ...listMessages]);
     },
     [otherPeople, conversation, socket, socketService]
   );

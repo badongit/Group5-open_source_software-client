@@ -17,6 +17,23 @@ export default function MessageCard(props) {
     setAnchorEl(null);
   };
 
+  let content = text;
+  if (file) {
+    switch (fileType) {
+      case "image":
+        content = <img src={file} alt="message" />;
+        break;
+      case "video":
+        content = <video src={file} controls></video>;
+        break;
+      case "audio":
+        content = <audio src={file}></audio>;
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <>
       {type === "system" ? (
@@ -40,7 +57,7 @@ export default function MessageCard(props) {
                     : "message-card__content-text"
                 }
               >
-                {text !== "" && text}
+                {content}
                 {type === "me" && text !== "Message has been revoked." ? (
                   <div className="message-card__content-text__more">
                     <Tooltip title="See more" placement="top">
