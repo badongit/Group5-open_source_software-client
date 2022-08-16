@@ -4,6 +4,13 @@
   height: 100%;
   display: flex;
   flex-direction: column-reverse;
+
+  &__nextPage {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 .message-card__group {
@@ -38,6 +45,12 @@
       position: relative;
       width: fit-content;
 
+      &.recall {
+        background-color: unset !important;
+        border: 1px solid var(--text-color-light);
+        color: var(--text-color-light) !important;
+      }
+
       &__time {
         position: absolute;
         top: 50%;
@@ -69,7 +82,7 @@
           font-size: 12px;
         }
 
-        &__more { 
+        &__more {
           position: absolute;
           top: 50%;
           transform: translateY(-50%);

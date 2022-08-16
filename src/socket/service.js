@@ -121,6 +121,13 @@ export default class SocketService {
     });
   };
 
+  // recall message
+  clientRecallMessage = ({ messageId }) => {
+    this.socket.emit(SocketEventEnum.CLIENT_RECALL_MESSAGE, {
+      messageId,
+    });
+  };
+
   onReceiveMessage = (callback) => {
     this.socket.on(SocketEventEnum.SV_SEND_MESSAGE, (data) => {
       callback(data);

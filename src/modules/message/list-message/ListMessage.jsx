@@ -5,10 +5,17 @@ import MessageCard from "../message-card/MessageCard";
 
 export default function ListMessage(props) {
   const user = useCurrentUser();
-  const { messages } = props;
+  const {
+    messages,
+    lastMessageRef,
+    scrollRef,
+    onscroll,
+    scrollIntoBotRef,
+    handleClickRecallMessage,
+  } = props;
 
   const renderMessageCard = (message, index) => {
-    let type, time, displayname, avatarLink;
+    let type, time, displayname, avatarLink, timeRecall;
 
     if (type === "system") {
       type = message?.type;
@@ -20,24 +27,41 @@ export default function ListMessage(props) {
       }
 
       time = formatTime(message?.createdAt);
+      timeRecall = formatTime(message?.deletedAt);
       displayname = message?.sender?.displayname;
-      avatarLink = message?.sender?.avatarLink
+      avatarLink = message?.sender?.avatarLink;
     }
 
-    return (
+    return messages?.length === index + 1 ? (
+      <div ref={lastMessageRef}>
+        <MessageCard
+          key={index}
+          type={type}
+          time={time}
+          timeRecall={timeRecall}
+          displayname={displayname}
+          text={message?.text}
+          avatarLink={avatarLink}
+          onclick={() => handleClickRecallMessage(message)}
+        />
+      </div>
+    ) : (
       <MessageCard
         key={index}
         type={type}
         time={time}
+        timeRecall={timeRecall}
         displayname={displayname}
         text={message?.text}
         avatarLink={avatarLink}
+        onclick={() => handleClickRecallMessage(message)}
       />
-    )
-  }
+    );
+  };
 
   return (
-    <div className="list-message">
+    <div className="list-message" ref={scrollRef} onScroll={onscroll}>
+      <div ref={scrollIntoBotRef}></div>
       {messages && messages.map(renderMessageCard)}
     </div>
   );
