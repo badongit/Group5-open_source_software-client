@@ -11,11 +11,17 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import FolderSharedSharpIcon from "@mui/icons-material/FolderSharedSharp";
 import Profile from "../profile/Profile";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authLogoutAction } from "@store/auth/auth.action";
 
 export default function UserSetting({ data }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [myProfile, setmyProfile] = React.useState(false);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setmyProfile(false);
@@ -23,6 +29,14 @@ export default function UserSetting({ data }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const logout = () => {
+    sessionStorage.removeItem(global.ACCESS_TOKEN);
+    sessionStorage.removeItem(global.REFRESH_TOKEN);
+    dispatch(authLogoutAction());
+    navigate("/auth/login");
+  }
+
   return (
     <div>
       <React.Fragment>
@@ -82,7 +96,7 @@ export default function UserSetting({ data }) {
             Settings
           </MenuItem>
           <Divider />
-          <MenuItem>
+          <MenuItem onClick={logout}>
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>

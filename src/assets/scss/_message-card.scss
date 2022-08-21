@@ -88,6 +88,35 @@
           height: 100%;
         }
       }
+
+      &__normal {
+        background-color: var(--text-second-color-dark);
+        padding: 6px 10px;
+        border-radius: 20px;
+        position: relative;
+        width: fit-content;
+        @include flex(center, flex-start);
+
+        & img {
+          width: 30px;
+          height: 30px;
+          object-fit: cover;
+        }
+
+        & a {
+          color: var(--text-black);
+          text-decoration: none;
+          margin-left: 5px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-clamp: 1;
+          width: 150px;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
     }
   }
 }
@@ -116,6 +145,17 @@
           transform: translateY(-50%);
           left: unset !important;
           right: 105%;
+        }
+      }
+
+      &-file {
+        &__normal {
+          background-color: var(--second-color);
+          color: var(--text-white);
+
+          & a {
+            color: var(--text-white) !important;
+          }
         }
       }
     }

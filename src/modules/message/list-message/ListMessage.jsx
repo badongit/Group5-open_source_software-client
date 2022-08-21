@@ -40,6 +40,7 @@ export default function ListMessage(props) {
           timeRecall={timeRecall}
           file={message.file}
           fileType={message.fileType}
+          fileId={message.fileId}
           displayname={displayname}
           text={message?.text}
           avatarLink={avatarLink}
@@ -54,6 +55,7 @@ export default function ListMessage(props) {
         timeRecall={timeRecall}
         file={message.file}
         fileType={message.fileType}
+        fileId={message.fileId}
         displayname={displayname}
         text={message?.text}
         avatarLink={avatarLink}
