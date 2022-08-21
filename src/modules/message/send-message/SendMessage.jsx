@@ -6,10 +6,14 @@ import { useForm, Controller } from "react-hook-form";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
 import ListUploadCard from "@components/list-upload-card/ListUploadCard";
+import UploadFileRecord from "@components/upload-file-record/UploadFileRecord";
 
 export default function SendMessage({ handleSendMessage }) {
   const [isShowIcon, setIsShowIcon] = useState(false);
   const [files, setFiles] = useState([]);
+  const [record, setRecord] = useState(false);
+  const [isOpenRecord, setIsOpenRecord] = useState(false);
+  const [recordAudio, setRecordAudio] = useState(null);
 
   const defaultValues = {
     text: "",
@@ -29,11 +33,15 @@ export default function SendMessage({ handleSendMessage }) {
   const onEmojiClick = (event, emojiObject) => {
     setValue("text", getValues("text") + emojiObject.emoji);
   };
-
   const onsubmit = (data) => {
     handleSendMessage(data);
     files.forEach((file) => handleSendMessage({ file }));
     setFiles([]);
+    if (recordAudio) {
+      handleSendMessage({ file: recordAudio });
+      setIsOpenRecord(false);
+    }
+    setRecordAudio(null);
     reset(defaultValues);
   };
 
@@ -57,6 +65,24 @@ export default function SendMessage({ handleSendMessage }) {
     setFiles((preFiles) => preFiles.filter((file) => file.subId !== subId));
   };
 
+  const handleClickRecord = () => {
+    setRecord(!record);
+  };
+
+  const handleStopRecord = async (recordedBlob) => {
+    const blob = new Blob([recordedBlob["blob"]], {
+      type: recordedBlob.options.mimeType,
+    });
+
+    let file = new File([blob], `record-voice-${uuid()}.mp3`, {
+      type: blob.type,
+      lastModified: new Date().getTime(),
+    });
+    file.subId = uuid();
+
+    setRecordAudio(file);
+  };
+
   return (
     <div className="send-message">
       <input
@@ -74,6 +100,14 @@ export default function SendMessage({ handleSendMessage }) {
           handleChangeFilesInput={handleChangeFilesInput}
         />
       )}
+      {/* send record voice */}
+      {isOpenRecord && (
+        <UploadFileRecord
+          record={record}
+          onStop={handleStopRecord}
+          handleClickRecord={handleClickRecord}
+        />
+      )}
       <form
         onSubmit={handleSubmit(onsubmit)}
         className="send-message__form"
@@ -86,7 +120,11 @@ export default function SendMessage({ handleSendMessage }) {
               color="primary"
             />
           </label>
-          <Mic sx={{ margin: "0 5px" }} color="primary" />
+          <Mic
+            sx={{ margin: "0 5px", cursor: "pointer" }}
+            color="primary"
+            onClick={() => setIsOpenRecord(!isOpenRecord)}
+          />
         </div>
         <Controller
           control={control}

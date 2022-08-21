@@ -2,6 +2,7 @@ import { AvatarOnline } from "@components/avatar/AvatarOnline";
 import { MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import React, { useState } from "react";
+import fileBlank from "../../../assets/images/file-blank.png";
 
 export default function MessageCard(props) {
   const {
@@ -14,6 +15,7 @@ export default function MessageCard(props) {
     onclick,
     file,
     fileType,
+    fileId,
   } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const openMore = Boolean(anchorEl);
@@ -50,6 +52,16 @@ export default function MessageCard(props) {
           </div>
         );
         break;
+      case "normal":
+        content = (
+          <div className="message-card__content-file__normal">
+            <img src={fileBlank} alt="file-normal" />
+            <a href={file} download={file} target="_blank" rel="noreferrer">
+              {fileId}
+            </a>
+          </div>
+        );
+        break;
       default:
         break;
     }
@@ -73,10 +85,10 @@ export default function MessageCard(props) {
               )}
               <div
                 className={
-                  fileType
-                    ? "message-card__content-file"
-                    : text === "Message has been revoked."
+                  text === "Message has been revoked."
                     ? "message-card__content-text recall"
+                    : fileType
+                    ? "message-card__content-file"
                     : "message-card__content-text"
                 }
               >
