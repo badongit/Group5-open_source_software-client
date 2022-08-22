@@ -2,14 +2,28 @@ import React, { useEffect, useRef, useState } from "react";
 import { CustomDialog } from "@components/custom-dialog/CustomDialog";
 import { IconButton, Typography } from "@mui/material";
 import { Call, Mic, MicOff, Videocam, VideocamOff } from "@mui/icons-material";
+import { Peer } from "peerjs";
+import { useCurrentUser } from "@hooks/useCurrentUser";
 
 export default function VideoCallDetail(props) {
-  const { openVideoCallDetail, setOpenVideoCallDetail, open, setOpen } = props;
+  const {
+    openVideoCallDetail,
+    setOpenVideoCallDetail,
+    open,
+    setOpen,
+    otherPeople,
+  } = props;
+  const user = useCurrentUser();
   const [stream, setStream] = useState();
   const [camStatus, setCamStatus] = useState(true);
   const [micStatus, setMicStatus] = useState(true);
+  const [peer, setPeer] = useState(new Peer(null));
   const myVideo = useRef();
   const userVideo = useRef();
+
+  useEffect(() => {
+    setPeer(user?._id);
+  }, [user]);
 
   useEffect(() => {
     window.navigator.mediaDevices
@@ -17,11 +31,16 @@ export default function VideoCallDetail(props) {
       .then((stream) => {
         setStream(stream);
         myVideo.current.srcObject = stream;
+        const call = peer.call(otherPeople?._id, stream);
+        call.on("stream", (remoteStream) => {
+          console.log("remoteStream", remoteStream);
+          userVideo.current.srcObject = remoteStream;
+        });
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [peer, otherPeople]);
 
   const handleCamOff = () => {
     navigator.mediaDevices
@@ -46,6 +65,24 @@ export default function VideoCallDetail(props) {
         console.log(error);
       });
   };
+
+  // peer.on("call", (call) => {
+  //   navigator.mediaDevices.getUserMedia(
+  //     { video: true, audio: true },
+  //     (stream) => {
+  //       setStream(stream);
+  //       myVideo.current.srcObject = stream;
+  //       call.answer(stream);
+  //       call.on("stream", (remoteStream) => {
+  //         userVideo.current.srcObject = remoteStream;
+  //       });
+  //       setOpenVideoCallDetail(true);
+  //     },
+  //     (err) => {
+  //       console.error("Failed to get local stream", err);
+  //     }
+  //   );
+  // });
 
   const handleLeaveCall = () => {
     stream.getVideoTracks()[0].stop();

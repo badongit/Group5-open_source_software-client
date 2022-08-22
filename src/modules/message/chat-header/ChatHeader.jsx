@@ -14,7 +14,7 @@ export default function ChatHeader(props) {
     isOnline,
     onToggleMessageDetail,
     another,
-    setOpenVideoCall,
+    otherPeople,
   } = props;
   const { socket, socketService } = useAuthenticatedSocket();
   const [openVideoCallDetail, setOpenVideoCallDetail] = useState(false);
@@ -46,6 +46,7 @@ export default function ChatHeader(props) {
           <VideoCallDetail
             openVideoCallDetail={openVideoCallDetail}
             setOpenVideoCallDetail={setOpenVideoCallDetail}
+            otherPeople={otherPeople}
           />
         )}
       </div>

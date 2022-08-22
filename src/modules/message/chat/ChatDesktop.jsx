@@ -13,12 +13,7 @@ import SendMessage from "../send-message/SendMessage";
 import { v4 as uuid } from "uuid";
 
 export default function ChatDesktop(props) {
-  const {
-    conversation,
-    otherPeople,
-    handleUpdateReceiveConversation,
-    setOpenVideoCall,
-  } = props;
+  const { conversation, otherPeople, handleUpdateReceiveConversation } = props;
   const user = useCurrentUser();
   const { socket, socketService } = useAuthenticatedSocket();
   const [toggleMessageDetail, setToggleMessageDetail] = useState(false);
@@ -184,7 +179,7 @@ export default function ChatDesktop(props) {
         photoLink={photoLink}
         onToggleMessageDetail={onToggleMessageDetail}
         another={another}
-        setOpenVideoCall={setOpenVideoCall}
+        otherPeople={otherPeople}
       />
     );
   };

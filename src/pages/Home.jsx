@@ -8,7 +8,6 @@ import { SocketEventEnum } from "@socket/constants";
 import Helmet from "@components/common/Helmet";
 import { useCurrentUser } from "@hooks/useCurrentUser";
 import VideoCall from "@modules/message/video-call/video-call-ui/VideoCall";
-import VideoCallDetail from "@modules/message/video-call/video-call-detail/VideoCallDetail";
 
 function Home(props) {
   const user = useCurrentUser();
@@ -102,7 +101,6 @@ function Home(props) {
   useEffect(() => {
     if (socket) {
       socketService.onReceiveCall(handleReceiveCall);
-      console.log(123);
       setOpenVideoCall(true);
     }
     return () => {
@@ -153,7 +151,6 @@ function Home(props) {
               otherPeople={otherPeople}
               receiveConversation={handleReceiveConversation}
               handleUpdateReceiveConversation={handleUpdateReceiveConversation}
-              setOpenVideoCall={setOpenVideoCall}
             />
           </Grid>
         </Grid>
