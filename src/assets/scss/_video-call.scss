@@ -1,0 +1,92 @@
+// video call ui
+.video-call {
+  @include flex(flex-start, center);
+  position: relative;
+
+  &__close {
+    position: absolute;
+    right: 0;
+  }
+
+  &__main {
+    text-align: center;
+  }
+
+  &__icon-close,
+  &__icon-accept {
+    @include flex(center, center);
+
+    color: var(--text-white) !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  &__icon-close {
+    background-color: red !important;
+  }
+
+  &__icon-accept {
+    background-color: var(--second-color) !important;
+  }
+}
+
+// video call detail
+
+.video-call-detail {
+  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    // background-color: var(--text-second-color-dark) !important;
+    // color: #fff !important;
+    width: 100%;
+    max-width: 1200px !important;
+    height: 85vh !important;
+  }
+
+  .css-rssu75-MuiTypography-root-MuiDialogTitle-root {
+    border-bottom: unset !important;
+  }
+
+  .css-1wdu7re-MuiDialogContent-root {
+    border-bottom: unset !important;
+    padding-top: 20px !important;
+  }
+
+  &__main {
+    @include flex(center, space-between);
+    margin: 0 auto;
+
+    &-item {
+      width: 50%;
+      height: 50vh;
+      margin: 0 20px;
+
+      .video {
+        height: 100%;
+        background-color: var(--second-bg-dark);
+
+        video {
+          width: 100%;
+          height: 100%;
+          padding: 30px 50px;
+        }
+      }
+    }
+  }
+
+  &__control {
+    @include flex(center, center);
+    margin-top: 30px;
+
+    & > div {
+      margin: 0 5px;
+    }
+
+    .css-78trlr-MuiButtonBase-root-MuiIconButton-root {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      @include flex(center, center);
+      background-color: var(--text-second-color-dark);
+    }
+  }
+}
