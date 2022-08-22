@@ -151,6 +151,19 @@ export default class SocketService {
     });
   };
 
+  clientSendUserId = ({ userId, another }) => {
+    this.socket.emit(SocketEventEnum.CLIENT_SEND_USER_ID, {
+      userId,
+      another,
+    });
+  };
+
+  onReceiveCall = (callback) => {
+    this.socket.on(SocketEventEnum.SV_CALL_TO_USER, (data) => {
+      callback(data);
+    });
+  };
+
   destroyAllListeners = () => {
     if (this.socket) {
       this.socket.removeAllListeners();

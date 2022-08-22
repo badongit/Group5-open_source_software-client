@@ -7,6 +7,8 @@ import { useAuthenticatedSocket } from "@socket/hook";
 import { SocketEventEnum } from "@socket/constants";
 import Helmet from "@components/common/Helmet";
 import { useCurrentUser } from "@hooks/useCurrentUser";
+import VideoCall from "@modules/message/video-call/video-call-ui/VideoCall";
+import VideoCallDetail from "@modules/message/video-call/video-call-detail/VideoCallDetail";
 
 function Home(props) {
   const user = useCurrentUser();
@@ -15,6 +17,8 @@ function Home(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [currentConversation, setCurrentConversation] = useState(null);
   const [otherPeople, setOtherPeople] = useState(null);
+  const [caller, setCaller] = useState(null);
+  const [openVideoCall, setOpenVideoCall] = useState(false);
 
   const handleChangeCurrentConversation = (conversation) => {
     setCurrentConversation(conversation);
@@ -81,13 +85,30 @@ function Home(props) {
     if (socket) {
       time = setTimeout(() => {
         socketService.clientGetConversations();
+        socketService.clientSendUserId({ userId: user?._id, another: false });
       }, 1000);
     }
 
     return () => {
       clearTimeout(time);
     };
-  }, [socket, socketService]);
+  }, [socket, socketService, user]);
+
+  const handleReceiveCall = useCallback((data) => {
+    console.log("caller", data);
+    setCaller(data?.caller);
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      socketService.onReceiveCall(handleReceiveCall);
+      console.log(123);
+      setOpenVideoCall(true);
+    }
+    return () => {
+      socketService.destroyListeners([SocketEventEnum.SV_CALL_TO_USER]);
+    };
+  }, [socket, socketService, handleReceiveCall]);
 
   const handleUpdateReceiveConversation = (conversation) => {
     if (conversation) {
@@ -132,9 +153,13 @@ function Home(props) {
               otherPeople={otherPeople}
               receiveConversation={handleReceiveConversation}
               handleUpdateReceiveConversation={handleUpdateReceiveConversation}
+              setOpenVideoCall={setOpenVideoCall}
             />
           </Grid>
         </Grid>
+        {caller && openVideoCall && (
+          <VideoCall open={openVideoCall} setOpen={setOpenVideoCall} />
+        )}
       </Box>
     </Helmet>
   );

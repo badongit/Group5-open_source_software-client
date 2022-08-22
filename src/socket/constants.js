@@ -12,6 +12,7 @@ export const SocketEventEnum = {
   CLIENT_RENAME_GROUP: "client-rename-group",
   CLIENT_LEAVE_CONVERSATION: "client-leave-conversation",
   CLIENT_LEAVE_ROOM_SOCKET: "client-leave-room-socket",
+  CLIENT_SEND_USER_ID: "client-send-user-id",
   SV_SEND_CONVERSATION: "server-send-conversation",
   SV_SEND_INVITATION_JOIN_ROOM: "server-send-invitation-join-room",
   SV_SEND_MESSAGE: "server-send-message",
@@ -19,4 +20,5 @@ export const SocketEventEnum = {
   SV_SEND_CONVERSATIONS: "server-send-conversations",
   SV_SEND_USER_LEAVE_CONVERSATION: "server-send-user-leave-conversation",
   SV_SEND_USER: "server-send-user",
+  SV_CALL_TO_USER: "server-call-to-user",
 };

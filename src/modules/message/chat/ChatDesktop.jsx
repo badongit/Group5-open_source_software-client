@@ -13,7 +13,12 @@ import SendMessage from "../send-message/SendMessage";
 import { v4 as uuid } from "uuid";
 
 export default function ChatDesktop(props) {
-  const { conversation, otherPeople, handleUpdateReceiveConversation } = props;
+  const {
+    conversation,
+    otherPeople,
+    handleUpdateReceiveConversation,
+    setOpenVideoCall,
+  } = props;
   const user = useCurrentUser();
   const { socket, socketService } = useAuthenticatedSocket();
   const [toggleMessageDetail, setToggleMessageDetail] = useState(false);
@@ -146,6 +151,9 @@ export default function ChatDesktop(props) {
 
   const renderChatHeader = () => {
     let title, isOnline, photoLink;
+    const another = conversation.members
+      .filter((u) => u._id !== user._id)
+      .map((item) => item?._id);
 
     if (conversation || otherPeople) {
       if (conversation?.type === "group") {
@@ -175,6 +183,8 @@ export default function ChatDesktop(props) {
         isOnline={isOnline}
         photoLink={photoLink}
         onToggleMessageDetail={onToggleMessageDetail}
+        another={another}
+        setOpenVideoCall={setOpenVideoCall}
       />
     );
   };
