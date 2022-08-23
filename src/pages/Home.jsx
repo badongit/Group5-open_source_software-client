@@ -51,17 +51,20 @@ function Home(props) {
     [currentConversation, conversations]
   );
 
-  const handleUserLeaveConversation = useCallback((data) => {
-    const { conversationId, userId } = data;
-    if (userId === user._id) {
-      const newCons = conversations.filter(con => con._id !== conversationId)
-      setConversations(newCons);
+  const handleUserLeaveConversation = useCallback(
+    (data) => {
+      const { conversationId, userId } = data;
+      if (userId === user._id) {
+        const newCons = conversations.filter(
+          (con) => con._id !== conversationId
+        );
+        setConversations(newCons);
 
-      if (currentConversation._id === conversationId) {
-        setCurrentConversation(null);
+        if (currentConversation._id === conversationId) {
+          setCurrentConversation(null);
+        }
       }
-    }
-  },
+    },
     [conversations, user._id, currentConversation]
   );
 
@@ -98,7 +101,7 @@ function Home(props) {
     socketService,
     handleReceiveConversations,
     handleReceiveConversation,
-    handleUserLeaveConversation
+    handleUserLeaveConversation,
   ]);
 
   useEffect(() => {
@@ -106,7 +109,7 @@ function Home(props) {
     if (socket) {
       time = setTimeout(() => {
         socketService.clientGetConversations();
-      }, 1000);
+      }, 2000);
     }
 
     return () => {
