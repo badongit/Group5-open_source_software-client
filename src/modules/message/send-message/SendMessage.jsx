@@ -1,4 +1,11 @@
-import { AccessAlarm, CancelRounded, Image, Mic, Send, TagFaces } from "@mui/icons-material";
+import {
+  AccessAlarm,
+  CancelRounded,
+  Image,
+  Mic,
+  Send,
+  TagFaces,
+} from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import React, { useState } from "react";
@@ -9,7 +16,11 @@ import ListUploadCard from "@components/list-upload-card/ListUploadCard";
 import UploadFileRecord from "@components/upload-file-record/UploadFileRecord";
 import CreateMeeting from "@components/create-meeting-schedule/CreateMeeting";
 
-export default function SendMessage({ handleSendMessage, conversation, handleCreateMeeting }) {
+export default function SendMessage({
+  handleSendMessage,
+  conversation,
+  handleCreateMeeting,
+}) {
   const [isShowIcon, setIsShowIcon] = useState(false);
   const [files, setFiles] = useState([]);
   const [record, setRecord] = useState(false);
