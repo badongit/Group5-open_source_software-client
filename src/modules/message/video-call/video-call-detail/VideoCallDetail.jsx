@@ -12,7 +12,6 @@ import {
 import { Peer } from "peerjs";
 import { useCurrentUser } from "@hooks/useCurrentUser";
 import { useAuthenticatedSocket } from "@socket/hook";
-import { SocketEventEnum } from "@socket/constants";
 
 export default function VideoCallDetail(props) {
   const {
