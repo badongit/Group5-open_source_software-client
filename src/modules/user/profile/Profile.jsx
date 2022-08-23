@@ -19,12 +19,12 @@ import { authSetDataAction } from "@store/auth/auth.action";
 
 const Profile = ({ id, dataUser, openMyProfile, friend = true }) => {
   const [open, setopen] = useState(openMyProfile);
-  const [viewDetail, setViewDetail] = React.useState(false);
-  const [updateProfile, setUpdateProfile] = React.useState(false);
+  const [viewDetail, setViewDetail] = useState(false);
+  const [updateProfile, setUpdateProfile] = useState(false);
   const [url, setUrl] = React.useState("");
   const [fileUpload, setFileUpload] = useState(null);
   const [user, setUser] = useState(null);
-  const [datePicker, setDatePicker] = React.useState(null);
+  const [datePicker, setDatePicker] =useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
     const getUsers = async () => {

@@ -178,6 +178,7 @@ export default function ChatDesktop(props) {
         isOnline={isOnline}
         photoLink={photoLink}
         onToggleMessageDetail={onToggleMessageDetail}
+        conversation = {conversation}
       />
     );
   };
