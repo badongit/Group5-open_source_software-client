@@ -45,6 +45,7 @@ export default function ListMessage(props) {
           fileId={message.fileId}
           displayname={displayname}
           text={message?.text}
+          meeting={message?.meeting}
           avatarLink={avatarLink}
           onclick={() => handleClickRecallMessage(message)}
         />
@@ -60,6 +61,7 @@ export default function ListMessage(props) {
         fileId={message.fileId}
         displayname={displayname}
         text={message?.text}
+        meeting={message?.meeting}
         avatarLink={avatarLink}
         onclick={() => handleClickRecallMessage(message)}
       />

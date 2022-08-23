@@ -63,35 +63,14 @@ export default function CreateMeeting(props) {
         }
         content={
           <>
-            <Typography variant="body2" color="GrayText">
-              Enter title
-            </Typography>
-            <Controller
+            <Typography variant="body2" color="GrayText">Enter title</Typography>
+            <InputField
               name="title"
               control={control}
-              render={({ field, fieldState: { error } }) => (
-                <>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    placeholder="Enter new title or paste link"
-                    multiline
-                    rows={5}
-                    value={field.value}
-                    onChange={field.onChange}
-                    error={error?.message ? true : false}
-                    helperText={error?.message}
-                  />
-                </>
-              )}
               rules={{
                 required: { value: true, message: "Title is required" },
-              }}
-            />
-            <Typography variant="body2" color="GrayText">
-              Choose time
-            </Typography>
+              }} />
+            <Typography variant="body2" color="GrayText">Choose time</Typography>
             {/* <Box
               my={1}
               sx={{
@@ -142,10 +121,24 @@ export default function CreateMeeting(props) {
                 required: { value: true, message: "Time is required" },
               }}
             />
-            <Typography variant="body2" color="GrayText">
-              Description
-            </Typography>
-            <InputField name="description" control={control} />
+            <Typography variant="body2" color="GrayText">Description</Typography>
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => (
+                <>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    multiline
+                    rows={5}
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </>
+              )}
+            />
           </>
         }
         actions={

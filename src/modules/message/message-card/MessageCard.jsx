@@ -1,6 +1,7 @@
 import { AvatarOnline } from "@components/avatar/AvatarOnline";
 import { AccessAlarm, CalendarMonth, Duo, MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
+import dayjs from "dayjs";
 import React, { useState } from "react";
 import fileBlank from "../../../assets/images/file-blank.png";
 
@@ -15,7 +16,8 @@ export default function MessageCard(props) {
     onclick,
     file,
     fileType,
-    fileId
+    fileId,
+    meeting,
   } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const openMore = Boolean(anchorEl);
@@ -83,16 +85,56 @@ export default function MessageCard(props) {
             </div>
           ) : text.includes("The meeting will begin") ? (
             <div className="message-card__meeting-begin">
-              <CalendarMonth
-                color="primary"
-                sx={{ marginRight: "5px", fontSize: "40px" }}
-              />
-              <span>{text}</span>
+              <div>
+                <CalendarMonth
+                  color="primary"
+                  sx={{ marginRight: "5px", fontSize: "60px" }}
+                />
+                <div className="message-card__meeting-begin__content">
+                  <p className="message-card__meeting-begin__content-title">
+                    {meeting?.title}
+                  </p>
+                  <p className="message-card__meeting-begin__content-time">
+                    <AccessAlarm
+                      sx={{ fontSize: "14px", marginRight: "5px" }}
+                    />
+                    <span>
+                      {dayjs(meeting?.start).format("ddd, DD-MM-YYYY, HH:ss A")}
+                    </span>
+                  </p>
+                  {meeting?.description && meeting?.description !== "" && (
+                    <p className="message-card__meeting-begin__content-desc">
+                      Description: {meeting?.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <p className="message-card__meeting-begin__text">{text}</p>
             </div>
           ) : (
             <div className="message-card__meeting-starting">
-              <Duo color="info" sx={{ fontSize: "50px" }} />
-              <p>{text}</p>
+              <div>
+                <Duo color="info" sx={{ fontSize: "60px" }} />
+                <div className="message-card__meeting-starting__content">
+                  <p className="message-card__meeting-starting__content-title">
+                    {meeting?.title}
+                  </p>
+                  <p className="message-card__meeting-starting__content-time">
+                    <AccessAlarm
+                      sx={{ fontSize: "14px", marginRight: "5px" }}
+                    />
+                    <span>
+                      {dayjs(meeting?.start).format("ddd, DD-MM-YYYY, HH:ss A")}
+                    </span>
+                  </p>
+                  {meeting?.description && meeting?.description !== "" && (
+                    <p className="message-card__meeting-starting__content-desc">
+                      Description: {meeting?.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <p className="message-card__meeting-starting__text">{text}</p>
             </div>
           )}
         </div>
