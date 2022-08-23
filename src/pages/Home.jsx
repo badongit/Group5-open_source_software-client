@@ -18,6 +18,7 @@ function Home(props) {
   const [otherPeople, setOtherPeople] = useState(null);
   const [caller, setCaller] = useState(null);
   const [openVideoCall, setOpenVideoCall] = useState(false);
+  const [peerId, setPeerId] = useState("");
 
   const handleChangeCurrentConversation = (conversation) => {
     setCurrentConversation(conversation);
@@ -94,8 +95,9 @@ function Home(props) {
   }, [socket, socketService, user]);
 
   const handleReceiveCall = useCallback((data) => {
-    console.log("caller", data);
+    console.log("peerId", data.peerId);
     setCaller(data?.caller);
+    setPeerId(data.peerId);
   }, []);
 
   useEffect(() => {
@@ -155,7 +157,11 @@ function Home(props) {
           </Grid>
         </Grid>
         {caller && openVideoCall && (
-          <VideoCall open={openVideoCall} setOpen={setOpenVideoCall} />
+          <VideoCall
+            open={openVideoCall}
+            peerId={peerId}
+            setOpen={setOpenVideoCall}
+          />
         )}
       </Box>
     </Helmet>

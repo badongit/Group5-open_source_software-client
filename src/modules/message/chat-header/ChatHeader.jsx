@@ -47,6 +47,7 @@ export default function ChatHeader(props) {
             openVideoCallDetail={openVideoCallDetail}
             setOpenVideoCallDetail={setOpenVideoCallDetail}
             otherPeople={otherPeople}
+            another={another}
           />
         )}
       </div>

@@ -1,17 +1,17 @@
-import React from "react";
-import {
-  PauseCircleFilledOutlined,
-  PlayCircleFilledOutlined,
-} from "@mui/icons-material";
-import { IconButton } from "@mui/material";
-import { ReactMic } from "react-mic";
+// import React from "react";
+// import {
+//   PauseCircleFilledOutlined,
+//   PlayCircleFilledOutlined,
+// } from "@mui/icons-material";
+// import { IconButton } from "@mui/material";
+// import { ReactMic } from "react-mic";
 
 export default function UploadFileRecord(props) {
-  const { record, onStop, handleClickRecord } = props;
+  //const { record, onStop, handleClickRecord } = props;
 
   return (
     <div className="upload-file-record">
-      <ReactMic
+      {/* <ReactMic
         record={record}
         onStop={onStop}
         mimeType="audio/mp3"
@@ -27,7 +27,7 @@ export default function UploadFileRecord(props) {
             <PlayCircleFilledOutlined color="primary" />
           )}
         </IconButton>
-      </div>
+      </div> */}
     </div>
   );
 }

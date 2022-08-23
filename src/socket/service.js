@@ -151,10 +151,12 @@ export default class SocketService {
     });
   };
 
-  clientSendUserId = ({ userId, another }) => {
+  clientSendUserId = ({ userId, another, PeerId }) => {
+    console.log("gửi perr", PeerId);
     this.socket.emit(SocketEventEnum.CLIENT_SEND_USER_ID, {
       userId,
       another,
+      PeerId,
     });
   };
 

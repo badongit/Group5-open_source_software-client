@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import VideoCallDetail from "../video-call-detail/VideoCallDetail";
 
 export default function VideoCall(props) {
-  const { open, setOpen } = props;
+  const { open, setOpen, peerId } = props;
   const user = useCurrentUser();
   const [openVideoCallDetail, setOpenVideoCallDetail] = useState(false);
 
@@ -77,6 +77,7 @@ export default function VideoCall(props) {
         <VideoCallDetail
           openVideoCallDetail={openVideoCallDetail}
           setOpenVideoCallDetail={setOpenVideoCallDetail}
+          peerId={peerId}
         />
       )}
     </div>

@@ -1,9 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { CustomDialog } from "@components/custom-dialog/CustomDialog";
 import { IconButton, Typography } from "@mui/material";
-import { Call, Mic, MicOff, Videocam, VideocamOff } from "@mui/icons-material";
+import {
+  Call,
+  Mic,
+  MicOff,
+  Phone,
+  Videocam,
+  VideocamOff,
+} from "@mui/icons-material";
 import { Peer } from "peerjs";
 import { useCurrentUser } from "@hooks/useCurrentUser";
+import { useAuthenticatedSocket } from "@socket/hook";
+import { SocketEventEnum } from "@socket/constants";
 
 export default function VideoCallDetail(props) {
   const {
@@ -11,36 +20,65 @@ export default function VideoCallDetail(props) {
     setOpenVideoCallDetail,
     open,
     setOpen,
-    otherPeople,
+    another,
+    peerId,
   } = props;
   const user = useCurrentUser();
+  const { socket, socketService } = useAuthenticatedSocket();
   const [stream, setStream] = useState();
   const [camStatus, setCamStatus] = useState(true);
   const [micStatus, setMicStatus] = useState(true);
-  const [peer, setPeer] = useState(new Peer(null));
+  const [peer] = useState(new Peer());
   const myVideo = useRef();
   const userVideo = useRef();
 
   useEffect(() => {
-    setPeer(user?._id);
-  }, [user]);
+    peer.on("open", (id) => {
+      if (another) {
+        const getUserMedia = async () => {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+              video: true,
+            });
+            setStream(stream);
+            myVideo.current.srcObject = stream;
+          } catch (err) {
+            console.log(err);
+          }
+        };
+        getUserMedia();
 
-  useEffect(() => {
-    window.navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        setStream(stream);
-        myVideo.current.srcObject = stream;
-        const call = peer.call(otherPeople?._id, stream);
-        call.on("stream", (remoteStream) => {
-          console.log("remoteStream", remoteStream);
+        socketService.clientSendUserId({
+          userId: user?._id,
+          another: another,
+          PeerId: id,
+        });
+      } else {
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then((stream) => {
+            myVideo.current.srcObject = stream;
+            const call = peer.call(peerId, stream);
+            call.on("stream", function (remoteStream) {
+              console.log("remoteStream", remoteStream);
+              userVideo.current.srcObject = remoteStream;
+            });
+          });
+      }
+    });
+    var getUserMedia =
+      navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia;
+    peer.on("call", function (call) {
+      getUserMedia({ video: true, audio: true }, function (stream) {
+        call.answer(stream); // Answer the call with an A/V stream.
+        call.on("stream", function (remoteStream) {
           userVideo.current.srcObject = remoteStream;
         });
-      })
-      .catch((error) => {
-        console.log(error);
       });
-  }, [peer, otherPeople]);
+    });
+  }, [socket, socketService, peer, another, user?._id, peerId]);
 
   const handleCamOff = () => {
     navigator.mediaDevices
@@ -66,28 +104,10 @@ export default function VideoCallDetail(props) {
       });
   };
 
-  // peer.on("call", (call) => {
-  //   navigator.mediaDevices.getUserMedia(
-  //     { video: true, audio: true },
-  //     (stream) => {
-  //       setStream(stream);
-  //       myVideo.current.srcObject = stream;
-  //       call.answer(stream);
-  //       call.on("stream", (remoteStream) => {
-  //         userVideo.current.srcObject = remoteStream;
-  //       });
-  //       setOpenVideoCallDetail(true);
-  //     },
-  //     (err) => {
-  //       console.error("Failed to get local stream", err);
-  //     }
-  //   );
-  // });
-
   const handleLeaveCall = () => {
-    stream.getVideoTracks()[0].stop();
-    stream.getAudioTracks()[0].stop();
-    myVideo.current.src = "";
+    // stream.getVideoTracks()[0].stop();
+    // stream.getAudioTracks()[0].stop();
+    // myVideo.current.src = "";
     if (openVideoCallDetail) {
       setOpenVideoCallDetail(false);
     } else {
@@ -115,7 +135,7 @@ export default function VideoCallDetail(props) {
               </div>
               <div className="video-call-detail__main-item">
                 <div className="video">
-                  {stream && <video playsInline muted ref={myVideo} autoPlay />}
+                  {<video playsInline muted ref={myVideo} autoPlay />}
                 </div>
               </div>
             </div>
