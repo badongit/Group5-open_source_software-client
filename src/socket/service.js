@@ -113,11 +113,22 @@ export default class SocketService {
    *
    * @param {{ text: string, conversationId: string, userId: string}}
    */
-  clientSendMessage = ({ text, conversationId, userId }) => {
+  clientSendMessage = ({
+    text,
+    conversationId,
+    userId,
+    file,
+    metadata,
+    subId,
+  }) => {
+    if (!text && !file) return;
     this.socket.emit(SocketEventEnum.CLIENT_SEND_MESSAGE, {
       text,
       conversationId,
+      file,
+      metadata,
       userId,
+      subId,
     });
   };
 
@@ -137,6 +148,16 @@ export default class SocketService {
   onReceiveConversation = (callback) => {
     this.socket.on(SocketEventEnum.SV_SEND_CONVERSATION, (data) => {
       callback(data);
+    });
+  };
+
+  // client create meeting
+  clientCreateMeeting = ({ title, description, start, conversationId }) => {
+    this.socket.emit(SocketEventEnum.CLIENT_CREATE_MEETING, {
+      title,
+      description,
+      start,
+      conversationId,
     });
   };
 

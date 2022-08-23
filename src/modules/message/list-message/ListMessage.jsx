@@ -19,6 +19,8 @@ export default function ListMessage(props) {
 
     if (type === "system") {
       type = message?.type;
+    } else if (type === "meeting") {
+      type = message?.type;
     } else {
       if (message?.sender?._id === user?._id) {
         type = "me";
@@ -33,14 +35,17 @@ export default function ListMessage(props) {
     }
 
     return messages?.length === index + 1 ? (
-      <div ref={lastMessageRef}>
+      <div ref={lastMessageRef} key={index}>
         <MessageCard
-          key={index}
           type={type}
           time={time}
           timeRecall={timeRecall}
+          file={message.file}
+          fileType={message.fileType}
+          fileId={message.fileId}
           displayname={displayname}
           text={message?.text}
+          meeting={message?.meeting}
           avatarLink={avatarLink}
           onclick={() => handleClickRecallMessage(message)}
         />
@@ -51,8 +56,12 @@ export default function ListMessage(props) {
         type={type}
         time={time}
         timeRecall={timeRecall}
+        file={message.file}
+        fileType={message.fileType}
+        fileId={message.fileId}
         displayname={displayname}
         text={message?.text}
+        meeting={message?.meeting}
         avatarLink={avatarLink}
         onclick={() => handleClickRecallMessage(message)}
       />

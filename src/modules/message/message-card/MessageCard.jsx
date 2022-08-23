@@ -1,11 +1,24 @@
 import { AvatarOnline } from "@components/avatar/AvatarOnline";
-import { MoreVert } from "@mui/icons-material";
+import { AccessAlarm, CalendarMonth, Duo, MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
+import dayjs from "dayjs";
 import React, { useState } from "react";
+import fileBlank from "../../../assets/images/file-blank.png";
 
 export default function MessageCard(props) {
-  const { type, time, timeRecall, displayname, text, avatarLink, onclick } =
-    props;
+  const {
+    type,
+    time,
+    timeRecall,
+    displayname,
+    text,
+    avatarLink,
+    onclick,
+    file,
+    fileType,
+    fileId,
+    meeting,
+  } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const openMore = Boolean(anchorEl);
 
@@ -17,10 +30,114 @@ export default function MessageCard(props) {
     setAnchorEl(null);
   };
 
+  let content = text;
+  if (file) {
+    switch (fileType) {
+      case "image":
+        content = (
+          <div className="message-card__content-file__img">
+            <img src={file} alt="message" />
+          </div>
+        );
+        break;
+      case "video":
+        content = (
+          <div className="message-card__content-file__video">
+            <video src={file} controls></video>
+          </div>
+        );
+        break;
+      case "audio":
+        content = (
+          <div className="message-card__content-file__audio">
+            <audio src={file} controls></audio>
+          </div>
+        );
+        break;
+      case "normal":
+        content = (
+          <div className="message-card__content-file__normal">
+            <img src={fileBlank} alt="file-normal" />
+            <a href={file} download={file} target="_blank" rel="noreferrer">
+              {fileId}
+            </a>
+          </div>
+        );
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <>
       {type === "system" ? (
         <div className="message-card__group">{text}</div>
+      ) : type === "meeting" ? (
+        <div className="message-card__meeting">
+          {text.includes("created a meeting") ? (
+            <div className="message-card__meeting-created">
+              <AccessAlarm
+                color="error"
+                sx={{ marginRight: "5px", fontSize: "20px" }}
+              />
+              <span>{text}</span>
+            </div>
+          ) : text.includes("The meeting will begin") ? (
+            <div className="message-card__meeting-begin">
+              <div>
+                <CalendarMonth
+                  color="primary"
+                  sx={{ marginRight: "5px", fontSize: "60px" }}
+                />
+                <div className="message-card__meeting-begin__content">
+                  <p className="message-card__meeting-begin__content-title">
+                    {meeting?.title}
+                  </p>
+                  <p className="message-card__meeting-begin__content-time">
+                    <AccessAlarm
+                      sx={{ fontSize: "14px", marginRight: "5px" }}
+                    />
+                    <span>
+                      {dayjs(meeting?.start).format("ddd, DD-MM-YYYY, HH:ss A")}
+                    </span>
+                  </p>
+                  {meeting?.description && meeting?.description !== "" && (
+                    <p className="message-card__meeting-begin__content-desc">
+                      Description: {meeting?.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <p className="message-card__meeting-begin__text">{text}</p>
+            </div>
+          ) : (
+            <div className="message-card__meeting-starting">
+              <div>
+                <Duo color="info" sx={{ fontSize: "60px" }} />
+                <div className="message-card__meeting-starting__content">
+                  <p className="message-card__meeting-starting__content-title">
+                    {meeting?.title}
+                  </p>
+                  <p className="message-card__meeting-starting__content-time">
+                    <AccessAlarm
+                      sx={{ fontSize: "14px", marginRight: "5px" }}
+                    />
+                    <span>
+                      {dayjs(meeting?.start).format("ddd, DD-MM-YYYY, HH:ss A")}
+                    </span>
+                  </p>
+                  {meeting?.description && meeting?.description !== "" && (
+                    <p className="message-card__meeting-starting__content-desc">
+                      Description: {meeting?.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <p className="message-card__meeting-starting__text">{text}</p>
+            </div>
+          )}
+        </div>
       ) : (
         <div className={`${type === "me" ? "message-card__me" : ""}`}>
           <div className="message-card">
@@ -37,10 +154,12 @@ export default function MessageCard(props) {
                 className={
                   text === "Message has been revoked."
                     ? "message-card__content-text recall"
+                    : fileType
+                    ? "message-card__content-file"
                     : "message-card__content-text"
                 }
               >
-                {text !== "" && text}
+                {content}
                 {type === "me" && text !== "Message has been revoked." ? (
                   <div className="message-card__content-text__more">
                     <Tooltip title="See more" placement="top">

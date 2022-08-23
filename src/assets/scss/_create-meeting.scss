@@ -1,0 +1,32 @@
+.custom-button-time {
+  padding: 3px 20px !important;
+  border-radius: 20px !important;
+  background-color: var(--text-color-dark) !important;
+  color: var(--text-black) !important;
+  font-size: 13px !important;
+  text-transform: lowercase !important;
+
+  & ~ & {
+    margin: 0 5px;
+  }
+
+  &.active {
+    color: var(--second-color) !important;
+  }
+}
+
+.create-meeting {
+  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    width: 500px !important;
+  }
+
+  &__title {
+    @include flex(center, space-between);
+    position: relative;
+
+    &-close {
+      position: absolute;
+      right: 0;
+    }
+  }
+}

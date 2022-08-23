@@ -11,10 +11,15 @@
 @import "./upload-image";
 @import "./custom-dialog";
 @import "./conversation-group";
-@import './authenticate';
+@import "./authenticate";
 @import "./user-search";
 @import "./welcome";
 @import "./profile";
+@import "./upload-card";
+@import "./list-upload-card";
+@import "./upload-file-record";
+@import "./create-meeting";
+
 .routes {
   width: 100%;
   height: 100vh;
@@ -27,4 +32,8 @@
     width: 100%;
     height: 100%;
   }
+}
+
+button {
+  cursor: pointer;
 }
