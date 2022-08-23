@@ -8,6 +8,7 @@ import {
   Logout,
   MoreHoriz,
   OndemandVideo,
+  PeopleAlt,
 } from "@mui/icons-material";
 import {
   Button,
@@ -31,15 +32,10 @@ import CustomMenu from "@components/custom-menu/CustomMenu";
 import conversationServices from "@services/conversation.services";
 import { toast } from "react-toastify";
 import { useAuthenticatedSocket } from "@socket/hook";
+import AddConversationGroup from "@modules/conversation/add-conversation-group/AddConversationGroup";
 
 export default function MessageDetail(props) {
-  const {
-    conversation,
-    otherPeople,
-    setToggleMessageDetail,
-    handleRenameGroup,
-    handleUpdateReceiveConversation,
-  } = props;
+  const { conversation, otherPeople, setToggleMessageDetail, handleRenameGroup, handleUpdateReceiveConversation, handleAddNewMember } = props;
   const user = useCurrentUser();
   const { socket, socketService } = useAuthenticatedSocket();
   const [openModalUpload, setOpenModalUpload] = useState(false);
@@ -50,10 +46,9 @@ export default function MessageDetail(props) {
   const isOpenMenuUser = Boolean(menuAnchorEl);
   const isOpenMenuAdmin = Boolean(menuAdminAnchorEl);
   const [memberGroup, setMemberGroup] = useState(null);
-
-  const checkAdmin = conversation?.admin.find(
-    (admin) => admin?._id === user?._id
-  );
+  const [isAddMember, setIsAddMember] = useState(false);
+  
+  const checkAdmin = conversation?.admin.find(admin => admin?._id === user?._id);
 
   const defaultValues = {
     title: "",
@@ -377,7 +372,7 @@ export default function MessageDetail(props) {
                   title: "Rename the group",
                   icon: <Edit />,
                   isChangeName: true,
-                },
+                }
               ]}
               handleClickItem={() => setIsChangeNameGroup(true)}
             />
@@ -410,6 +405,23 @@ export default function MessageDetail(props) {
           ) : (
             ""
           )}
+          {type === "group" ? (
+            <CollapsedItem
+              id={4}
+              name="More"
+              dataCollapsed={[
+                {
+                  id: 1,
+                  title: "Add member",
+                  icon: <PeopleAlt />,
+                  isAddMember: true,
+                },
+              ]}
+              handleClickItem={() => setIsAddMember(true)}
+            />
+          ) : (
+            ""
+          )}
         </List>
       </div>
       {/* leave group */}
@@ -430,7 +442,15 @@ export default function MessageDetail(props) {
           }
           actions={
             <Box>
-              <Button size="small" variant="contained" color="primary">
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  handleLeaveGroup(user?._id);
+                  setIsLeaveGroup(false);
+                }}
+              >
                 leave
               </Button>
               <Button
@@ -496,6 +516,16 @@ export default function MessageDetail(props) {
               </Button>
             </Box>
           }
+        />
+      )}
+      {/* add member */}
+      {isAddMember && (
+        <AddConversationGroup
+          Show={isAddMember}
+          onCancel={() => setIsAddMember(false)}
+          isAddPeople={true}
+          conversationDetail={conversation}
+          handleAddNewMember={handleAddNewMember}
         />
       )}
     </div>

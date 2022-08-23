@@ -9,8 +9,9 @@ import Divider from "@mui/material/Divider";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import useUser from "@hooks/useUser";
 
-const AddConversationGroup = ({ Show, onCancel, handleCreateConversation }) => {
-  const { listUser, handleSearchUser } = useUser();
+const AddConversationGroup = ({ Show, onCancel, handleCreateConversation, isAddPeople, conversationDetail, handleAddNewMember }) => {
+  const idMembers = conversationDetail?.members.map(m => m._id);
+  const { listUser, handleSearchUser } = useUser(!isAddPeople ? null : idMembers);
   const [ltUser, setLtUser] = useState([]);
   const [userSelected, setUserSelected] = useState([]);
   const [fileUpload, setFileUpload] = useState(null);
@@ -66,11 +67,22 @@ const AddConversationGroup = ({ Show, onCancel, handleCreateConversation }) => {
     }
   };
 
+  const onAdd = () => {
+    const members = userSelected.map((item) => item._id);
+    if (members.length > 0 && conversationDetail?._id) {
+      handleAddNewMember({
+        conversationId: conversationDetail._id,
+        members,
+      });
+      onCancel();
+    }
+  }
+
   return (
     <div className="cv-gr">
       <CustomDialog
         open={Show}
-        title="Create group"
+        title={!isAddPeople ? "Create group" : "Add member"}
         className="custom-dialog__title conversation-group"
         iconBtn={
           <div className="custom-dialog__title-icon">
@@ -81,35 +93,37 @@ const AddConversationGroup = ({ Show, onCancel, handleCreateConversation }) => {
         }
         content={
           <div className="conversation-group_content">
-            <div className="content_header">
-              <div className="avt">
-                <label htmlFor="input-upload">
-                  {fileUpload == null ? (
-                    <CameraEnhanceIcon />
-                  ) : (
-                    <img
-                      src={fileUpload && URL.createObjectURL(fileUpload)}
-                      alt=""
-                    />
-                  )}
-                </label>
-                <input
-                  accept="image/*"
-                  className="upload-image__input-upload"
-                  id="input-upload"
-                  type="file"
-                  onChange={handleChangeFile}
-                />
+            {!isAddPeople && (
+              <div className="content_header">
+                <div className="avt">
+                  <label htmlFor="input-upload">
+                    {fileUpload == null ? (
+                      <CameraEnhanceIcon />
+                    ) : (
+                      <img
+                        src={fileUpload && URL.createObjectURL(fileUpload)}
+                        alt=""
+                      />
+                    )}
+                  </label>
+                  <input
+                    accept="image/*"
+                    className="upload-image__input-upload"
+                    id="input-upload"
+                    type="file"
+                    onChange={handleChangeFile}
+                  />
+                </div>
+                <div className="name-group">
+                  <Input
+                    fullWidth={true}
+                    placeholder={"Enter group name..."}
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="name-group">
-                <Input
-                  fullWidth={true}
-                  placeholder={"Enter group name..."}
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </div>
-            </div>
+            )}
             <div className="add-friend-title">Add you to the group</div>
             <div className="search">
               <PersonSearchIcon className="icon" />
@@ -185,13 +199,13 @@ const AddConversationGroup = ({ Show, onCancel, handleCreateConversation }) => {
               size="small"
               variant="contained"
               color="primary"
-              onClick={SaveGroup}
+              onClick={!isAddPeople ? SaveGroup : onAdd}
               className={
                 "btn-create-group " +
-                (userSelected.length > 1 && title ? "action" : "")
+                ((userSelected.length > 1 && title) || (userSelected.length > 0 && isAddPeople) ? "action" : "")
               }
             >
-              Create
+              {!isAddPeople ? "Create" : "Add"}
             </Button>
           </Box>
         }
