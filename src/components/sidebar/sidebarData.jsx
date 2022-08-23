@@ -11,18 +11,18 @@ export const sidebarDataTop = [
     icon: <Message />,
   },
   {
-    path: "/friends",
+    // path: "/friends",
     icon: <People />,
   },
 ];
 
 export const sidebarDataBottom = [
   {
-    path: "/settings",
+    // path: "/settings",
     icon: <NotificationsNone />,
   },
   {
-    path: "/settings",
+    // path: "/settings",
     icon: <Settings />,
   },
 ];

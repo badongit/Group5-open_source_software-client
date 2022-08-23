@@ -10,7 +10,15 @@ import {
   OndemandVideo,
   PeopleAlt,
 } from "@mui/icons-material";
-import { Button, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import UploadImage from "@components/upload-image/UploadImage";
 import { AvatarOnline } from "@components/avatar/AvatarOnline";
 import CollapsedItem from "@components/collapsed-item/CollapsedItem";
@@ -22,7 +30,7 @@ import { useForm } from "react-hook-form";
 import CustomTab from "@components/custom-tab/CustomTab";
 import CustomMenu from "@components/custom-menu/CustomMenu";
 import conversationServices from "@services/conversation.services";
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 import { useAuthenticatedSocket } from "@socket/hook";
 import AddConversationGroup from "@modules/conversation/add-conversation-group/AddConversationGroup";
 
@@ -94,32 +102,38 @@ export default function MessageDetail(props) {
   };
 
   // role: [members | admin]
-  const handleChangeRole = useCallback(async (userId, role) => {
-    try {
-      if (!userId || !role) return;
+  const handleChangeRole = useCallback(
+    async (userId, role) => {
+      try {
+        if (!userId || !role) return;
 
-      const response = await conversationServices.changeRole({
-        conversationId: conversation?._id,
-        userId,
-        role
-      });
-      if (response?.success) {
-        handleUpdateReceiveConversation(response?.data?.conversation);
-        if (role === "admin") {
-          toast.success("Add admin successfully!");
-        } else {
-          toast.success("Remove admin successfully!");
+        const response = await conversationServices.changeRole({
+          conversationId: conversation?._id,
+          userId,
+          role,
+        });
+        if (response?.success) {
+          handleUpdateReceiveConversation(response?.data?.conversation);
+          if (role === "admin") {
+            toast.success("Add admin successfully!");
+          } else {
+            toast.success("Remove admin successfully!");
+          }
         }
+      } catch (error) {
+        toast.error("Error");
       }
-    } catch (error) {
-      toast.error("Error");
-    }
-  }, [conversation, handleUpdateReceiveConversation])
-  
+    },
+    [conversation, handleUpdateReceiveConversation]
+  );
+
   // upload photo
   const handleUploadPhoto = async (formData) => {
     try {
-      const response = await conversationServices.uploadPhoto(conversation?._id, formData);
+      const response = await conversationServices.uploadPhoto(
+        conversation?._id,
+        formData
+      );
       if (response?.success) {
         toast.success("Update successfully!");
         handleUpdateReceiveConversation(response?.data?.conversation);
@@ -127,19 +141,22 @@ export default function MessageDetail(props) {
     } catch (error) {
       toast.error("Upload photo error.");
     }
-  }
+  };
 
   // leave group
-  const handleLeaveGroup = useCallback((userId) => {
-    if (!userId) return;
+  const handleLeaveGroup = useCallback(
+    (userId) => {
+      if (!userId) return;
 
-    if (socket) {
-      socketService.clientLeaveConversation({
-        userId,
-        conversationId: conversation?._id
-      });
-    }
-  }, [socket, socketService, conversation])
+      if (socket) {
+        socketService.clientLeaveConversation({
+          userId,
+          conversationId: conversation?._id,
+        });
+      }
+    },
+    [socket, socketService, conversation]
+  );
 
   useEffect(() => {
     if (conversation?.type === "group") {
@@ -242,6 +259,7 @@ export default function MessageDetail(props) {
                                 <CustomMenu
                                   menuAnchorEl={menuAnchorEl}
                                   isOpen={isOpenMenuUser}
+                                  onClose={() => setMenuAnchorEl(null)}
                                   listMenu={[
                                     {
                                       text: "Remove from group",
