@@ -1,5 +1,5 @@
 import { AvatarOnline } from "@components/avatar/AvatarOnline";
-import { MoreVert } from "@mui/icons-material";
+import { AccessAlarm, CalendarMonth, Duo, MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import fileBlank from "../../../assets/images/file-blank.png";
@@ -15,7 +15,7 @@ export default function MessageCard(props) {
     onclick,
     file,
     fileType,
-    fileId,
+    fileId
   } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const openMore = Boolean(anchorEl);
@@ -71,6 +71,31 @@ export default function MessageCard(props) {
     <>
       {type === "system" ? (
         <div className="message-card__group">{text}</div>
+      ) : type === "meeting" ? (
+        <div className="message-card__meeting">
+          {text.includes("created a meeting") ? (
+            <div className="message-card__meeting-created">
+              <AccessAlarm
+                color="error"
+                sx={{ marginRight: "5px", fontSize: "20px" }}
+              />
+              <span>{text}</span>
+            </div>
+          ) : text.includes("The meeting will begin") ? (
+            <div className="message-card__meeting-begin">
+              <CalendarMonth
+                color="primary"
+                sx={{ marginRight: "5px", fontSize: "40px" }}
+              />
+              <span>{text}</span>
+            </div>
+          ) : (
+            <div className="message-card__meeting-starting">
+              <Duo color="info" sx={{ fontSize: "50px" }} />
+              <p>{text}</p>
+            </div>
+          )}
+        </div>
       ) : (
         <div className={`${type === "me" ? "message-card__me" : ""}`}>
           <div className="message-card">

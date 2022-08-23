@@ -151,6 +151,16 @@ export default class SocketService {
     });
   };
 
+  // client create meeting
+  clientCreateMeeting = ({ title, description, start, conversationId }) => {
+    this.socket.emit(SocketEventEnum.CLIENT_CREATE_MEETING, {
+      title,
+      description,
+      start,
+      conversationId,
+    });
+  };
+
   destroyAllListeners = () => {
     if (this.socket) {
       this.socket.removeAllListeners();

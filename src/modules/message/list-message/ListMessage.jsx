@@ -19,6 +19,8 @@ export default function ListMessage(props) {
 
     if (type === "system") {
       type = message?.type;
+    } else if (type === "meeting") {
+      type = message?.type;
     } else {
       if (message?.sender?._id === user?._id) {
         type = "me";
