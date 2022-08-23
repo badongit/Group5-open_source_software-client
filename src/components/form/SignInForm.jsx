@@ -16,7 +16,7 @@ export default function SignInForm({action}) {
         defaultValues: {
             username: '',
             password: '',
-            remember: false
+            remember: true
         }
     });
     const [loginErrors, setLoginErrors] = useState(null);
@@ -29,6 +29,10 @@ export default function SignInForm({action}) {
             .then(result => {
                 sessionStorage.setItem(global.ACCESS_TOKEN, result.data.accessToken);
                 sessionStorage.setItem(global.REFRESH_TOKEN, result.data.refreshToken);
+                localStorage.setItem('remember', JSON.stringify({
+                  token: result.data?.remember?.token || null,
+                  userId: result.data?.remember?.userId || null
+                }));
                 dispatch(authAuthenticatedAction())
                 navigate('/');
             })

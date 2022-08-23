@@ -33,6 +33,10 @@ const authServices = {
     return axiosClient.get(endpoints.authGetProfile);
   },
 
+  checkRemember: ({token, userId}) => {
+    return axiosClient.post(endpoints.authCheckRemember, { token, userId });
+  },
+
   logout: () => {
     return axiosClient.get(endpoints.authLogout);
   },

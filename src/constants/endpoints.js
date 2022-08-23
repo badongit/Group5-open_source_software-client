@@ -9,6 +9,7 @@ export const endpoints = {
   authResetPassword: "/auth/reset-password",
   authUploadAvatar: "/auth/avatar",
   authChangePassword: "/auth/change-password",
+  authCheckRemember: "/auth/check-remember",
   userGetInfo: "/users",
   messagesGet: "/messages",
   conversations: "/conversations",
