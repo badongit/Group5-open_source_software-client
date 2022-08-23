@@ -36,7 +36,7 @@ export default function CollapsedItem({ id, name, dataCollapsed, handleClickItem
               <ListItem
                 button
                 key={item.id || item._id}
-                onClick={item.isLeave || item.isChangeName || item.isAddPeople ? handleClickItem : null}
+                onClick={item.isLeave || item.isChangeName || item.isAddMember ? handleClickItem : null}
               >
                 {item.icon && <ListItemIcon sx={{ minWidth: "30px"}}>{item.icon}</ListItemIcon>}
                 {item.avatarLink && (

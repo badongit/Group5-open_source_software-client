@@ -4,7 +4,6 @@ import { CircularProgress } from "@mui/material";
 
 export default function UserSearch(props) {
   const { listUser, isLoading, handleClickUser } = props;
-
   return (
     <div className="user-search">
       {isLoading ? (

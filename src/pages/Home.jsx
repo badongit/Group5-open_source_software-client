@@ -51,14 +51,37 @@ function Home(props) {
     [currentConversation, conversations]
   );
 
+  const handleUserLeaveConversation = useCallback((data) => {
+    const { conversationId, userId } = data;
+    if (userId === user._id) {
+      const newCons = conversations.filter(con => con._id !== conversationId)
+      setConversations(newCons);
+
+      if (currentConversation._id === conversationId) {
+        setCurrentConversation(null);
+      }
+    }
+  },
+    [conversations, user._id, currentConversation]
+  );
+
   useEffect(() => {
     if (socket) {
       socketService.setUser(user);
+      socketService.onInvitationJoinRoom();
     }
+
+    return () => {
+      socketService.destroyListeners([
+        SocketEventEnum.SV_SEND_USER,
+        SocketEventEnum.SV_SEND_INVITATION_JOIN_ROOM,
+      ]);
+    };
   }, [socket, socketService, user]);
 
   useEffect(() => {
     if (socket) {
+      socketService.onUserLeaveConversation(handleUserLeaveConversation);
       socketService.onReceiveConversations(handleReceiveConversations);
       socketService.onReceiveConversation(handleReceiveConversation);
     }
@@ -67,6 +90,7 @@ function Home(props) {
       socketService.destroyListeners([
         SocketEventEnum.SV_SEND_CONVERSATIONS,
         SocketEventEnum.SV_SEND_CONVERSATION,
+        SocketEventEnum.SV_SEND_USER_LEAVE_CONVERSATION,
       ]);
     };
   }, [
@@ -74,6 +98,7 @@ function Home(props) {
     socketService,
     handleReceiveConversations,
     handleReceiveConversation,
+    handleUserLeaveConversation
   ]);
 
   useEffect(() => {

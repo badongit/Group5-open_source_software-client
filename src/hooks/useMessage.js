@@ -17,6 +17,7 @@ const useMessages = () => {
     startIndex: 0,
     limit: config.LIMIT,
   });
+  // console.log("currentConversation", currentConversation);
   const observer = useRef();
   const lastMessageRef = useCallback(
     (node) => {
@@ -34,6 +35,7 @@ const useMessages = () => {
   );
 
   useEffect(() => {
+    setListMessage([]);
     setPagination({ total: 0, next: { startIndex: 0, limit: 0 } });
   }, [currentConversation]);
 

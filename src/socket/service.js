@@ -161,6 +161,12 @@ export default class SocketService {
     });
   };
 
+  onUserLeaveConversation = (callback) => {
+    this.socket.on(SocketEventEnum.SV_SEND_USER_LEAVE_CONVERSATION, (data) => {
+      callback(data);
+    });
+  }
+
   destroyAllListeners = () => {
     if (this.socket) {
       this.socket.removeAllListeners();

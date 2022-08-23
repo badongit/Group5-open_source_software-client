@@ -122,6 +122,15 @@ export default function ChatDesktop(props) {
     [socket, socketService]
   );
 
+  const handleAddNewMember = useCallback(({conversationId, members}) => {
+    if (socket) {
+      socketService.clientAddToConversation({
+        conversationId,
+        members
+      })
+    }
+  }, [socket, socketService])
+
   const handleReceiveMessage = useCallback(
     (data) => {
       if (data?.message?._id === messageDetail?._id) {
@@ -244,6 +253,7 @@ export default function ChatDesktop(props) {
             setToggleMessageDetail={() => setToggleMessageDetail(false)}
             handleRenameGroup={handleRenameGroup}
             handleUpdateReceiveConversation={handleUpdateReceiveConversation}
+            handleAddNewMember={handleAddNewMember}
           />
         </Grid>
       )}
