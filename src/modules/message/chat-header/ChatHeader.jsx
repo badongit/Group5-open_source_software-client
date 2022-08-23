@@ -1,21 +1,27 @@
 import { AvatarOnline } from "@components/avatar/AvatarOnline";
+import { useCurrentUser } from "@hooks/useCurrentUser";
 import Profile from "@modules/user/profile/Profile";
 import { Error, Phone, VideoCameraBack } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import React from "react";
 
 export default function ChatHeader(props) {
+  const user = useCurrentUser();
   const { title, photoLink, isOnline, onToggleMessageDetail ,conversation} = props;
   const [myProfile, setmyProfile] = React.useState(false);
+  const [id, setId] = React.useState("");
 
   const ProfileFriend = ()=>{
-    console.log(conversation);
+    if(conversation.type === "private"){
+      setId(conversation.members.filter(u => u._id !== user._id)[0]._id);
+      setmyProfile(true) 
+    }
   }
   return (
     <div className="chat-header">
-      <div className="chat-header__left">
+      <div className="chat-header__left" onClick = {ProfileFriend}>
         <AvatarOnline
-        onClick = {ProfileFriend}
+        
           src={photoLink}
           dot={isOnline}
           size="small"
@@ -34,7 +40,7 @@ export default function ChatHeader(props) {
         </IconButton>
       </div>
       {myProfile && (
-        <Profile openMyProfile={myProfile} id = {"123"} />
+        <Profile openMyProfile={myProfile} id = {id} />
       )}
     </div>
   );
