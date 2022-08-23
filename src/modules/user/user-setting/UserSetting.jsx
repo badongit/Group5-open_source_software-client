@@ -14,6 +14,7 @@ import Profile from "../profile/Profile";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authLogoutAction } from "@store/auth/auth.action";
+import { global } from "@constants/global";
 
 export default function UserSetting({ data }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -35,7 +36,7 @@ export default function UserSetting({ data }) {
     sessionStorage.removeItem(global.REFRESH_TOKEN);
     dispatch(authLogoutAction());
     navigate("/auth/login");
-  }
+  };
 
   return (
     <div>
