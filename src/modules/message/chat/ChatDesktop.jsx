@@ -110,6 +110,18 @@ export default function ChatDesktop(props) {
     [socket, socketService]
   );
 
+  /**
+   * data: title, description, start, conversationId
+   */
+  const handleCreateMeeting = useCallback(
+    (data) => {
+      if (socket) {
+        socketService.clientCreateMeeting(data);
+      }
+    },
+    [socket, socketService]
+  );
+
   const handleReceiveMessage = useCallback(
     (data) => {
       if (data?.message?._id === messageDetail?._id) {
@@ -216,7 +228,11 @@ export default function ChatDesktop(props) {
             )}
           </div>
           <div className="chat-desktop__sendIcon">
-            <SendMessage handleSendMessage={handleSendMessage} />
+            <SendMessage
+              handleSendMessage={handleSendMessage}
+              conversation={conversation}
+              handleCreateMeeting={handleCreateMeeting}
+            />
           </div>
         </Box>
       </Grid>

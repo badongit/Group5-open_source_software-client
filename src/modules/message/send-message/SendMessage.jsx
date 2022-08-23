@@ -1,4 +1,4 @@
-import { CancelRounded, Image, Mic, Send, TagFaces } from "@mui/icons-material";
+import { AccessAlarm, CancelRounded, Image, Mic, Send, TagFaces } from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import React, { useState } from "react";
@@ -7,13 +7,15 @@ import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
 import ListUploadCard from "@components/list-upload-card/ListUploadCard";
 import UploadFileRecord from "@components/upload-file-record/UploadFileRecord";
+import CreateMeeting from "@components/create-meeting-schedule/CreateMeeting";
 
-export default function SendMessage({ handleSendMessage }) {
+export default function SendMessage({ handleSendMessage, conversation, handleCreateMeeting }) {
   const [isShowIcon, setIsShowIcon] = useState(false);
   const [files, setFiles] = useState([]);
   const [record, setRecord] = useState(false);
   const [isOpenRecord, setIsOpenRecord] = useState(false);
   const [recordAudio, setRecordAudio] = useState(null);
+  const [isCreateMeeting, setIsCreateMeeting] = useState(false);
 
   const defaultValues = {
     text: "",
@@ -108,6 +110,15 @@ export default function SendMessage({ handleSendMessage }) {
           handleClickRecord={handleClickRecord}
         />
       )}
+      {/* create a meeting schedule */}
+      {isCreateMeeting && (
+        <CreateMeeting
+          isCreateMeeting={isCreateMeeting}
+          setIsCreateMeeting={setIsCreateMeeting}
+          conversation={conversation}
+          onCreateMeeting={handleCreateMeeting}
+        />
+      )}
       <form
         onSubmit={handleSubmit(onsubmit)}
         className="send-message__form"
@@ -120,11 +131,17 @@ export default function SendMessage({ handleSendMessage }) {
               color="primary"
             />
           </label>
-          <Mic
-            sx={{ margin: "0 5px", cursor: "pointer" }}
-            color="primary"
+          <IconButton
+            sx={{ margin: "0 5px" }}
             onClick={() => setIsOpenRecord(!isOpenRecord)}
-          />
+          >
+            <Mic color="primary" />
+          </IconButton>
+          {conversation?.type === "group" && (
+            <IconButton onClick={() => setIsCreateMeeting(!isCreateMeeting)}>
+              <AccessAlarm color="primary" />
+            </IconButton>
+          )}
         </div>
         <Controller
           control={control}
