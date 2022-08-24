@@ -19,6 +19,8 @@ export default function ListMessage(props) {
 
     if (type === "system") {
       type = message?.type;
+    } else if (type === "meeting") {
+      type = message?.type;
     } else {
       if (message?.sender?._id === user?._id) {
         type = "me";
@@ -43,6 +45,7 @@ export default function ListMessage(props) {
           fileId={message.fileId}
           displayname={displayname}
           text={message?.text}
+          meeting={message?.meeting}
           avatarLink={avatarLink}
           onclick={() => handleClickRecallMessage(message)}
         />
@@ -58,6 +61,7 @@ export default function ListMessage(props) {
         fileId={message.fileId}
         displayname={displayname}
         text={message?.text}
+        meeting={message?.meeting}
         avatarLink={avatarLink}
         onclick={() => handleClickRecallMessage(message)}
       />

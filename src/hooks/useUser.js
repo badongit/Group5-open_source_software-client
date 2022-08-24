@@ -2,7 +2,7 @@ import userServices from "@services/user.services";
 import { useCallback, useEffect, useState } from "react";
 import { useCurrentUser } from "./useCurrentUser";
 
-const useUser = () => {
+const useUser = (usersRemove) => {
   const user = useCurrentUser();
   const [listUser, setListUser] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -11,8 +11,13 @@ const useUser = () => {
     startIndex: 0,
     limit: 10,
     keyword: "",
-    "_id[nin]": user?._id,
+    "_id[nin]": [user?._id]
   };
+  
+  if (usersRemove) {
+    initialConditions["_id[nin]"] = initialConditions["_id[nin]"].concat(usersRemove);
+  }
+
 	const [conditions, setConditions] = useState(initialConditions);
 
   useEffect(() => {

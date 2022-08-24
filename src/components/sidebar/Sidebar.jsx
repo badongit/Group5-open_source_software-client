@@ -22,7 +22,11 @@ function Sidebar(props) {
             <div
               key={index}
               className={`sidebar-icon ${activeTop === index ? "active" : ""}`}
-              onClick={() => navigate(`${item.path}`)}
+              onClick={() => {
+                if (item.path) {
+                  navigate(`${item.path}`);
+                }
+              }}
             >
               {item.icon}
             </div>
@@ -35,7 +39,11 @@ function Sidebar(props) {
             <div
               key={index}
               className={`sidebar-icon ${activeBot === index ? "active" : ""}`}
-              onClick={() => navigate(`${item.path}`)}
+              onClick={() => {
+                if (item.path) {
+                  navigate(`${item.path}`);
+                }
+              }}
             >
               {item.icon}
             </div>

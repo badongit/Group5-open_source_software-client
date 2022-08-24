@@ -8,8 +8,17 @@ import {
   Logout,
   MoreHoriz,
   OndemandVideo,
+  PeopleAlt,
 } from "@mui/icons-material";
-import { Button, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import UploadImage from "@components/upload-image/UploadImage";
 import { AvatarOnline } from "@components/avatar/AvatarOnline";
 import CollapsedItem from "@components/collapsed-item/CollapsedItem";
@@ -21,11 +30,12 @@ import { useForm } from "react-hook-form";
 import CustomTab from "@components/custom-tab/CustomTab";
 import CustomMenu from "@components/custom-menu/CustomMenu";
 import conversationServices from "@services/conversation.services";
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 import { useAuthenticatedSocket } from "@socket/hook";
+import AddConversationGroup from "@modules/conversation/add-conversation-group/AddConversationGroup";
 
 export default function MessageDetail(props) {
-  const { conversation, otherPeople, setToggleMessageDetail, handleRenameGroup, handleUpdateReceiveConversation } = props;
+  const { conversation, otherPeople, setToggleMessageDetail, handleRenameGroup, handleUpdateReceiveConversation, handleAddNewMember } = props;
   const user = useCurrentUser();
   const { socket, socketService } = useAuthenticatedSocket();
   const [openModalUpload, setOpenModalUpload] = useState(false);
@@ -36,6 +46,7 @@ export default function MessageDetail(props) {
   const isOpenMenuUser = Boolean(menuAnchorEl);
   const isOpenMenuAdmin = Boolean(menuAdminAnchorEl);
   const [memberGroup, setMemberGroup] = useState(null);
+  const [isAddMember, setIsAddMember] = useState(false);
   
   const checkAdmin = conversation?.admin.find(admin => admin?._id === user?._id);
 
@@ -91,32 +102,38 @@ export default function MessageDetail(props) {
   };
 
   // role: [members | admin]
-  const handleChangeRole = useCallback(async (userId, role) => {
-    try {
-      if (!userId || !role) return;
+  const handleChangeRole = useCallback(
+    async (userId, role) => {
+      try {
+        if (!userId || !role) return;
 
-      const response = await conversationServices.changeRole({
-        conversationId: conversation?._id,
-        userId,
-        role
-      });
-      if (response?.success) {
-        handleUpdateReceiveConversation(response?.data?.conversation);
-        if (role === "admin") {
-          toast.success("Add admin successfully!");
-        } else {
-          toast.success("Remove admin successfully!");
+        const response = await conversationServices.changeRole({
+          conversationId: conversation?._id,
+          userId,
+          role,
+        });
+        if (response?.success) {
+          handleUpdateReceiveConversation(response?.data?.conversation);
+          if (role === "admin") {
+            toast.success("Add admin successfully!");
+          } else {
+            toast.success("Remove admin successfully!");
+          }
         }
+      } catch (error) {
+        toast.error("Error");
       }
-    } catch (error) {
-      toast.error("Error");
-    }
-  }, [conversation, handleUpdateReceiveConversation])
-  
+    },
+    [conversation, handleUpdateReceiveConversation]
+  );
+
   // upload photo
   const handleUploadPhoto = async (formData) => {
     try {
-      const response = await conversationServices.uploadPhoto(conversation?._id, formData);
+      const response = await conversationServices.uploadPhoto(
+        conversation?._id,
+        formData
+      );
       if (response?.success) {
         toast.success("Update successfully!");
         handleUpdateReceiveConversation(response?.data?.conversation);
@@ -124,19 +141,22 @@ export default function MessageDetail(props) {
     } catch (error) {
       toast.error("Upload photo error.");
     }
-  }
+  };
 
   // leave group
-  const handleLeaveGroup = useCallback((userId) => {
-    if (!userId) return;
+  const handleLeaveGroup = useCallback(
+    (userId) => {
+      if (!userId) return;
 
-    if (socket) {
-      socketService.clientLeaveConversation({
-        userId,
-        conversationId: conversation?._id
-      });
-    }
-  }, [socket, socketService, conversation])
+      if (socket) {
+        socketService.clientLeaveConversation({
+          userId,
+          conversationId: conversation?._id,
+        });
+      }
+    },
+    [socket, socketService, conversation]
+  );
 
   useEffect(() => {
     if (conversation?.type === "group") {
@@ -197,103 +217,141 @@ export default function MessageDetail(props) {
                   nameTab={["Members", "Admin"]}
                   contentTab={[
                     <>
-                      <List component="li" disablePadding sx={{ backgroundColor: "rgb(247, 247, 247)" }} key={1}>
-                        {
-                          members?.map((member, index) => {
-                            return (
-                              <ListItem
-                                key={index}
-                                sx={{
-                                  cursor: "pointer",
-                                  "&:hover": {
-                                    backgroundColor: "#fdfdfd",
-                                  },
-                                }}
-                              >
-                                <ListItemIcon sx={{ minWidth: "50px" }}>
-                                  <AvatarOnline
-                                    src={member?.avatarLink}
-                                    dot={false}
-                                    size="smaller"
-                                  />
-                                </ListItemIcon>
-                                <ListItemText primary={member?.displayname} />
-                                {checkAdmin ? (<div onClick={(event) => { handleOpenMenuUser(event); setMemberGroup(member)}}> <MoreHoriz /> </div>) : ""}
-                                {checkAdmin && isOpenMenuUser ? (
-                                  <CustomMenu
-                                    menuAnchorEl={menuAnchorEl}
-                                    isOpen={isOpenMenuUser}
-                                    listMenu={[
-                                      {
-                                        text: "Remove from group",
-                                        handleClick: () => {
-                                          handleLeaveGroup(memberGroup?._id)
-                                          handleCloseMenuUser()
-                                        },
+                      <List
+                        component="li"
+                        disablePadding
+                        sx={{ backgroundColor: "rgb(247, 247, 247)" }}
+                        key={1}
+                      >
+                        {members?.map((member, index) => {
+                          return (
+                            <ListItem
+                              key={index}
+                              sx={{
+                                cursor: "pointer",
+                                "&:hover": {
+                                  backgroundColor: "#fdfdfd",
+                                },
+                              }}
+                            >
+                              <ListItemIcon sx={{ minWidth: "50px" }}>
+                                <AvatarOnline
+                                  src={member?.avatarLink}
+                                  dot={false}
+                                  size="smaller"
+                                />
+                              </ListItemIcon>
+                              <ListItemText primary={member?.displayname} />
+                              {checkAdmin ? (
+                                <div
+                                  onClick={(event) => {
+                                    handleOpenMenuUser(event);
+                                    setMemberGroup(member);
+                                  }}
+                                >
+                                  {" "}
+                                  <MoreHoriz />{" "}
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                              {checkAdmin && isOpenMenuUser ? (
+                                <CustomMenu
+                                  menuAnchorEl={menuAnchorEl}
+                                  isOpen={isOpenMenuUser}
+                                  onClose={() => setMenuAnchorEl(null)}
+                                  listMenu={[
+                                    {
+                                      text: "Remove from group",
+                                      handleClick: () => {
+                                        handleLeaveGroup(memberGroup?._id);
+                                        handleCloseMenuUser();
                                       },
-                                      {
-                                        text: "Add admin",
-                                        handleClick: () => {
-                                          handleChangeRole(memberGroup?._id, "admin")
-                                          handleCloseMenuUser();
-                                        }
+                                    },
+                                    {
+                                      text: "Add admin",
+                                      handleClick: () => {
+                                        handleChangeRole(
+                                          memberGroup?._id,
+                                          "admin"
+                                        );
+                                        handleCloseMenuUser();
                                       },
-                                    ]}
-                                  />
-                                ) : (
-                                  ""
-                                )}
-                              </ListItem>
-                            );
-                          })
-                        }
+                                    },
+                                  ]}
+                                />
+                              ) : (
+                                ""
+                              )}
+                            </ListItem>
+                          );
+                        })}
                       </List>
                     </>,
                     <>
                       <List component="li" disablePadding key={2}>
-                        {
-                          conversation?.admin.map((member, index) => {
-                            return (
-                              <ListItem key={index} sx={{
+                        {conversation?.admin.map((member, index) => {
+                          return (
+                            <ListItem
+                              key={index}
+                              sx={{
                                 cursor: "pointer",
                                 backgroundColor: "rgb(247, 247, 247)",
                                 "&:hover": {
-                                  backgroundColor: "#fdfdfd"
-                                }
-                              }}>
-                                <ListItemIcon sx={{ minWidth: "50px" }}>
-                                  <AvatarOnline src={member?.avatarLink} dot={false} size="smaller" />
-                                </ListItemIcon>
-                                <ListItemText primary={member?.displayname} />
-                                {checkAdmin ? <div onClick={(event) => { handleOpenMenuAdmin(event); setMemberGroup(member)}}><MoreHoriz /></div> : ""}
-                                {checkAdmin && isOpenMenuAdmin ? (
-                                  <CustomMenu
-                                    menuAnchorEl={menuAdminAnchorEl}
-                                    isOpen={isOpenMenuAdmin}
-                                    listMenu={[
-                                      {
-                                        text: "Remove from group",
-                                        handleClick: () => {
-                                          handleLeaveGroup(memberGroup?._id);
-                                          handleCloseMenuAdmin()
-                                        },
+                                  backgroundColor: "#fdfdfd",
+                                },
+                              }}
+                            >
+                              <ListItemIcon sx={{ minWidth: "50px" }}>
+                                <AvatarOnline
+                                  src={member?.avatarLink}
+                                  dot={false}
+                                  size="smaller"
+                                />
+                              </ListItemIcon>
+                              <ListItemText primary={member?.displayname} />
+                              {checkAdmin ? (
+                                <div
+                                  onClick={(event) => {
+                                    handleOpenMenuAdmin(event);
+                                    setMemberGroup(member);
+                                  }}
+                                >
+                                  <MoreHoriz />
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                              {checkAdmin && isOpenMenuAdmin ? (
+                                <CustomMenu
+                                  menuAnchorEl={menuAdminAnchorEl}
+                                  isOpen={isOpenMenuAdmin}
+                                  listMenu={[
+                                    {
+                                      text: "Remove from group",
+                                      handleClick: () => {
+                                        handleLeaveGroup(memberGroup?._id);
+                                        handleCloseMenuAdmin();
                                       },
-                                      {
-                                        text: "Remove admin",
-                                        handleClick: () => {
-                                          handleChangeRole(memberGroup?._id, "members");
-                                          handleCloseMenuAdmin();
-                                        }
+                                    },
+                                    {
+                                      text: "Remove admin",
+                                      handleClick: () => {
+                                        handleChangeRole(
+                                          memberGroup?._id,
+                                          "members"
+                                        );
+                                        handleCloseMenuAdmin();
                                       },
-                                    ]}
-                                  />
-                                ) : (
-                                  ""
-                                )}
-                              </ListItem>
-                            )
-                          })
-                        }
+                                    },
+                                  ]}
+                                />
+                              ) : (
+                                ""
+                              )}
+                            </ListItem>
+                          );
+                        })}
                       </List>
                     </>,
                   ]}
@@ -314,7 +372,7 @@ export default function MessageDetail(props) {
                   title: "Rename the group",
                   icon: <Edit />,
                   isChangeName: true,
-                },
+                }
               ]}
               handleClickItem={() => setIsChangeNameGroup(true)}
             />
@@ -347,6 +405,23 @@ export default function MessageDetail(props) {
           ) : (
             ""
           )}
+          {type === "group" ? (
+            <CollapsedItem
+              id={4}
+              name="More"
+              dataCollapsed={[
+                {
+                  id: 1,
+                  title: "Add member",
+                  icon: <PeopleAlt />,
+                  isAddMember: true,
+                },
+              ]}
+              handleClickItem={() => setIsAddMember(true)}
+            />
+          ) : (
+            ""
+          )}
         </List>
       </div>
       {/* leave group */}
@@ -367,7 +442,15 @@ export default function MessageDetail(props) {
           }
           actions={
             <Box>
-              <Button size="small" variant="contained" color="primary">
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  handleLeaveGroup(user?._id);
+                  setIsLeaveGroup(false);
+                }}
+              >
                 leave
               </Button>
               <Button
@@ -433,6 +516,16 @@ export default function MessageDetail(props) {
               </Button>
             </Box>
           }
+        />
+      )}
+      {/* add member */}
+      {isAddMember && (
+        <AddConversationGroup
+          Show={isAddMember}
+          onCancel={() => setIsAddMember(false)}
+          isAddPeople={true}
+          conversationDetail={conversation}
+          handleAddNewMember={handleAddNewMember}
         />
       )}
     </div>

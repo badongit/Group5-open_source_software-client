@@ -165,6 +165,21 @@ export default class SocketService {
       callback(data);
     });
   };
+  // client create meeting
+  clientCreateMeeting = ({ title, description, start, conversationId }) => {
+    this.socket.emit(SocketEventEnum.CLIENT_CREATE_MEETING, {
+      title,
+      description,
+      start,
+      conversationId,
+    });
+  };
+
+  onUserLeaveConversation = (callback) => {
+    this.socket.on(SocketEventEnum.SV_SEND_USER_LEAVE_CONVERSATION, (data) => {
+      callback(data);
+    });
+  };
 
   destroyAllListeners = () => {
     if (this.socket) {

@@ -114,6 +114,7 @@ function ChatBar(props) {
           Show={isShowAddGourp}
           onCancel={() => setIsShowAddGourp(false)}
           handleCreateConversation={handleCreateConversation}
+          isAddPeople={false}
         />
       )}
     </div>
